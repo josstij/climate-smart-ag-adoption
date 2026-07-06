@@ -1,0 +1,21 @@
+# No version control for data files: .dta, .csv, and .sav
+# No version control for Stata project files or log files
+
+*.dta
+*.sav
+*.csv
+*.rar
+*.stpr
+*.smcl
+*.pdf
+*.sty
+*.png
+*.smcl
+*.docx
+*.html
+*.Rhistory
+*.stpr
+*.stswp
+*.do.stswp
+01-refined/.DS_Store
+02-merged/.DS_Store
