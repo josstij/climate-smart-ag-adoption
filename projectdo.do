@@ -44,37 +44,19 @@
         global 		code  	"C:/Users/jdmic/git/lsms-gender"
 		global 		data	"C:/Users/jdmic/OneDrive - University of Arizona/weather_and_agriculture"
     }
-	
-    if `"`c(username)'"' == "crunc" {
-        global 		code  	"C:/Users/crunc/Documents/Git/lsms-gender"
-		global 		data	"C:/Users/crunc/OneDrive - University of Arizona/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
-    }
 
+	
     if `"`c(username)'"' == "aljos" {
         global 		code  	"C:/Users/aljos/git/lsms-gender"
 		global 		data	"C:/Users/aljos/OneDrive - University of Arizona/weather_and_agriculture/lsms_gender_data"
     }
+	
 	
 	if `"`c(username)'"' == "tijer" {
         global 		code  	"C:/Users/tijer/git/lsms-gender"
 		global 		data	"C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
     }
 	
-	if `"`c(username)'"' == "ual-laptop" {
-        global 		code  	"C:\Users\ual-laptop\Desktop\Africa Research\lsms-gender"
-		global 		data	"C:/Users/ual-laptop/University of Arizona/Michler, Jeffrey David - (jdmichler) - weather_and_agriculture"
-    }	
-
-	if `"`c(username)'"' == "Nelson" {
-        global 		code  	"C:/Users/Nelson/Documents/GitHub/lsms-gender"
-		global 		data	"C:/Users/Nelson/University of Arizona/Michler, Jeffrey David - (jdmichler) - weather_and_agriculture"
-    }		
-
-	if	`"`c(username)'"' == "jaredsage" {
-		global		code	"/Users/jaredsage/Desktop/lsms-gender"
-		global		data	"/Users/jaredsage/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofArizona/Michler, Jeffrey David - (jdmichler) - weather_and_agriculture"
-	}	
-
 	
 ************************************************************************
 **## 0.2 - Check if any required packages are installed:
