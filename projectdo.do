@@ -51,9 +51,19 @@
     }
 	
 	if `"`c(username)'"' == "tijer" {
-        global 		code  	"C:/Users/tijer/git/lsms-gender"
-		global 		data	"C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
-    }
+
+    * Climate-smart agriculture repository
+    global code ///
+        "C:/Users/tijer/git/UROC/climate-smart-ag-adoption"
+
+    * AIDE Lab lsms-gender repository
+    global aide_code ///
+        "C:/Users/tijer/git/lsms-gender"
+
+    * AIDE Lab shared data
+    global data ///
+        "C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
+}
 	
 
 	if `"`c(username)'"' == "Nelson" {
@@ -62,6 +72,65 @@
     }		
 
 	
+************************************************************************
+**## 0.1.1 - Define project folders
+************************************************************************
+
+* Climate-smart repository folders
+	global csa_refined     "$code/01-refined"
+	global csa_merged      "$code/02-merged"
+	global csa_regressions "$code/03-regressions"
+	global csa_output      "$code/04-output"
+	global csa_code        "$code/05-climate-smart"
+
+* AIDE Lab code folders
+	global aide_refined    "$aide_code/01-refined"
+	global aide_merged     "$aide_code/02-merged"
+	global aide_regressions "$aide_code/03-regressions"
+	global aide_output     "$aide_code/04-output"
+
+* Ethiopia data folders in the shared OneDrive data
+	global eth_refined ///
+		"$data/lsms_gender_data/01-refined_data/ethiopia"
+
+	global eth_merged ///
+		"$data/lsms_gender_data/02-merged_data/ethiopia"
+
+	global eth_regression ///
+		"$data/lsms_gender_data/03-regression_data"
+
+* Final appended Ethiopia dataset
+	global eth_allrounds ///
+		"$eth_regression/eth_allrounds.dta"
+
+* Begin in the climate-smart repository
+	cd "$code"
+
+
+************************************************************************
+**## 0.1.2 - Verify paths
+************************************************************************
+
+	display "Climate-smart repository:"
+	display "$code"
+
+	display "AIDE Lab repository:"
+	display "$aide_code"
+
+	display "Final Ethiopia dataset:"
+	display "$eth_allrounds"
+
+	capture confirm file "$eth_allrounds"
+
+	if _rc {
+		display as error "The Ethiopia appended dataset was not found."
+		display as error "$eth_allrounds"
+		exit 601
+	}
+
+	display as result "Ethiopia appended dataset found."
+
+
 ************************************************************************
 **## 0.2 - Check if any required packages are installed:
 ************************************************************************

@@ -32,9 +32,34 @@ global cs_output "$project/05-climate-smart/output"
 global raw_data   "C:/Users/tijer/git/UROC/lsms_raw_data"
 global clean_data "$project/05-climate-smart/clean-data"
 
+
+************************************************************************
+* 3.1 Existing AIDE Lab Ethiopia data
+************************************************************************
+
+* Read-only source location for existing AIDE Lab data
+global aide_data ///
+    "C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
+
+* Final appended Ethiopia dataset
+global eth_allrounds ///
+    "$aide_data/lsms_gender_data/03-regression_data/eth_allrounds.dta"
+	
+	
 ************************************************************************
 * 4. Quick check
 ************************************************************************
 
 display "Climate-smart project setup loaded."
 display "Project folder: $project"
+display "Ethiopia source file: $eth_allrounds"
+
+capture confirm file "$eth_allrounds"
+
+if _rc {
+    display as error "The appended Ethiopia dataset was not found."
+    display as error "Check this path: $eth_allrounds"
+    exit 601
+}
+
+display as result "The appended Ethiopia dataset was found."
