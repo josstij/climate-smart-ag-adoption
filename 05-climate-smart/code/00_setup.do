@@ -29,7 +29,11 @@ global cs_output "$project/05-climate-smart/output"
 * Note: raw LSMS-ISA data should stay outside GitHub
 ************************************************************************
 
-global raw_data   "C:/Users/tijer/git/UROC/lsms_raw_data"
+* AIDE Lab data location
+	global	aide_data	"C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
+
+* raw LSMS data
+	global	raw_data	"$aide_data/raw_lsms_data"
 global clean_data "$project/05-climate-smart/clean-data"
 
 
