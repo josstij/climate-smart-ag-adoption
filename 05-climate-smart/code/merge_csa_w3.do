@@ -8,8 +8,8 @@
 * does
 	* inputs cleaned Wave 3 Section 3 and Section 4 CSA files
 	* merges field-level CSA indicators
-	* constructs Wave 2 CSA adoption outcomes
-	* outputs Wave 2 CSA dataset
+	* constructs Wave 3 CSA adoption outcomes
+	* outputs Wave 3 CSA dataset
 	
 * assumes
 	* Section 3 and Section 4 CSA files have been cleaned
