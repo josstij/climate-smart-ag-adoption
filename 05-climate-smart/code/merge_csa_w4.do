@@ -6,10 +6,10 @@
 * Stata v.19.5
 
 * does
-	* inputs cleaned Wave 3 Section 3 and Section 4 CSA files
+	* inputs cleaned Wave 4 Section 3 and Section 4 CSA files
 	* merges field-level CSA indicators
-	* constructs Wave 2 CSA adoption outcomes
-	* outputs Wave 2 CSA dataset
+	* constructs Wave 4 CSA adoption outcomes
+	* outputs Wave 4 CSA dataset
 	
 * assumes
 	* Section 3 and Section 4 CSA files have been cleaned
@@ -28,13 +28,13 @@
 	do		"C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/code/00_setup.do"
 
 * define paths
-	global	root		"$clean_data/ethiopia/wave_3"
-	global	export		"$clean_data/ethiopia/wave_3"
+	global	root		"$clean_data/ethiopia/wave_4"
+	global	export		"$clean_data/ethiopia/wave_4"
 	global	logout		"$cs_logs"
 	
 * open log
 	cap		log			close
-	log		using		"$logout/merge_csa_w3", append
+	log		using		"$logout/merge_csa_w4", append
 	
 
 ************************************************************************
@@ -42,14 +42,14 @@
 ************************************************************************
 
 * load Section 3 CSA file
-	use			"$root/sect3_csa_w3", clear
+	use			"$root/sect3_csa_w4", clear
 	
 * confirm field identifiers are unique
 	isid		holder_id parcel_id field_id
 	
 * merge improved seed indicator
 	merge		1:1 holder_id parcel_id field_id ///
-				using "$root/sect4_csa_w3"
+				using "$root/sect4_csa_w4"
 				
 * check merge results
 	tab			_merge
@@ -59,17 +59,17 @@
 **# 2 - define cultivated field sample
 ************************************************************************
 
-* remove fields without a crop roster observation
-	drop		if _merge == 1
-	
-* check cultivated field sample
-	tab			_merge
+* retain fields with crop roster information
+	keep		if _merge == 3
 	
 * remove merge variable
 	drop		_merge
 	
 * confirm field identifiers remain unique
 	isid		holder_id parcel_id field_id
+	
+* confirm cultivated field sample
+	count
 	
 * check availability of CSA indicators
 	tab			csa_irr, missing
@@ -86,19 +86,12 @@
 	egen		csa_n_obs = rownonmiss(csa_irr csa_seed ///
 				csa_soil csa_cons)
 
-* count adopted practices among observed indicators
+* count adopted CSA practices
 	egen		csa_count_obs = rowtotal(csa_irr csa_seed ///
 				csa_soil csa_cons)
 
-* set count to missing when all indicators are missing
-	replace		csa_count_obs = . if csa_n_obs == 0
-
-* adoption of any observed CSA practice
-	gen			any_csa = .
-	replace		any_csa = 1 if csa_count_obs > 0 & ///
-				!missing(csa_count_obs)
-	replace		any_csa = 0 if csa_count_obs == 0 & ///
-				csa_n_obs > 0
+* adoption of any CSA practice
+	gen			any_csa = csa_count_obs > 0
 
 * identify observations with all four indicators
 	gen			csa_complete = csa_n_obs == 4
@@ -128,10 +121,10 @@
 				"Number of nonmissing CSA indicators"
 
 	label		variable	csa_count_obs ///
-				"Number of adopted practices among observed indicators"
+				"Number of adopted CSA practices"
 
 	label		variable	any_csa ///
-				"Adopted any observed CSA practice"
+				"Adopted any CSA practice"
 
 	label		variable	csa_complete ///
 				"All four CSA indicators observed"
@@ -155,7 +148,7 @@
 
 * confirm wave
 	cap		drop		wave
-	gen			wave = 3
+	gen			wave = 4
 
 * order variables
 	order		wave holder_id parcel_id field_id ///
@@ -169,8 +162,8 @@
 				csa_n_obs csa_count_obs any_csa ///
 				csa_complete csa_count any_csa_complete
 
-* save Wave 3 CSA data
-	save		"$export/csa_w3", replace
+* save Wave 4 CSA data
+	save		"$export/csa_w4", replace
 
 * close log
 	log			close
