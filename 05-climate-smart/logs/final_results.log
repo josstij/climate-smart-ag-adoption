@@ -1,0 +1,1002 @@
+-----------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/fina
+> l_results.log
+  log type:  text
+ opened on:  26 Jul 2026, 23:03:01
+
+. 
+. * load final analysis data
+.         use             "$root/eth_csa_analysis", clear
+(Ethiopia CSA adoption analysis data, waves 1-5)
+
+. 
+. * confirm analysis unit
+.         isid    wave holder_id parcel_id field_id
+
+. 
+. * confirm observations
+.         count
+  75,033
+
+.         tab             wave, missing
+
+       wave |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      6,576        8.76        8.76
+          2 |     22,433       29.90       38.66
+          3 |     22,658       30.20       68.86
+          4 |     12,907       17.20       86.06
+          5 |     10,459       13.94      100.00
+------------+-----------------------------------
+      Total |     75,033      100.00
+
+. 
+. 
+. ************************************************************************
+. **# 1 - reconstruct core explanatory variables
+. ************************************************************************
+. 
+. * female primary manager
+.         tab             mg1_sex, missing
+
+What is the |
+     sex of |
+    [Name]? |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       Male |     61,682       82.21       82.21
+     Female |     13,096       17.45       99.66
+          . |        255        0.34      100.00
+------------+-----------------------------------
+      Total |     75,033      100.00
+
+. 
+.         gen             female_manager = .
+(75,033 missing values generated)
+
+.         replace female_manager = 0 if mg1_sex == 1
+(61,682 real changes made)
+
+.         replace female_manager = 1 if mg1_sex == 2
+(13,096 real changes made)
+
+. 
+.         label   define yesno01 0 "No" 1 "Yes", replace
+
+.         label   values female_manager yesno01
+
+.         label   variable female_manager ///
+>                                 "Female primary manager"
+
+. 
+. * primary manager age
+.         clonevar        manager_age = mg1_age
+(419 missing values generated)
+
+. 
+. * exclude implausible primary-manager ages below 15
+.         replace manager_age = . ///
+>                                 if manager_age < 15 & !missing(manager_age)
+(134 real changes made, 134 to missing)
+
+. 
+.         label   variable manager_age ///
+>                                 "Primary manager age"
+
+. 
+. * nonlinear manager-age control
+.         gen             double manager_age_sq = manager_age^2 ///
+>                                 if !missing(manager_age)
+(553 missing values generated)
+
+. 
+.         label   variable manager_age_sq ///
+>                                 "Primary manager age squared"
+
+. 
+. * manager education
+.         gen             manager_lowedu = (mg1_edu == 98) ///
+>                                 if !missing(mg1_edu)
+(7,972 missing values generated)
+
+. 
+.         label   values manager_lowedu yesno01
+
+.         label   variable manager_lowedu ///
+>                                 "Manager has little or no formal education"
+
+. 
+. * collateral rights
+.         gen             collateral_right = .
+(75,033 missing values generated)
+
+.         replace collateral_right = 1 if collat == 1
+(56,599 real changes made)
+
+.         replace collateral_right = 0 if inlist(collat, 0, 2)
+(5,651 real changes made)
+
+. 
+.         label   values collateral_right yesno01
+
+.         label   variable collateral_right ///
+>                                 "Right to sell or use parcel as collateral"
+
+. 
+. 
+. ************************************************************************
+. **# 2 - audit core variables
+. ************************************************************************
+. 
+. * inspect outcomes
+.         tab             wave any_csa, missing
+
+           |     Adopted any observed CSA
+           |             practice
+      wave |        No        Yes          . |     Total
+-----------+---------------------------------+----------
+         1 |     4,840      1,620        116 |     6,576 
+         2 |     6,414     16,010          9 |    22,433 
+         3 |     6,158     16,499          1 |    22,658 
+         4 |     3,024      9,883          0 |    12,907 
+         5 |     3,103      7,356          0 |    10,459 
+-----------+---------------------------------+----------
+     Total |    23,539     51,368        126 |    75,033 
+
+.         tabstat any_csa csa_count_obs, ///
+>                                 by(wave) ///
+>                                 statistics(n mean sd min max)
+
+Summary statistics: N, Mean, SD, Min, Max
+Group variable: wave 
+
+    wave |   any_csa  csa_c~bs
+---------+--------------------
+       1 |      6460      6460
+         |   .250774  .2821981
+         |  .4334922    .51941
+         |         0         0
+         |         1         3
+---------+--------------------
+       2 |     22424     22424
+         |  .7139672  .9606225
+         |   .451915  .7599033
+         |         0         0
+         |         1         4
+---------+--------------------
+       3 |     22657     22657
+         |  .7282076  .9605861
+         |  .4448933  .7420067
+         |         0         0
+         |         1         4
+---------+--------------------
+       4 |     12907     12907
+         |  .7657085  1.094832
+         |  .4235716   .810588
+         |         0         0
+         |         1         4
+---------+--------------------
+       5 |     10459     10459
+         |  .7033177  1.000765
+         |  .4568171  .8315813
+         |         0         0
+         |         1         4
+---------+--------------------
+   Total |     74907     74907
+         |   .685757  .9308342
+         |  .4642168  .7839253
+         |         0         0
+         |         1         4
+------------------------------
+
+. 
+. * inspect manager age for questionable values
+.         summarize       manager_age, detail
+
+                     Primary manager age
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%           21             15
+ 5%           26             15
+10%           29             15       Obs              74,480
+25%           35             15       Sum of wgt.      74,480
+
+50%           45                      Mean           46.66615
+                        Largest       Std. dev.      14.50128
+75%           57             97
+90%           67             97       Variance       210.2871
+95%           73             98       Skewness       .4730107
+99%           82             99       Kurtosis       2.649799
+
+.         tab             manager_age ///
+>                                 if manager_age < 15 | manager_age > 90, ///
+>                                 missing
+
+    Primary |
+manager age |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         91 |         16        2.33        2.33
+         92 |          8        1.17        3.50
+         93 |         33        4.81        8.31
+         95 |         11        1.60        9.91
+         96 |         16        2.33       12.24
+         97 |         47        6.85       19.10
+         98 |          1        0.15       19.24
+         99 |          1        0.15       19.39
+          . |        553       80.61      100.00
+------------+-----------------------------------
+      Total |        686      100.00
+
+. 
+. * inspect education coding
+.         tab             mg1_edu, missing
+
+          What is the highest grade you |
+                             completed? |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+                           Kindergarden |         24        0.03        0.03
+                     1st Grade Complete |        946        1.26        1.29
+                     2nd Grade Complete |      2,399        3.20        4.49
+                     3rd Grade Complete |      3,981        5.31        9.80
+                     4th Grade Complete |      3,792        5.05       14.85
+                     5th Grade Complete |      3,028        4.04       18.89
+                     6th Grade Complete |      2,810        3.75       22.63
+                     7th Grade Complete |      2,056        2.74       25.37
+                     8th Grade Complete |      2,102        2.80       28.17
+                     9th Grade Complete |        509        0.68       28.85
+                    10th Grade Complete |        515        0.69       29.54
+                    11th Grade Complete |        111        0.15       29.68
+                    12th Grade Complete |        283        0.38       30.06
+                            Certificate |         30        0.04       30.10
+           Teacher Training Certificate |         11        0.01       30.12
+              1st Year College Complete |          9        0.01       30.13
+              2nd Year College Complete |         43        0.06       30.19
+                                Diploma |        209        0.28       30.46
+                    3rd Year University |         12        0.02       30.48
+                    1st Degree (BA/BSc) |         88        0.12       30.60
+      Graduate Degree (MA/MS/Mphil/PhD) |          1        0.00       30.60
+                  NC 9th Grade Complete |        219        0.29       30.89
+                 NC 10th Grade Complete |        872        1.16       32.05
+                 NC 11th Grade Complete |         19        0.03       32.08
+                 NC 12th Grade Complete |         33        0.04       32.12
+NC Certificate (10+1)- Technical/Vocati |         26        0.03       32.16
+NC Certificate (10+2)- level 2 Incomple |         19        0.03       32.18
+         NC Certificate (10+2) Complete |         10        0.01       32.20
+NC Certificate (10+3) Level 3 One Year  |         28        0.04       32.23
+NC Certificate (10+3) Level 3 Two Years |         41        0.05       32.29
+              NC Diploma (10+3) Level 3 |        321        0.43       32.71
+              1st Year College Complete |         18        0.02       32.74
+              2nd Year College Complete |         33        0.04       32.78
+              3rd Year College Complete |         85        0.11       32.90
+         1st Degree or Level 4 Complete |        163        0.22       33.11
+             Above 1st Degree / Level 4 |         57        0.08       33.19
+   Basic education - can read and write |        251        0.33       33.52
+  Adult educatioin - can read and write |         12        0.02       33.54
+         Informal education (relegious) |        169        0.23       33.77
+  Not educated - Can not read and write |     41,726       55.61       89.38
+                                      . |      7,972       10.62      100.00
+----------------------------------------+-----------------------------------
+                                  Total |     75,033      100.00
+
+. 
+. * inspect missingness in core variables
+.         misstable       summarize ///
+>                                 any_csa csa_count_obs ///
+>                                 female_manager manager_age manager_lowedu ///
+>                                 collateral_right
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+       any_csa |       126              74,907  |      2          0           1
+  csa_count_~s |       126              74,907  |      5          0           4
+  female_man~r |       255              74,778  |      2          0           1
+   manager_age |       553              74,480  |     84         15          99
+  manager_lo~u |     7,972              67,061  |      2          0           1
+  collateral~t |    12,783              62,250  |      2          0           1
+  -----------------------------------------------------------------------------
+
+.                                 
+.                                 
+. ************************************************************************
+. **# 3 - audit available candidate controls
+. ************************************************************************
+. 
+. * inspect available candidate variables
+.         describe        mg1_relat mg1_mrry mg1_away ///
+>                                 tenure mgmt1 deju1 deju1_sex admin_1
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-----------------------------------------------------------------------------------------
+mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
+mg1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
+mg1_away        byte    %16.0g                For how many months during the last 12
+                                                months was [Name] way from the HH?
+tenure          byte    %16.0g     pp_s2q03   How did your HH acquire the [Parcel]?
+mgmt1           byte    %9.0g                 
+deju1           byte    %9.0g                 
+deju1_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
+admin_1         byte    %16.0g     saq01      Region Code
+
+. 
+. * manager relationship to household head
+.         tab             wave mg1_relat, missing
+
+           |           HH Member Relationship to HH Head
+      wave |      Head     Spouse  Son/Daugh  Grandchil  Father/Mo |     Total
+-----------+-------------------------------------------------------+----------
+         1 |     6,358         64         91          6          5 |     6,576 
+         2 |    21,699        285        283         13         45 |    22,433 
+         3 |    22,089        108        121          3         59 |    22,658 
+         4 |    11,552        914        345         40         26 |    12,907 
+         5 |     9,409        652        289          7         20 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |    71,107      2,023      1,129         69        155 |    75,033 
+
+
+           |           HH Member Relationship to HH Head
+      wave | Sister/Br  Niece/Nep  Uncle/Aun  Son/Daugh  Brother/S |     Total
+-----------+-------------------------------------------------------+----------
+         1 |         9          1          0          0          0 |     6,576 
+         2 |         9          4          0          0          9 |    22,433 
+         3 |        11          1          0         20          0 |    22,658 
+         4 |         8          0          0         11          0 |    12,907 
+         5 |        31          0          4          9          6 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |        68          6          4         40         15 |    75,033 
+
+
+           |           HH Member Relationship to HH Head
+      wave | Grandpare  Other Rel    Servant  Non Relat          . |     Total
+-----------+-------------------------------------------------------+----------
+         1 |         0          1          2          2         37 |     6,576 
+         2 |         7          1          2          6         70 |    22,433 
+         3 |         2          0          0          0        244 |    22,658 
+         4 |         1          8          0          2          0 |    12,907 
+         5 |         6         17          0          1          8 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |        16         27          4         11        359 |    75,033 
+
+. 
+. * manager marital status
+.         tab             wave mg1_mrry, missing
+
+           |            What is [Name]'s marital status?
+      wave | Never Mar  Married (  Married (   Divorced  Separated |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       166      5,331        305        176         65 |     6,576 
+         2 |       560     17,492        909        652        170 |    22,433 
+         3 |       228     17,733        859        775        122 |    22,658 
+         4 |       482     10,054        420        397        142 |    12,907 
+         5 |       406      8,329        498        145        142 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     1,842     58,939      2,991      2,145        641 |    75,033 
+
+
+           | What is [Name]'s marital status?
+      wave |   Widowed          7          . |     Total
+-----------+---------------------------------+----------
+         1 |       482          0         51 |     6,576 
+         2 |     2,350          0        300 |    22,433 
+         3 |     2,600          0        341 |    22,658 
+         4 |     1,089         23        300 |    12,907 
+         5 |       851          0         88 |    10,459 
+-----------+---------------------------------+----------
+     Total |     7,372         23      1,080 |    75,033 
+
+. 
+. * manager time away from household
+.         tabstat mg1_away, ///
+>                                 by(wave) ///
+>                                 statistics(n mean sd min max)
+
+Summary for variables: mg1_away
+Group variable: wave 
+
+    wave |         N      Mean        SD       Min       Max
+---------+--------------------------------------------------
+       1 |      6255  .2161471  .7908747         0        12
+       2 |     21955  .1519472  .6515238         0        18
+       3 |     22325   .073505  .4394118         0         8
+       4 |     12647  1.245038  3.810716         0        52
+       5 |     10373  1.229538  3.785036         0        45
+---------+--------------------------------------------------
+   Total |     73555  .4735096  2.241288         0        52
+------------------------------------------------------------
+
+. 
+. * parcel tenure
+.         tab             wave tenure, missing
+
+           |         How did your HH acquire the [Parcel]?
+      wave | Granted b  Inherited       Rent  Borrowed   Moved in  |     Total
+-----------+-------------------------------------------------------+----------
+         1 |     2,593      2,127      1,123        248          0 |     6,576 
+         2 |     8,560     10,847      1,721        160        263 |    22,433 
+         3 |     7,862     11,419        721        170        284 |    22,658 
+         4 |     4,654      6,284        384         61        195 |    12,907 
+         5 |     2,571      6,143        228         39        210 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |    26,240     36,820      4,177        678        952 |    75,033 
+
+
+           |         How did your HH acquire the [Parcel]?
+      wave | Other Spe          7          8  Moved in   Other Spe |     Total
+-----------+-------------------------------------------------------+----------
+         1 |         0          0          0        161        313 |     6,576 
+         2 |       770          0          0          0          0 |    22,433 
+         3 |       927      1,056         63          0          0 |    22,658 
+         4 |       819        461         49          0          0 |    12,907 
+         5 |       525        600        143          0          0 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     3,041      2,117        255        161        313 |    75,033 
+
+
+           |    How did your HH
+           | acquire the [Parcel]?
+      wave |        12          . |     Total
+-----------+----------------------+----------
+         1 |         1         10 |     6,576 
+         2 |         0        112 |    22,433 
+         3 |         0        156 |    22,658 
+         4 |         0          0 |    12,907 
+         5 |         0          0 |    10,459 
+-----------+----------------------+----------
+     Total |         1        278 |    75,033 
+
+. 
+. * sex of first reported parcel owner or rights holder
+.         tab             wave deju1_sex, missing
+
+           |    What is the sex of [Name]?
+      wave |      Male     Female          . |     Total
+-----------+---------------------------------+----------
+         1 |         0          0      6,576 |     6,576 
+         2 |     9,188      2,121     11,124 |    22,433 
+         3 |    10,361      2,387      9,910 |    22,658 
+         4 |     8,093      1,658      3,156 |    12,907 
+         5 |     6,629      1,497      2,333 |    10,459 
+-----------+---------------------------------+----------
+     Total |    34,271      7,663     33,099 |    75,033 
+
+. 
+. * compare manager and owner identifiers
+.         tab             wave mgmt1, missing
+
+           |                         mgmt1
+      wave |         1          2          3          4          5 |     Total
+-----------+-------------------------------------------------------+----------
+         1 |     6,424         86         45          7          5 |     6,576 
+         2 |    21,504        662        149         49         18 |    22,433 
+         3 |    21,593        714        139         98         42 |    22,658 
+         4 |    11,663        942        126         58         61 |    12,907 
+         5 |     9,065        952        200        133         26 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |    70,249      3,356        659        345        152 |    75,033 
+
+
+           |                         mgmt1
+      wave |         6          7          8          9         10 |     Total
+-----------+-------------------------------------------------------+----------
+         1 |         4          2          1          1          1 |     6,576 
+         2 |         1         33         14          0          1 |    22,433 
+         3 |        30         19         13          7          0 |    22,658 
+         4 |        33          3         16          5          0 |    12,907 
+         5 |        14         37         26          6          0 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |        82         94         70         19          2 |    75,033 
+
+
+           |         mgmt1
+      wave |        11         14 |     Total
+-----------+----------------------+----------
+         1 |         0          0 |     6,576 
+         2 |         2          0 |    22,433 
+         3 |         0          3 |    22,658 
+         4 |         0          0 |    12,907 
+         5 |         0          0 |    10,459 
+-----------+----------------------+----------
+     Total |         2          3 |    75,033 
+
+.         tab             wave deju1, missing
+
+           |                         deju1
+      wave |         1          2          3          4          5 |     Total
+-----------+-------------------------------------------------------+----------
+         1 |     2,145         54          6          0          1 |     6,576 
+         2 |    10,884        369         53         24         20 |    22,433 
+         3 |    12,017        616         46         52         47 |    22,658 
+         4 |     9,533        171         16         13         15 |    12,907 
+         5 |     7,672        355         33         49          2 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |    42,251      1,565        154        138         85 |    75,033 
+
+
+           |                         deju1
+      wave |         6          7          8          9          . |     Total
+-----------+-------------------------------------------------------+----------
+         1 |         0          0          0          0      4,370 |     6,576 
+         2 |        27         11          0          0     11,045 |    22,433 
+         3 |        31          6         15         25      9,803 |    22,658 
+         4 |         0          0          0          3      3,156 |    12,907 
+         5 |         0          8          9          0      2,331 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |        58         25         24         28     30,705 |    75,033 
+
+. 
+. * geographic availability
+.         tab             wave admin_1, missing
+
+           |                      Region Code
+      wave |    Tigray       Afar     Amhara     Oromia    Somalie |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       693         10      2,090      1,579        155 |     6,576 
+         2 |     1,980         44      4,753      5,368        357 |    22,433 
+         3 |     2,021         44      4,723      5,525        385 |    22,658 
+         4 |     1,467         57      3,101      2,088          7 |    12,907 
+         5 |         0          0          0          0          0 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     6,161        155     14,667     14,560        904 |    75,033 
+
+
+           |                      Region Code
+      wave | Benshagul       SNNP   Gambelia     Harari    Diredwa |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       279      1,122         99        322        227 |     6,576 
+         2 |       734      7,369        353        600        561 |    22,433 
+         3 |       846      7,158        399        685        539 |    22,658 
+         4 |     1,198      3,187        684        761        357 |    12,907 
+         5 |         0          0          0          0          0 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     3,057     18,836      1,535      2,368      1,684 |    75,033 
+
+
+           |   Region
+           |    Code
+      wave |         . |     Total
+-----------+-----------+----------
+         1 |         0 |     6,576 
+         2 |       314 |    22,433 
+         3 |       333 |    22,658 
+         4 |         0 |    12,907 
+         5 |    10,459 |    10,459 
+-----------+-----------+----------
+     Total |    11,106 |    75,033 
+
+. 
+. * inspect candidate-variable missingness
+.         misstable       summarize ///
+>                                 mg1_relat mg1_mrry mg1_away ///
+>                                 tenure mgmt1 deju1 deju1_sex admin_1
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+     mg1_relat |       359              74,674  |     14          1          15
+      mg1_mrry |     1,080              73,953  |      7          1           7
+      mg1_away |     1,478              73,555  |     28          0          52
+        tenure |       278              74,755  |     11          1          12
+         deju1 |    30,705              44,328  |      9          1           9
+     deju1_sex |    33,099              41,934  |      2          1           2
+       admin_1 |    11,106              63,927  |     10          1          15
+  -----------------------------------------------------------------------------
+
+.                                 
+.                                 
+. ************************************************************************
+. **# 4 - construct pruned candidate controls
+. ************************************************************************
+. 
+. * primary manager is the household head
+.         gen             manager_head = .
+(75,033 missing values generated)
+
+.         replace manager_head = 1 if mg1_relat == 1
+(71,107 real changes made)
+
+.         replace manager_head = 0 if inrange(mg1_relat, 2, 15)
+(3,567 real changes made)
+
+. 
+.         label   values manager_head yesno01
+
+.         label   variable manager_head ///
+>                                 "Primary manager is household head"
+
+. 
+. * primary manager is married
+. * codes 2 and 3 represent married categories
+.         gen             manager_married = .
+(75,033 missing values generated)
+
+.         replace manager_married = 1 if inlist(mg1_mrry, 2, 3)
+(61,930 real changes made)
+
+.         replace manager_married = 0 if inlist(mg1_mrry, 1, 4, 5, 6)
+(12,000 real changes made)
+
+. 
+.         label   values manager_married yesno01
+
+.         label   variable manager_married ///
+>                                 "Primary manager is married"
+
+. 
+. * parcel was rented or borrowed
+.         gen             rented_borrowed = .
+(75,033 missing values generated)
+
+.         replace rented_borrowed = 1 if inlist(tenure, 3, 4)
+(4,855 real changes made)
+
+.         replace rented_borrowed = 0 ///
+>                                 if !missing(tenure) & !inlist(tenure, 3, 4)
+(69,900 real changes made)
+
+. 
+.         label   values rented_borrowed yesno01
+
+.         label   variable rented_borrowed ///
+>                                 "Parcel was rented or borrowed"
+
+. 
+. * female first reported owner or rights holder
+. * available only for a restricted sample
+.         gen             female_owner = .
+(75,033 missing values generated)
+
+.         replace female_owner = 0 if deju1_sex == 1
+(34,271 real changes made)
+
+.         replace female_owner = 1 if deju1_sex == 2
+(7,663 real changes made)
+
+. 
+.         label   values female_owner yesno01
+
+.         label   variable female_owner ///
+>                                 "Female first reported owner or rights holder"
+
+. 
+. * primary manager differs from first reported owner
+. * defined only when both household-member IDs are observed
+.         gen             manager_owner_diff = .
+(75,033 missing values generated)
+
+.         replace manager_owner_diff = (mgmt1 != deju1) ///
+>                                 if !missing(mgmt1, deju1)
+(44,328 real changes made)
+
+. 
+.         label   values manager_owner_diff yesno01
+
+.         label   variable manager_owner_diff ///
+>                                 "Primary manager differs from first reported owner"
+
+. 
+. 
+. ************************************************************************
+. **# 5 - check constructed candidate controls
+. ************************************************************************
+. 
+. * check coding across waves
+.         tab             wave manager_head, missing
+
+           |   Primary manager is household
+           |               head
+      wave |        No        Yes          . |     Total
+-----------+---------------------------------+----------
+         1 |       181      6,358         37 |     6,576 
+         2 |       664     21,699         70 |    22,433 
+         3 |       325     22,089        244 |    22,658 
+         4 |     1,355     11,552          0 |    12,907 
+         5 |     1,042      9,409          8 |    10,459 
+-----------+---------------------------------+----------
+     Total |     3,567     71,107        359 |    75,033 
+
+.         tab             wave manager_married, missing
+
+           |    Primary manager is married
+      wave |        No        Yes          . |     Total
+-----------+---------------------------------+----------
+         1 |       889      5,636         51 |     6,576 
+         2 |     3,732     18,401        300 |    22,433 
+         3 |     3,725     18,592        341 |    22,658 
+         4 |     2,110     10,474        323 |    12,907 
+         5 |     1,544      8,827         88 |    10,459 
+-----------+---------------------------------+----------
+     Total |    12,000     61,930      1,103 |    75,033 
+
+.         tab             wave rented_borrowed, missing
+
+           |  Parcel was rented or borrowed
+      wave |        No        Yes          . |     Total
+-----------+---------------------------------+----------
+         1 |     5,195      1,371         10 |     6,576 
+         2 |    20,440      1,881        112 |    22,433 
+         3 |    21,611        891        156 |    22,658 
+         4 |    12,462        445          0 |    12,907 
+         5 |    10,192        267          0 |    10,459 
+-----------+---------------------------------+----------
+     Total |    69,900      4,855        278 |    75,033 
+
+.         tab             wave female_owner, missing
+
+           |  Female first reported owner or
+           |          rights holder
+      wave |        No        Yes          . |     Total
+-----------+---------------------------------+----------
+         1 |         0          0      6,576 |     6,576 
+         2 |     9,188      2,121     11,124 |    22,433 
+         3 |    10,361      2,387      9,910 |    22,658 
+         4 |     8,093      1,658      3,156 |    12,907 
+         5 |     6,629      1,497      2,333 |    10,459 
+-----------+---------------------------------+----------
+     Total |    34,271      7,663     33,099 |    75,033 
+
+.         tab             wave manager_owner_diff, missing
+
+           |   Primary manager differs from
+           |       first reported owner
+      wave |        No        Yes          . |     Total
+-----------+---------------------------------+----------
+         1 |     2,142         64      4,370 |     6,576 
+         2 |    10,775        613     11,045 |    22,433 
+         3 |    12,106        749      9,803 |    22,658 
+         4 |     8,793        958      3,156 |    12,907 
+         5 |     7,456        672      2,331 |    10,459 
+-----------+---------------------------------+----------
+     Total |    41,272      3,056     30,705 |    75,033 
+
+. 
+. * confirm no primary-manager ages below 15 remain
+.         assert  manager_age >= 15 ///
+>                                 if !missing(manager_age)
+
+. 
+. * inspect managers older than 90 for later sensitivity analysis
+.         count   if manager_age > 90 & !missing(manager_age)
+  133
+
+. 
+.         tab             manager_age ///
+>                                 if manager_age > 90 & !missing(manager_age)
+
+    Primary |
+manager age |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         91 |         16       12.03       12.03
+         92 |          8        6.02       18.05
+         93 |         33       24.81       42.86
+         95 |         11        8.27       51.13
+         96 |         16       12.03       63.16
+         97 |         47       35.34       98.50
+         98 |          1        0.75       99.25
+         99 |          1        0.75      100.00
+------------+-----------------------------------
+      Total |        133      100.00
+
+.                                 
+.                                 
+. ************************************************************************
+. **# 6 - define analysis samples
+. ************************************************************************
+. 
+. * all-wave sample for main models
+.         gen             byte sample_all = ///
+>                                 !missing(any_csa, csa_count_obs, ///
+>                                 female_manager, manager_age, manager_lowedu, ///
+>                                 manager_head, manager_married, rented_borrowed)
+
+. 
+.         label   variable sample_all ///
+>                                 "Complete sample for all-wave models"
+
+. 
+. * waves 2-5 sample including collateral rights
+.         gen             byte sample_land = ///
+>                                 wave >= 2 & ///
+>                                 !missing(any_csa, csa_count_obs, ///
+>                                 female_manager, manager_age, manager_lowedu, ///
+>                                 collateral_right, manager_head, ///
+>                                 manager_married, rented_borrowed)
+
+. 
+.         label   variable sample_land ///
+>                                 "Complete sample for Waves 2-5 land-rights models"
+
+. 
+. * restricted owner and decision-making sample
+.         gen             byte sample_owner = ///
+>                                 wave >= 2 & ///
+>                                 !missing(any_csa, csa_count_obs, ///
+>                                 female_manager, manager_age, manager_lowedu, ///
+>                                 collateral_right, manager_head, ///
+>                                 manager_married, rented_borrowed, ///
+>                                 female_owner, manager_owner_diff)
+
+. 
+.         label   variable sample_owner ///
+>                                 "Restricted sample with owner information"
+
+. 
+. * inspect final sample sizes
+.         count   if sample_all
+  66,572
+
+.         count   if sample_land
+  55,822
+
+.         count   if sample_owner
+  36,579
+
+. 
+.         tab             wave if sample_all
+
+       wave |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      5,581        8.38        8.38
+          2 |     19,803       29.75       38.13
+          3 |     19,845       29.81       67.94
+          4 |     11,592       17.41       85.35
+          5 |      9,751       14.65      100.00
+------------+-----------------------------------
+      Total |     66,572      100.00
+
+.         tab             wave if sample_land
+
+       wave |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          2 |     17,996       32.24       32.24
+          3 |     18,301       32.78       65.02
+          4 |     10,478       18.77       83.79
+          5 |      9,047       16.21      100.00
+------------+-----------------------------------
+      Total |     55,822      100.00
+
+.         tab             wave if sample_owner
+
+       wave |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          2 |      9,724       26.58       26.58
+          3 |     11,120       30.40       56.98
+          4 |      8,354       22.84       79.82
+          5 |      7,381       20.18      100.00
+------------+-----------------------------------
+      Total |     36,579      100.00
+
+. 
+. * confirm restricted samples are nested
+.         assert  sample_land <= sample_all
+
+.         assert  sample_owner <= sample_land
+
+. 
+end of do-file
+
+. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000004.tmp"
+
+.         
+. ************************************************************************
+. **# 7 - all-wave LASSO and elastic-net selection
+. ************************************************************************
+. 
+. * variables in parentheses are theoretically required
+. * remaining variables are eligible for selection
+. 
+. * LASSO: any observed CSA practice
+.         lasso   linear any_csa ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 selection(cv) ///
+>                                 rseed(20260726) ///
+>                                 nolog
+
+Lasso linear model                          No. of obs        =     66,572
+                                            No. of covariates =         12
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-      CV mean
+         |                               nonzero       sample   prediction
+      ID |     Description      lambda     coef.    R-squared        error
+---------+----------------------------------------------------------------
+       1 |    first lambda    .0019844         7       0.0831     .2003261
+      40 |   lambda before    .0000527        11       0.0845     .2000132
+    * 41 | selected lambda     .000048        11       0.0845     .2000131
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+Note: Minimum of CV function not found; lambda selected based on stop()
+      stopping criterion.
+
+. 
+.         estimates       store lasso_any_all
+
+. 
+. * display selected variables
+.         lassocoef, ///
+>                                 sort(coef, standardized)
+
+-------------------------------
+                | lasso_any_all
+----------------+--------------
+           wave |
+             3  |       x      
+             2  |       x      
+             4  |       x      
+             5  |       x      
+                |
+    manager_age |       x      
+ manager_age_sq |       x      
+ manager_lowedu |       x      
+ female_manager |       x      
+   manager_head |       x      
+manager_married |       x      
+rented_borrowed |       x      
+                |
+           wave |
+             1  |       e      
+                |
+          _cons |       x      
+-------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+  x - estimated
+
+. 
+. 
+. * elastic net: any observed CSA practice
+.         elasticnet linear any_csa ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 alpha(.25 .50 .75) ///
+>                                 rseed(20260726) ///
+>                                 nolog
+lambda not selected
+    No minimum of cross-validation function found. Change in deviance stopping
+    tolerance not reached.
+lambda not selected
+    No minimum of cross-validation function found. Change in deviance stopping
+    tolerance not reached.
+
+Elastic net linear model                         No. of obs        =     66,572
+                                                 No. of covariates =         12
+Selection: Cross-validation                      No. of CV folds   =         10
+
+-------------------------------------------------------------------------------
+               |                               No. of      Out-of-      CV mean
+               |                              nonzero       sample   prediction
+alpha       ID |     Description      lambda    coef.    R-squared        error
+---------------+---------------------------------------------------------------
+0.750          |
+             1 |    first lambda    .0079377        7       0.0831     .2003273
+           113 |     last lambda    2.65e-07       11       0.0846     .2000122
+---------------+---------------------------------------------------------------
+0.500          |
+           114 |    first lambda    .0079377        7       0.0831     .2003273
+           226 |     last lambda    2.65e-07       11       0.0846     .2000122
+---------------+---------------------------------------------------------------
+0.250          |
+           227 |    first lambda    .0079377        7       0.0831     .2003261
+           339 |     last lambda    2.65e-07       11       0.0846     .2000122
+-------------------------------------------------------------------------------
+Note: No lambda selected. lassoselect can be used to select lambda.
+r(430);
+
+end of do-file
+
+r(430);
+

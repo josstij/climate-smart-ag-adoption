@@ -78,8 +78,19 @@ cap log close _all
 * primary manager age
 	clonevar	manager_age = mg1_age
 
+* exclude implausible primary-manager ages below 15
+	replace	manager_age = . ///
+				if manager_age < 15 & !missing(manager_age)
+
 	label	variable manager_age ///
 				"Primary manager age"
+
+* nonlinear manager-age control
+	gen		double manager_age_sq = manager_age^2 ///
+				if !missing(manager_age)
+
+	label	variable manager_age_sq ///
+				"Primary manager age squared"
 
 * manager education
 	gen		manager_lowedu = (mg1_edu == 98) ///
@@ -161,3 +172,227 @@ cap log close _all
 	misstable	summarize ///
 				mg1_relat mg1_mrry mg1_away ///
 				tenure mgmt1 deju1 deju1_sex admin_1
+				
+				
+************************************************************************
+**# 4 - construct pruned candidate controls
+************************************************************************
+
+* primary manager is the household head
+	gen		manager_head = .
+	replace	manager_head = 1 if mg1_relat == 1
+	replace	manager_head = 0 if inrange(mg1_relat, 2, 15)
+
+	label	values manager_head yesno01
+	label	variable manager_head ///
+				"Primary manager is household head"
+
+* primary manager is married
+* codes 2 and 3 represent married categories
+	gen		manager_married = .
+	replace	manager_married = 1 if inlist(mg1_mrry, 2, 3)
+	replace	manager_married = 0 if inlist(mg1_mrry, 1, 4, 5, 6)
+
+	label	values manager_married yesno01
+	label	variable manager_married ///
+				"Primary manager is married"
+
+* parcel was rented or borrowed
+	gen		rented_borrowed = .
+	replace	rented_borrowed = 1 if inlist(tenure, 3, 4)
+	replace	rented_borrowed = 0 ///
+				if !missing(tenure) & !inlist(tenure, 3, 4)
+
+	label	values rented_borrowed yesno01
+	label	variable rented_borrowed ///
+				"Parcel was rented or borrowed"
+
+* female first reported owner or rights holder
+* available only for a restricted sample
+	gen		female_owner = .
+	replace	female_owner = 0 if deju1_sex == 1
+	replace	female_owner = 1 if deju1_sex == 2
+
+	label	values female_owner yesno01
+	label	variable female_owner ///
+				"Female first reported owner or rights holder"
+
+* primary manager differs from first reported owner
+* defined only when both household-member IDs are observed
+	gen		manager_owner_diff = .
+	replace	manager_owner_diff = (mgmt1 != deju1) ///
+				if !missing(mgmt1, deju1)
+
+	label	values manager_owner_diff yesno01
+	label	variable manager_owner_diff ///
+				"Primary manager differs from first reported owner"
+
+
+************************************************************************
+**# 5 - check constructed candidate controls
+************************************************************************
+
+* check coding across waves
+	tab		wave manager_head, missing
+	tab		wave manager_married, missing
+	tab		wave rented_borrowed, missing
+	tab		wave female_owner, missing
+	tab		wave manager_owner_diff, missing
+
+* confirm no primary-manager ages below 15 remain
+	assert	manager_age >= 15 ///
+				if !missing(manager_age)
+
+* inspect managers older than 90 for later sensitivity analysis
+	count	if manager_age > 90 & !missing(manager_age)
+
+	tab		manager_age ///
+				if manager_age > 90 & !missing(manager_age)
+				
+				
+************************************************************************
+**# 6 - define analysis samples
+************************************************************************
+
+* all-wave sample for main models
+	gen		byte sample_all = ///
+				!missing(any_csa, csa_count_obs, ///
+				female_manager, manager_age, manager_lowedu, ///
+				manager_head, manager_married, rented_borrowed)
+
+	label	variable sample_all ///
+				"Complete sample for all-wave models"
+
+* waves 2-5 sample including collateral rights
+	gen		byte sample_land = ///
+				wave >= 2 & ///
+				!missing(any_csa, csa_count_obs, ///
+				female_manager, manager_age, manager_lowedu, ///
+				collateral_right, manager_head, ///
+				manager_married, rented_borrowed)
+
+	label	variable sample_land ///
+				"Complete sample for Waves 2-5 land-rights models"
+
+* restricted owner and decision-making sample
+	gen		byte sample_owner = ///
+				wave >= 2 & ///
+				!missing(any_csa, csa_count_obs, ///
+				female_manager, manager_age, manager_lowedu, ///
+				collateral_right, manager_head, ///
+				manager_married, rented_borrowed, ///
+				female_owner, manager_owner_diff)
+
+	label	variable sample_owner ///
+				"Restricted sample with owner information"
+
+* inspect final sample sizes
+	count	if sample_all
+	count	if sample_land
+	count	if sample_owner
+
+	tab		wave if sample_all
+	tab		wave if sample_land
+	tab		wave if sample_owner
+
+* confirm restricted samples are nested
+	assert	sample_land <= sample_all
+	assert	sample_owner <= sample_land
+	
+	
+************************************************************************
+**# 7 - all-wave LASSO and elastic-net selection
+************************************************************************
+
+* variables in parentheses are theoretically required
+* remaining variables are eligible for selection
+
+* LASSO: any observed CSA practice
+	lasso	linear any_csa ///
+				(female_manager manager_age manager_lowedu i.wave) ///
+				manager_age_sq ///
+				manager_head ///
+				manager_married ///
+				rented_borrowed ///
+				if sample_all, ///
+				selection(cv) ///
+				rseed(20260726) ///
+				nolog
+
+	estimates	store lasso_any_all
+
+* display selected variables
+	lassocoef, ///
+				sort(coef, standardized)
+
+
+* elastic net: any observed CSA practice
+	elasticnet linear any_csa ///
+				(female_manager manager_age manager_lowedu i.wave) ///
+				manager_age_sq ///
+				manager_head ///
+				manager_married ///
+				rented_borrowed ///
+				if sample_all, ///
+				alpha(.25 .50 .75) ///
+				rseed(20260726) ///
+				nolog
+
+	estimates	store enet_any_all
+
+* display selected variables
+	lassocoef, ///
+				sort(coef, standardized)
+
+
+* LASSO: number of observed CSA practices
+	lasso	linear csa_count_obs ///
+				(female_manager manager_age manager_lowedu i.wave) ///
+				manager_age_sq ///
+				manager_head ///
+				manager_married ///
+				rented_borrowed ///
+				if sample_all, ///
+				selection(cv) ///
+				rseed(20260726) ///
+				nolog
+
+	estimates	store lasso_count_all
+
+* display selected variables
+	lassocoef, ///
+				sort(coef, standardized)
+
+
+* elastic net: number of observed CSA practices
+	elasticnet linear csa_count_obs ///
+				(female_manager manager_age manager_lowedu i.wave) ///
+				manager_age_sq ///
+				manager_head ///
+				manager_married ///
+				rented_borrowed ///
+				if sample_all, ///
+				alpha(.25 .50 .75) ///
+				rseed(20260726) ///
+				nolog
+
+	estimates	store enet_count_all
+
+* display selected variables
+	lassocoef, ///
+				sort(coef, standardized)
+
+
+************************************************************************
+**# 8 - compare selected all-wave controls
+************************************************************************
+
+* compare LASSO and elastic-net selection for any adoption
+	lassocoef	lasso_any_all enet_any_all, ///
+				sort(coef, standardized)
+
+* compare LASSO and elastic-net selection for adoption count
+	lassocoef	lasso_count_all enet_count_all, ///
+				sort(coef, standardized)
+				
+				
