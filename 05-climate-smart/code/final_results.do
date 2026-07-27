@@ -364,8 +364,9 @@ cap log close _all
 				sort(coef, standardized)
 
 
-* elastic net: number of observed CSA practices
-	elasticnet linear csa_count_obs ///
+* elastic net: any observed CSA practice
+* use BIC because CV did not identify a minimum
+	elasticnet linear any_csa ///
 				(female_manager manager_age manager_lowedu i.wave) ///
 				manager_age_sq ///
 				manager_head ///
@@ -373,16 +374,32 @@ cap log close _all
 				rented_borrowed ///
 				if sample_all, ///
 				alpha(.25 .50 .75) ///
-				rseed(20260726) ///
+				selection(bic) ///
 				nolog
 
-	estimates	store enet_count_all
+	estimates	store enet_any_all
 
 * display selected variables
 	lassocoef, ///
 				sort(coef, standardized)
 
+* LASSO: number of adopted practices among observed indicators
+	lasso	linear csa_count_obs ///
+				(female_manager manager_age manager_lowedu i.wave) ///
+				manager_age_sq ///
+				manager_head ///
+				manager_married ///
+				rented_borrowed ///
+				if sample_all, ///
+				selection(cv) ///
+				rseed(20260726) ///
+				nolog
 
+	estimates	store lasso_count_all
+
+* display selected variables
+	lassocoef, ///
+				sort(coef, standardized)
 ************************************************************************
 **# 8 - compare selected all-wave controls
 ************************************************************************
