@@ -1,9 +1,8 @@
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/prel
-> iminary_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/preliminary_results.log
   log type:  text
- opened on:  26 Jul 2026, 22:00:24
+ opened on:  27 Jul 2026, 16:25:11
 
 . 
 . 
@@ -43,11 +42,10 @@
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 any_csa         float   %9.0g      csa_yesno
                                               Adopted any observed CSA practice
-csa_count_obs   float   %9.0g                 Number of adopted practices among observed
-                                                indicators
+csa_count_obs   float   %9.0g                 Number of adopted practices among observed indicators
 csa_irr         float   %9.0g      csa_yesno
                                               Field irrigated
 csa_seed        float   %9.0g      csa_yesno
@@ -278,8 +276,7 @@ What is the |
 >                                 statistics(n mean sd) ///
 >                                 columns(statistics)
 
-Summary for variables: female_manager manager_age manager_lowedu mg1_farm mg1_nfe mg1_wag
-> e has_certificate collateral_right
+Summary for variables: female_manager manager_age manager_lowedu mg1_farm mg1_nfe mg1_wage has_certificate collateral_right
 Group variable: wave 
 
     wave |         N      Mean        SD
@@ -386,17 +383,14 @@ wave    |
 . 
 . * add table title
 .         collect title ///
->                                 "Table 1. Preliminary Characteristics of Plot Managers 
-> and Land Rights by Survey Wave"
+>                                 "Table 1. Preliminary Characteristics of Plot Managers and Land Rights by Survey Wave"
 
 . 
 . * export table
 .         collect export ///
 >                                 "$export/table1_preliminary_characteristics.docx", ///
 >                                 replace
-(collection Table exported to file
- C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table1_preli
- > minary_characteristics.docx)
+(collection Table exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table1_preliminary_characteristics.docx)
 
 . 
 . 
@@ -426,12 +420,9 @@ wave    |
 >                                 bar(1, color(teal) lcolor(black)) ///
 >                                 blabel(bar, format(%4.1f) color(black)) ///
 >                                 ytitle("Female-managed observations (%)") ///
->                                 title("Share of Female-Managed Observations by Survey W
-> ave") ///
->                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/1
-> 9, 2021/22") ///
->                                 note("Source: Ethiopia Socioeconomic Survey. Preliminar
-> y results.") ///
+>                                 title("Share of Female-Managed Observations by Survey Wave") ///
+>                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
+>                                 note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
 >                                 legend(off)
 
 . 
@@ -439,9 +430,7 @@ wave    |
 .         graph   export ///
 >                                 "$export/figure1_female_manager_bar.png", ///
 >                                 width(2000) replace
-file
-    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure1_f
-    > emale_manager_bar.png saved as PNG format
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure1_female_manager_bar.png saved as PNG format
 
 . 
 .         restore
@@ -479,12 +468,9 @@ file
 >                                 bar(1, color(teal) lcolor(black)) ///
 >                                 blabel(bar, format(%4.1f) color(black)) ///
 >                                 ytitle("Land observations with a certificate (%)") ///
->                                 title("Share of Land Observations with a Certificate") 
-> ///
->                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/1
-> 9, 2021/22") ///
->                                 note("Source: Ethiopia Socioeconomic Survey. Preliminar
-> y results.") ///
+>                                 title("Share of Land Observations with a Certificate") ///
+>                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
+>                                 note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
 >                                 legend(off)
 
 . 
@@ -492,9 +478,7 @@ file
 .         graph   export ///
 >                                 "$export/figure2_land_certificate.png", ///
 >                                 width(2000) replace
-file
-    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure2_l
-    > and_certificate.png saved as PNG format
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure2_land_certificate.png saved as PNG format
 
 . 
 .         restore
@@ -549,9 +533,9 @@ file
 . * inspect variable coding
 .         codebook        mg1_farm mg1_nfe mg1_wage
 
------------------------------------------------------------------------------------------
-mg1_farm                                                                    works on farm
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+mg1_farm                                                                                                                                                                                                         works on farm
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                   Type: Numeric (byte)
 
@@ -563,9 +547,9 @@ mg1_farm                                                                    work
                        56,832  1
                         3,709  .
 
------------------------------------------------------------------------------------------
-mg1_nfe                                                                     works for nfe
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+mg1_nfe                                                                                                                                                                                                          works for nfe
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                   Type: Numeric (byte)
 
@@ -577,9 +561,9 @@ mg1_nfe                                                                     work
                        27,861  1
                         1,185  .
 
------------------------------------------------------------------------------------------
-mg1_wage                                                                  works for wages
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+mg1_wage                                                                                                                                                                                                       works for wages
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                   Type: Numeric (byte)
 
@@ -763,10 +747,8 @@ collateral_right |   .1140104   .0255707     4.46   0.000     .0638815    .16413
 >                                 column(index) ///
 >                                 showstars ///
 >                                 showstarsnote ///
->                                 title("Table 2. Preliminary Associations with CSA Adopt
-> ion") ///
->                                 export("$export/table2_preliminary_regressions.docx", /
-> //
+>                                 title("Table 2. Preliminary Associations with CSA Adoption") ///
+>                                 export("$export/table2_preliminary_regressions.docx", ///
 >                                         replace)
 
 Table 2. Preliminary Associations with CSA Adoption
@@ -815,9 +797,7 @@ Number of observations                      66948      55927      66948      559
 R-squared                                    0.08       0.01       0.07       0.01   
 -------------------------------------------------------------------------------------
 ** p<.01, * p<.05
-(collection ETable exported to file
- C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table2_preli
- > minary_regressions.docx)
+(collection ETable exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table2_preliminary_regressions.docx)
 
 .                                         
 .                                         
@@ -851,12 +831,9 @@ R-squared                                    0.08       0.01       0.07       0.
 >                                         5 "Wave 5")) ///
 >                                 bar(1, color(teal) lcolor(black)) ///
 >                                 blabel(bar, format(%4.1f) color(black)) ///
->                                 ytitle("Fields adopting any observed CSA practice (%)")
->  ///
->                                 title("Climate-Smart Agriculture Adoption by Survey Wav
-> e") ///
->                                 subtitle("Ethiopia Socioeconomic Survey, Waves 1–5") //
-> /
+>                                 ytitle("Fields adopting any observed CSA practice (%)") ///
+>                                 title("Climate-Smart Agriculture Adoption by Survey Wave") ///
+>                                 subtitle("Ethiopia Socioeconomic Survey, Waves 1–5") ///
 >                                 legend(off)
 
 . 
@@ -864,9 +841,7 @@ R-squared                                    0.08       0.01       0.07       0.
 .         graph   export ///
 >                                 "$export/figure3_csa_adoption_by_wave.png", ///
 >                                 width(2000) replace
-file
-    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure3_c
-    > sa_adoption_by_wave.png saved as PNG format
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure3_csa_adoption_by_wave.png saved as PNG format
 
 . 
 .         restore
@@ -880,8 +855,7 @@ file
 . * close log
 .         log             close
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/prel
-> iminary_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/preliminary_results.log
   log type:  text
- closed on:  26 Jul 2026, 22:00:34
------------------------------------------------------------------------------------------
+ closed on:  27 Jul 2026, 16:25:31
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

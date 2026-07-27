@@ -23,9 +23,9 @@
 	* export preliminary regression results
 
 
-clear all
-set more off
-cap log close _all
+	clear 	all
+	set 	more off
+	cap 	log close _all
 
 
 ************************************************************************

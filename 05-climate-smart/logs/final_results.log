@@ -1000,3 +1000,309 @@ end of do-file
 
 r(430);
 
+. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000005.tmp"
+
+. 
+. * LASSO: any observed CSA practice
+.         lasso   linear any_csa ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 selection(cv) ///
+>                                 rseed(20260726) ///
+>                                 nolog
+
+Lasso linear model                          No. of obs        =     66,572
+                                            No. of covariates =         12
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-      CV mean
+         |                               nonzero       sample   prediction
+      ID |     Description      lambda     coef.    R-squared        error
+---------+----------------------------------------------------------------
+       1 |    first lambda    .0019844         7       0.0831     .2003261
+      40 |   lambda before    .0000527        11       0.0845     .2000132
+    * 41 | selected lambda     .000048        11       0.0845     .2000131
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+Note: Minimum of CV function not found; lambda selected based on stop()
+      stopping criterion.
+
+. 
+.         estimates       store lasso_any_all
+
+. 
+. * display selected variables
+.         lassocoef, ///
+>                                 sort(coef, standardized)
+
+-------------------------------
+                | lasso_any_all
+----------------+--------------
+           wave |
+             3  |       x      
+             2  |       x      
+             4  |       x      
+             5  |       x      
+                |
+    manager_age |       x      
+ manager_age_sq |       x      
+ manager_lowedu |       x      
+ female_manager |       x      
+   manager_head |       x      
+manager_married |       x      
+rented_borrowed |       x      
+                |
+           wave |
+             1  |       e      
+                |
+          _cons |       x      
+-------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+  x - estimated
+
+. 
+. 
+. * elastic net: any observed CSA practice
+.         elasticnet linear any_csa ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 alpha(.25 .50 .75) ///
+>                                 rseed(20260726) ///
+>                                 nolog
+lambda not selected
+    No minimum of cross-validation function found. Change in deviance stopping
+    tolerance not reached.
+lambda not selected
+    No minimum of cross-validation function found. Change in deviance stopping
+    tolerance not reached.
+
+Elastic net linear model                         No. of obs        =     66,572
+                                                 No. of covariates =         12
+Selection: Cross-validation                      No. of CV folds   =         10
+
+-------------------------------------------------------------------------------
+               |                               No. of      Out-of-      CV mean
+               |                              nonzero       sample   prediction
+alpha       ID |     Description      lambda    coef.    R-squared        error
+---------------+---------------------------------------------------------------
+0.750          |
+             1 |    first lambda    .0079377        7       0.0831     .2003273
+           113 |     last lambda    2.65e-07       11       0.0846     .2000122
+---------------+---------------------------------------------------------------
+0.500          |
+           114 |    first lambda    .0079377        7       0.0831     .2003273
+           226 |     last lambda    2.65e-07       11       0.0846     .2000122
+---------------+---------------------------------------------------------------
+0.250          |
+           227 |    first lambda    .0079377        7       0.0831     .2003261
+           339 |     last lambda    2.65e-07       11       0.0846     .2000122
+-------------------------------------------------------------------------------
+Note: No lambda selected. lassoselect can be used to select lambda.
+r(430);
+
+end of do-file
+
+r(430);
+
+. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000006.tmp"
+
+. 
+. * elastic net: any observed CSA practice
+. * use BIC because CV did not identify a minimum
+.         elasticnet linear any_csa ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 alpha(.25 .50 .75) ///
+>                                 selection(bic) ///
+>                                 nolog
+lambda not selected
+    No minimum of BIC found. Change in deviance stopping tolerance not reached.
+lambda not selected
+    No minimum of BIC found. Change in deviance stopping tolerance not reached.
+lambda not selected
+    No minimum of BIC found. Change in deviance stopping tolerance not reached.
+
+Elastic net linear model                         No. of obs        =     66,572
+                                                 No. of covariates =         12
+Selection: Bayesian information criterion
+
+-------------------------------------------------------------------------------
+               |                               No. of
+               |                              nonzero    In-sample
+alpha       ID |     Description      lambda    coef.    R-squared          BIC
+---------------+---------------------------------------------------------------
+0.750          |
+             1 |    first lambda    .0079377        7       0.0834     81957.57
+           113 |     last lambda    2.65e-07       11       0.0850     81888.07
+---------------+---------------------------------------------------------------
+0.500          |
+           114 |    first lambda    .0079377        7       0.0834     81957.57
+           226 |     last lambda    2.65e-07       11       0.0850     81888.07
+---------------+---------------------------------------------------------------
+0.250          |
+           227 |    first lambda    .0079377        7       0.0834     81957.57
+           339 |     last lambda    2.65e-07       11       0.0850     81888.07
+-------------------------------------------------------------------------------
+Note: No lambda selected. lassoselect can be used to select lambda.
+r(430);
+
+end of do-file
+
+r(430);
+
+. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000007.tmp"
+
+. 
+. * LASSO: number of adopted practices among observed indicators
+.         lasso   linear csa_count_obs ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 selection(cv) ///
+>                                 rseed(20260726) ///
+>                                 nolog
+
+Lasso linear model                          No. of obs        =     66,572
+                                            No. of covariates =         12
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-      CV mean
+         |                               nonzero       sample   prediction
+      ID |     Description      lambda     coef.    R-squared        error
+---------+----------------------------------------------------------------
+       1 |    first lambda    .0061684         7       0.0686     .5702495
+      48 |   lambda before    .0000778        11       0.0705     .5690769
+    * 49 | selected lambda    .0000709        11       0.0705     .5690765
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+Note: Minimum of CV function not found; lambda selected based on stop()
+      stopping criterion.
+
+. 
+.         estimates       store lasso_count_all
+
+. 
+. * display selected variables
+.         lassocoef, ///
+>                                 sort(coef, standardized)
+
+---------------------------------
+                | lasso_count_all
+----------------+----------------
+           wave |
+             4  |        x       
+             2  |        x       
+             3  |        x       
+             5  |        x       
+                |
+    manager_age |        x       
+ manager_age_sq |        x       
+ manager_lowedu |        x       
+rented_borrowed |        x       
+manager_married |        x       
+   manager_head |        x       
+ female_manager |        x       
+          _cons |        x       
+                |
+           wave |
+             1  |        e       
+---------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+  x - estimated
+
+. 
+end of do-file
+
+. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000008.tmp"
+
+. * LASSO: number of adopted practices among observed indicators
+.         lasso   linear csa_count_obs ///
+>                                 (female_manager manager_age manager_lowedu i.wave) ///
+>                                 manager_age_sq ///
+>                                 manager_head ///
+>                                 manager_married ///
+>                                 rented_borrowed ///
+>                                 if sample_all, ///
+>                                 selection(cv) ///
+>                                 rseed(20260726) ///
+>                                 nolog
+
+Lasso linear model                          No. of obs        =     66,572
+                                            No. of covariates =         12
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-      CV mean
+         |                               nonzero       sample   prediction
+      ID |     Description      lambda     coef.    R-squared        error
+---------+----------------------------------------------------------------
+       1 |    first lambda    .0061684         7       0.0686     .5702495
+      48 |   lambda before    .0000778        11       0.0705     .5690769
+    * 49 | selected lambda    .0000709        11       0.0705     .5690765
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+Note: Minimum of CV function not found; lambda selected based on stop()
+      stopping criterion.
+
+. 
+.         estimates       store lasso_count_all
+
+. 
+. * display selected variables
+.         lassocoef, ///
+>                                 sort(coef, standardized)
+
+---------------------------------
+                | lasso_count_all
+----------------+----------------
+           wave |
+             4  |        x       
+             2  |        x       
+             3  |        x       
+             5  |        x       
+                |
+    manager_age |        x       
+ manager_age_sq |        x       
+ manager_lowedu |        x       
+rented_borrowed |        x       
+manager_married |        x       
+   manager_head |        x       
+ female_manager |        x       
+          _cons |        x       
+                |
+           wave |
+             1  |        e       
+---------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+  x - estimated
+
+. 
+end of do-file
+
+. exit, clear
