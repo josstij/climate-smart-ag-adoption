@@ -339,7 +339,6 @@ cap log close _all
 				ytitle("Fields adopting any observed CSA practice (%)") ///
 				title("Climate-Smart Agriculture Adoption by Survey Wave") ///
 				subtitle("Ethiopia Socioeconomic Survey, Waves 1–5") ///
-				note("Adoption is defined among observed CSA indicators; indicator availability varies by wave.") ///
 				legend(off)
 
 * export CSA adoption figure

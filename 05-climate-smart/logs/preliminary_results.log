@@ -3,7 +3,7 @@
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/prel
 > iminary_results.log
   log type:  text
- opened on:  26 Jul 2026, 21:17:23
+ opened on:  26 Jul 2026, 22:00:24
 
 . 
 . 
@@ -594,6 +594,286 @@ mg1_wage                                                                  works 
 . 
 . 
 . ************************************************************************
+. **# 7 - preliminary adoption regressions
+. ************************************************************************
+. 
+. * check regression-variable availability
+.         misstable       summarize any_csa csa_count_obs ///
+>                                 female_manager manager_age manager_lowedu ///
+>                                 collateral_right
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+       any_csa |       126              74,907  |      2          0           1
+  csa_count_~s |       126              74,907  |      5          0           4
+  female_man~r |       255              74,778  |      2          0           1
+   manager_age |       419              74,614  |     97          0          99
+  manager_lo~u |     7,972              67,061  |      2          0           1
+  collateral~t |    12,783              62,250  |      2          0           1
+  -----------------------------------------------------------------------------
+
+. 
+. * Model 1: any CSA adoption, all waves
+.         regress         any_csa female_manager manager_age ///
+>                                 manager_lowedu i.wave, ///
+>                                 vce(cluster holder_id)
+
+Linear regression                               Number of obs     =     66,948
+                                                F(7, 5772)        =     424.36
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0832
+                                                Root MSE          =     .44788
+
+                            (Std. err. adjusted for 5,773 clusters in holder_id)
+--------------------------------------------------------------------------------
+               |               Robust
+       any_csa | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+female_manager |  -.0397657   .0119168    -3.34   0.001    -.0631271   -.0164044
+   manager_age |   .0013171   .0003429     3.84   0.000     .0006449    .0019894
+manager_lowedu |    .029194   .0104229     2.80   0.005     .0087613    .0496268
+               |
+          wave |
+            2  |   .4514387   .0104137    43.35   0.000     .4310239    .4718536
+            3  |    .464331   .0107797    43.07   0.000     .4431988    .4854632
+            4  |   .5151255    .011408    45.15   0.000     .4927616    .5374895
+            5  |   .4561921   .0133054    34.29   0.000     .4301086    .4822756
+               |
+         _cons |   .1761437    .016029    10.99   0.000     .1447208    .2075667
+--------------------------------------------------------------------------------
+
+. 
+.         estimates       store any_all
+
+. 
+. * Model 2: any CSA adoption with collateral rights, Waves 2-5
+.         regress         any_csa female_manager manager_age ///
+>                                 manager_lowedu collateral_right i.wave ///
+>                                 if wave >= 2, ///
+>                                 vce(cluster holder_id)
+
+Linear regression                               Number of obs     =     55,927
+                                                F(7, 5408)        =      13.73
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0094
+                                                Root MSE          =     .45092
+
+                              (Std. err. adjusted for 5,409 clusters in holder_id)
+----------------------------------------------------------------------------------
+                 |               Robust
+         any_csa | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+  female_manager |  -.0326616   .0126951    -2.57   0.010    -.0575491   -.0077742
+     manager_age |   .0015408    .000387     3.98   0.000     .0007821    .0022996
+  manager_lowedu |   .0308542   .0117826     2.62   0.009     .0077557    .0539528
+collateral_right |   .0665042    .016294     4.08   0.000     .0345615     .098447
+                 |
+            wave |
+              3  |   .0016012   .0084869     0.19   0.850    -.0150364    .0182389
+              4  |   .0571677   .0116136     4.92   0.000     .0344004    .0799351
+              5  |  -.0042975   .0135616    -0.32   0.751    -.0308836    .0222887
+                 |
+           _cons |    .555722   .0225417    24.65   0.000     .5115313    .5999128
+----------------------------------------------------------------------------------
+
+. 
+.         estimates       store any_land
+
+. 
+. * Model 3: number of CSA practices, all waves
+.         regress         csa_count_obs female_manager manager_age ///
+>                                 manager_lowedu i.wave, ///
+>                                 vce(cluster holder_id)
+
+Linear regression                               Number of obs     =     66,948
+                                                F(7, 5772)        =     531.40
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0689
+                                                Root MSE          =     .75506
+
+                            (Std. err. adjusted for 5,773 clusters in holder_id)
+--------------------------------------------------------------------------------
+               |               Robust
+ csa_count_obs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+female_manager |  -.0447678   .0202565    -2.21   0.027    -.0844781   -.0050574
+   manager_age |    .002119   .0005815     3.64   0.000      .000979    .0032589
+manager_lowedu |   .0440808   .0176181     2.50   0.012     .0095428    .0786188
+               |
+          wave |
+            2  |   .6535445   .0143531    45.53   0.000     .6254071    .6816818
+            3  |   .6523789   .0147004    44.38   0.000     .6235606    .6811973
+            4  |   .8068252   .0184854    43.65   0.000      .770587    .8430635
+            5  |   .7258583   .0215636    33.66   0.000     .6835856    .7681311
+               |
+         _cons |   .1629359   .0256271     6.36   0.000     .1126971    .2131747
+--------------------------------------------------------------------------------
+
+. 
+.         estimates       store count_all
+
+. 
+. * Model 4: number of CSA practices with collateral rights, Waves 2-5
+.         regress         csa_count_obs female_manager manager_age ///
+>                                 manager_lowedu collateral_right i.wave ///
+>                                 if wave >= 2, ///
+>                                 vce(cluster holder_id)
+
+Linear regression                               Number of obs     =     55,927
+                                                F(7, 5408)        =      15.70
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0112
+                                                Root MSE          =     .78522
+
+                              (Std. err. adjusted for 5,409 clusters in holder_id)
+----------------------------------------------------------------------------------
+                 |               Robust
+   csa_count_obs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+  female_manager |  -.0422522   .0218714    -1.93   0.053     -.085129    .0006246
+     manager_age |   .0020951   .0006662     3.14   0.002     .0007891    .0034011
+  manager_lowedu |   .0520606   .0202366     2.57   0.010     .0123888    .0917325
+collateral_right |   .1140104   .0255707     4.46   0.000     .0638815    .1641393
+                 |
+            wave |
+              3  |  -.0169677   .0138223    -1.23   0.220    -.0440649    .0101295
+              4  |   .1503905   .0215224     6.99   0.000     .1081978    .1925831
+              5  |   .0573866   .0241626     2.38   0.018      .010018    .1047551
+                 |
+           _cons |   .7223978   .0367334    19.67   0.000     .6503855      .79441
+----------------------------------------------------------------------------------
+
+. 
+.         estimates       store count_land
+
+.         
+.         
+. ************************************************************************
+. **# 8 - export preliminary regression results
+. ************************************************************************
+. 
+. * create and export preliminary regression table
+.         etable, estimates(any_all any_land count_all count_land) ///
+>                                 cstat(_r_b, nformat(%9.3f)) ///
+>                                 cstat(_r_se, nformat(%9.3f) sformat("(%s)")) ///
+>                                 mstat(N) ///
+>                                 mstat(r2) ///
+>                                 column(index) ///
+>                                 showstars ///
+>                                 showstarsnote ///
+>                                 title("Table 2. Preliminary Associations with CSA Adopt
+> ion") ///
+>                                 export("$export/table2_preliminary_regressions.docx", /
+> //
+>                                         replace)
+
+Table 2. Preliminary Associations with CSA Adoption
+-------------------------------------------------------------------------------------
+                                               1          2          3          4    
+-------------------------------------------------------------------------------------
+Female primary manager                     -0.040 **  -0.033 *                       
+                                          (0.012)    (0.013)                         
+Primary manager age                         0.001 **   0.002 **                      
+                                          (0.000)    (0.000)                         
+Manager has little or no formal education   0.029 **   0.031 **                      
+                                          (0.010)    (0.012)                         
+wave                                                                                 
+  2                                         0.451 **                                 
+                                          (0.010)                                    
+  3                                         0.464 **   0.002                         
+                                          (0.011)    (0.008)                         
+  4                                         0.515 **   0.057 **                      
+                                          (0.011)    (0.012)                         
+  5                                         0.456 **  -0.004                         
+                                          (0.013)    (0.014)                         
+Right to sell or use parcel as collateral              0.067 **                      
+                                                     (0.016)                         
+Intercept                                   0.176 **   0.556 **                      
+                                          (0.016)    (0.023)                         
+Female primary manager                                           -0.045 *   -0.042   
+                                                                (0.020)    (0.022)   
+Primary manager age                                               0.002 **   0.002 **
+                                                                (0.001)    (0.001)   
+Manager has little or no formal education                         0.044 *    0.052 * 
+                                                                (0.018)    (0.020)   
+wave                                                                                 
+  2                                                               0.654 **           
+                                                                (0.014)              
+  3                                                               0.652 **  -0.017   
+                                                                (0.015)    (0.014)   
+  4                                                               0.807 **   0.150 **
+                                                                (0.018)    (0.022)   
+  5                                                               0.726 **   0.057 * 
+                                                                (0.022)    (0.024)   
+Right to sell or use parcel as collateral                                    0.114 **
+                                                                           (0.026)   
+Intercept                                                         0.163 **   0.722 **
+                                                                (0.026)    (0.037)   
+Number of observations                      66948      55927      66948      55927   
+R-squared                                    0.08       0.01       0.07       0.01   
+-------------------------------------------------------------------------------------
+** p<.01, * p<.05
+(collection ETable exported to file
+ C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table2_preli
+ > minary_regressions.docx)
+
+.                                         
+.                                         
+. ************************************************************************
+. **# 9 - CSA adoption by survey wave
+. ************************************************************************
+. 
+.         preserve
+
+. 
+. * retain observations with a defined adoption outcome
+.         keep    if !missing(any_csa)
+(126 observations deleted)
+
+. 
+. * calculate adoption share by wave
+.         collapse        (mean) any_csa, by(wave)
+
+. 
+.         replace any_csa = any_csa * 100
+(5 real changes made)
+
+. 
+. * create CSA adoption figure
+.         graph   bar any_csa, ///
+>                                 over(wave, relabel( ///
+>                                         1 "Wave 1" ///
+>                                         2 "Wave 2" ///
+>                                         3 "Wave 3" ///
+>                                         4 "Wave 4" ///
+>                                         5 "Wave 5")) ///
+>                                 bar(1, color(teal) lcolor(black)) ///
+>                                 blabel(bar, format(%4.1f) color(black)) ///
+>                                 ytitle("Fields adopting any observed CSA practice (%)")
+>  ///
+>                                 title("Climate-Smart Agriculture Adoption by Survey Wav
+> e") ///
+>                                 subtitle("Ethiopia Socioeconomic Survey, Waves 1–5") //
+> /
+>                                 legend(off)
+
+. 
+. * export CSA adoption figure
+.         graph   export ///
+>                                 "$export/figure3_csa_adoption_by_wave.png", ///
+>                                 width(2000) replace
+file
+    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure3_c
+    > sa_adoption_by_wave.png saved as PNG format
+
+. 
+.         restore
+
+.         
+.         
+. ************************************************************************
 . **# 7 - end matter
 . ************************************************************************
 . 
@@ -603,5 +883,5 @@ mg1_wage                                                                  works 
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/prel
 > iminary_results.log
   log type:  text
- closed on:  26 Jul 2026, 21:17:27
+ closed on:  26 Jul 2026, 22:00:34
 -----------------------------------------------------------------------------------------
