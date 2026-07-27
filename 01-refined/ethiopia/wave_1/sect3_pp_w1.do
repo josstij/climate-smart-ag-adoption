@@ -31,6 +31,7 @@
 	global	logout 	"$cs_logs"
 	
 * create export folders
+	cap		mkdir		"$clean_data"
 	cap		mkdir		"$clean_data/ethiopia"
 	cap		mkdir		"$export"
 	

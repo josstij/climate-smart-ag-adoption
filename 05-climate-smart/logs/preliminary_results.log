@@ -1,8 +1,9 @@
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/preliminary_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-clima
+> te-smart/logs/preliminary_results.log
   log type:  text
- opened on:  24 Jul 2026, 15:47:38
+ opened on:  26 Jul 2026, 19:20:35
 
 . 
 . count
@@ -22,23 +23,31 @@
 
 . describe
 
-Contains data from C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture/lsms_gender_data/03-regression_data/eth_allround
-> s.dta
+Contains data from C:/Users/tijer/OneDrive - University of Arizona/AIDE
+>  LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agric
+> ulture/lsms_gender_data/03-regression_data/eth_allrounds.dta
  Observations:        94,070                  
     Variables:           105                  23 Jul 2026 14:54
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
 household_id    str18   %-18s                 Household ID unique
 individual_id   str16   %-16s                 Individual ID
 ea_id           str15   %-15s                 EA ID
 indiv_num       int     %16.0g                HH Member ID Code
-mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mg1_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mg1_age         byte    %16.0g                How old is [Name]? (Years)
-mg1_away        byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-mg1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
+mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+mg1_sex         byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+mg1_age         byte    %16.0g                How old is [Name]?
+                                                (Years)
+mg1_away        byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+mg1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
 admin_1         byte    %16.0g     saq01      Region Code
 admin_2         byte    %16.0g                Zone Code
 admin_3         byte    %16.0g                Woreda Code
@@ -46,103 +55,191 @@ admin_4         byte    %16.0g                Town Code
 admin_5         byte    %16.0g                Subcity Code
 admin_6         int     %16.0g                Kebele/FA Code
 ea              byte    %16.0g                EA
-mg1_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mg1_edu         byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 mg1_farm        byte    %9.0g                 works on farm
 mg1_nfe         byte    %9.0g                 works for nfe
 mg1_wage        byte    %9.0g                 works for wages
 mgmt1           byte    %9.0g                 
 holder_id       str20   %-20s                 Unique Holder Indentifier
 parcel_id       byte    %16.0g                Parcel ID
-tenure          byte    %16.0g     pp_s2q03   How did your HH acquire the [Parcel]?
-dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj1_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-dj1_age         byte    %16.0g                How old is [Name]? (Years)
-dj1_away        byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-dj1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-dj1_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+tenure          byte    %16.0g     pp_s2q03   How did your HH acquire
+                                                the [Parcel]?
+dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+dj1_sex         byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+dj1_age         byte    %16.0g                How old is [Name]?
+                                                (Years)
+dj1_away        byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+dj1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+dj1_edu         byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 dj1_farm        byte    %9.0g                 works on farm
 dj1_nfe         byte    %9.0g                 works for nfe
 dj1_wage        byte    %9.0g                 works for wages
 deju1           byte    %9.0g                 
-title           byte    %16.0g     yesno      Does your HH have a certificate for this [Parcel]?
-deju2           byte    %16.0g                Under whose name(s) is the certificate issued for this [Parcel]?
-dj2_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj2_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-dj2_age         byte    %16.0g                How old is [Name]? (Years)
-dj2_away        byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-dj2_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-dj2_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+title           byte    %16.0g     yesno      Does your HH have a
+                                                certificate for this
+                                                [Parcel]?
+deju2           byte    %16.0g                Under whose name(s) is
+                                                the certificate issued
+                                                for this [Parcel]?
+dj2_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+dj2_sex         byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+dj2_age         byte    %16.0g                How old is [Name]?
+                                                (Years)
+dj2_away        byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+dj2_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+dj2_edu         byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 dj2_farm        byte    %9.0g                 works on farm
 dj2_nfe         byte    %9.0g                 works for nfe
 dj2_wage        byte    %9.0g                 works for wages
 wave            byte    %9.0g                 
 household_id2   str18   %-18s                 Unique HH ID in wave 2
-individual_id2  str20   %-20s                 Unique individual ID in wave 2
-ea_id2          str15   %-15s                 Unique EA identifier in wave 2
+individual_id2  str20   %-20s                 Unique individual ID in
+                                                wave 2
+ea_id2          str15   %-15s                 Unique EA identifier in
+                                                wave 2
 household_num   int     %16.0g                Household ID
-collat          byte    %16.0g     yesno      Does anyone in the household have the right to sell this [PARCEL] or use it as c
-defa1           byte    %16.0g                Who in HH can decide whether to sell parcel or use as collateral [ID #1]
-defa2           byte    %16.0g                Who in HH can decide whether to sell parcel or use as collateral [ID #2]
-deju1_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju1_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-deju1_age       byte    %16.0g                How old is [Name]? (Years)
-deju1_away      byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-deju1_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-deju1_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+collat          byte    %16.0g     yesno      Does anyone in the
+                                                household have the
+                                                right to sell this
+                                                [PARCEL] or use it as c
+defa1           byte    %16.0g                Who in HH can decide
+                                                whether to sell parcel
+                                                or use as collateral
+                                                [ID #1]
+defa2           byte    %16.0g                Who in HH can decide
+                                                whether to sell parcel
+                                                or use as collateral
+                                                [ID #2]
+deju1_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+deju1_sex       byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+deju1_age       byte    %16.0g                How old is [Name]?
+                                                (Years)
+deju1_away      byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+deju1_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+deju1_edu       byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 deju1_farm      byte    %9.0g                 works on farm
 deju1_nfe       byte    %9.0g                 works for nfe
 deju1_wage      byte    %9.0g                 works for wages
-deju2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju2_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-deju2_age       byte    %16.0g                How old is [Name]? (Years)
-deju2_away      byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-deju2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-deju2_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+deju2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+deju2_sex       byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+deju2_age       byte    %16.0g                How old is [Name]?
+                                                (Years)
+deju2_away      byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+deju2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+deju2_edu       byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 deju2_farm      byte    %9.0g                 works on farm
 deju2_nfe       byte    %9.0g                 works for nfe
 deju2_wage      byte    %9.0g                 works for wages
-mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt2_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mgmt2_age       byte    %16.0g                How old is [Name]? (Years)
-mgmt2_away      byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-mgmt2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mgmt2_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+mgmt2_sex       byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+mgmt2_age       byte    %16.0g                How old is [Name]?
+                                                (Years)
+mgmt2_away      byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+mgmt2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+mgmt2_edu       byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 mgmt2_farm      byte    %9.0g                 works on farm
 mgmt2_nfe       byte    %9.0g                 works for nfe
 mgmt2_wage      byte    %9.0g                 works for wages
 mgmt2           byte    %9.0g                 
 field_id        byte    %16.0g                Field ID
-mgmt3           byte    %16.0g                Who are the other household mebers consulted by the primary decision maker on th
-mgmt4           byte    %16.0g                Who are the other household mebers consulted by the primary decision maker on th
-mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt3_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mgmt3_age       byte    %16.0g                How old is [Name]? (Years)
-mgmt3_away      byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-mgmt3_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mgmt3_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mgmt3           byte    %16.0g                Who are the other
+                                                household mebers
+                                                consulted by the
+                                                primary decision maker
+                                                on th
+mgmt4           byte    %16.0g                Who are the other
+                                                household mebers
+                                                consulted by the
+                                                primary decision maker
+                                                on th
+mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+mgmt3_sex       byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+mgmt3_age       byte    %16.0g                How old is [Name]?
+                                                (Years)
+mgmt3_away      byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+mgmt3_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+mgmt3_edu       byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 mgmt3_farm      byte    %9.0g                 works on farm
 mgmt3_nfe       byte    %9.0g                 works for nfe
 mgmt3_wage      byte    %9.0g                 works for wages
-mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt4_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mgmt4_age       byte    %16.0g                How old is [Name]? (Years)
-mgmt4_away      byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
-mgmt4_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mgmt4_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
+                                                HH Head
+mgmt4_sex       byte    %16.0g     hh_s1q03   What is the sex of
+                                                [Name]?
+mgmt4_age       byte    %16.0g                How old is [Name]?
+                                                (Years)
+mgmt4_away      byte    %16.0g                For how many months
+                                                during the last 12
+                                                months was [Name] way
+                                                from the HH?
+mgmt4_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
+                                                status?
+mgmt4_edu       byte    %16.0g     hh_s2q05   What is the highest grade
+                                                you completed?
 mgmt4_farm      byte    %9.0g                 works on farm
 mgmt4_nfe       byte    %9.0g                 works for nfe
 mgmt4_wage      byte    %9.0g                 works for wages
-_merge          byte    %23.0g     _merge     Matching result from merge
-deju3           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 3
-deju4           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 4
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_merge          byte    %23.0g     _merge     Matching result from
+                                                merge
+deju3           byte    %1.0g                 4b. Which HH members are
+                                                listed as owners or use
+                                                rights holders: HH ID 3
+deju4           byte    %1.0g                 4b. Which HH members are
+                                                listed as owners or use
+                                                rights holders: HH ID 4
+-----------------------------------------------------------------------
 Sorted by: 
 
 . 
 . 
-. ************************************************************************
+. *********************************************************************
+> ***
 . * 2. Construct preliminary variables
-. ************************************************************************
+. *********************************************************************
+> ***
 . 
 . * Female primary manager
 . * Confirm that 1 = male and 2 = female
@@ -190,7 +287,8 @@ What is the |
 
 . label values manager_lowedu yesno01
 
-. label variable manager_lowedu "Manager has little or no formal education"
+. label variable manager_lowedu "Manager has little or no formal educat
+> ion"
 
 . 
 . * Land certificate
@@ -259,16 +357,19 @@ What is the |
 
 .         
 .         
-. ************************************************************************
+. *********************************************************************
+> ***
 . * 3. Descriptive statistics by wave
-. ************************************************************************
+. *********************************************************************
+> ***
 . 
 . tabstat female_manager manager_age manager_lowedu ///
 >         mg1_farm mg1_nfe mg1_wage ///
 >         has_certificate collateral_right, ///
 >         by(wave) statistics(n mean sd) columns(statistics)
 
-Summary for variables: female_manager manager_age manager_lowedu mg1_farm mg1_nfe mg1_wage has_certificate collateral_right
+Summary for variables: female_manager manager_age manager_lowedu mg1_fa
+> rm mg1_nfe mg1_wage has_certificate collateral_right
 Group variable: wave 
 
     wave |         N      Mean        SD
@@ -373,19 +474,24 @@ wave    |
 
 . 
 . collect title ///
->     "Table 1. Preliminary Characteristics of Plot Managers and Land Rights by Survey Wave"
+>     "Table 1. Preliminary Characteristics of Plot Managers and Land R
+> ights by Survey Wave"
 
 . 
 . collect export ///
 >     "$csa_output/table1_preliminary_characteristics.docx", ///
 >     replace
-(collection Table exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/04-output/table1_preliminary_characteristics.docx)
+(collection Table exported to file
+ C:/Users/tijer/git/UROC/climate-smart-ag-adoption/04-output/table1_p
+ > reliminary_characteristics.docx)
 
 .         
 .         
-. ************************************************************************
+. *********************************************************************
+> ***
 . * 4. Female-managed observations by wave
-. ************************************************************************
+. *********************************************************************
+> ***
 . preserve
 
 . 
@@ -406,25 +512,33 @@ wave    |
 >     blabel(bar, format(%4.1f) color(black)) ///
 >     ytitle("Female-managed observations (%)") ///
 >     title("Share of Female-Managed Observations by Survey Wave") ///
->     subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
->     note("Source: Ethiopia Socioeconomic Survey. Preliminary results.")
+>     subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22
+> ") ///
+>     note("Source: Ethiopia Socioeconomic Survey. Preliminary results.
+> ")
 
 . 
 . graph export ///
 >     "$cs_output/figure1_female_manager_bar.png", ///
 >     width(2000) replace
-file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure1_female_manager_bar.png saved as PNG format
+file
+    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smar
+    > t/output/figure1_female_manager_bar.png saved as PNG format
 
 . 
 . restore
 
 . 
-. ************************************************************************
+. *********************************************************************
+> ***
 . * 5. Land certification by wave
-. ************************************************************************
-. ************************************************************************
+. *********************************************************************
+> ***
+. *********************************************************************
+> ***
 . * Figure 2: Land certification by survey wave
-. ************************************************************************
+. *********************************************************************
+> ***
 . 
 . preserve
 
@@ -452,27 +566,34 @@ file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/f
 >     blabel(bar, format(%4.1f) color(black)) ///
 >     ytitle("Land observations with a certificate (%)") ///
 >     title("Share of Land Observations with a Certificate") ///
->     subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
->     note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
+>     subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22
+> ") ///
+>     note("Source: Ethiopia Socioeconomic Survey. Preliminary results.
+> ") ///
 >     legend(off)
 
 . 
 . graph export ///
 >     "$cs_output/figure2_land_certificate.png", ///
 >     width(2000) replace
-file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure2_land_certificate.png saved as PNG format
+file
+    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smar
+    > t/output/figure2_land_certificate.png saved as PNG format
 
 . 
 . restore
 
 . 
 . 
-. ************************************************************************
+. *********************************************************************
+> ***
 . * / END MATTER /
-. ************************************************************************
+. *********************************************************************
+> ***
 . log close
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/preliminary_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-clima
+> te-smart/logs/preliminary_results.log
   log type:  text
- closed on:  24 Jul 2026, 15:47:42
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  26 Jul 2026, 19:20:49
+-----------------------------------------------------------------------
