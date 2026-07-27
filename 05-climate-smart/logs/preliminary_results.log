@@ -1,451 +1,362 @@
------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-clima
-> te-smart/logs/preliminary_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/prel
+> iminary_results.log
   log type:  text
- opened on:  26 Jul 2026, 19:20:35
+ opened on:  26 Jul 2026, 21:17:23
 
 . 
-. count
-  94,070
+. 
+. ************************************************************************
+. **# 1 - open Ethiopia CSA analysis data
+. ************************************************************************
+. 
+. * load final analysis data
+.         use             "$root/eth_csa_analysis", clear
+(Ethiopia CSA adoption analysis data, waves 1-5)
 
-. tab wave
+. 
+. * confirm analysis sample
+.         count
+  75,033
+
+.         tab             wave, missing
 
        wave |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |     10,778       11.46       11.46
-          2 |     26,908       28.60       40.06
-          3 |     28,496       30.29       70.35
-          4 |     15,111       16.06       86.42
-          5 |     12,777       13.58      100.00
+          1 |      6,576        8.76        8.76
+          2 |     22,433       29.90       38.66
+          3 |     22,658       30.20       68.86
+          4 |     12,907       17.20       86.06
+          5 |     10,459       13.94      100.00
 ------------+-----------------------------------
-      Total |     94,070      100.00
+      Total |     75,033      100.00
 
-. describe
+. 
+. * confirm field-wave identifiers
+.         isid    wave holder_id parcel_id field_id
 
-Contains data from C:/Users/tijer/OneDrive - University of Arizona/AIDE
->  LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agric
-> ulture/lsms_gender_data/03-regression_data/eth_allrounds.dta
- Observations:        94,070                  
-    Variables:           105                  23 Jul 2026 14:54
------------------------------------------------------------------------
+. 
+. * inspect CSA outcomes
+.         describe        any_csa csa_count_obs ///
+>                                 csa_irr csa_seed csa_soil csa_cons
+
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------
-household_id    str18   %-18s                 Household ID unique
-individual_id   str16   %-16s                 Individual ID
-ea_id           str15   %-15s                 EA ID
-indiv_num       int     %16.0g                HH Member ID Code
-mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-mg1_sex         byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-mg1_age         byte    %16.0g                How old is [Name]?
-                                                (Years)
-mg1_away        byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-mg1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-admin_1         byte    %16.0g     saq01      Region Code
-admin_2         byte    %16.0g                Zone Code
-admin_3         byte    %16.0g                Woreda Code
-admin_4         byte    %16.0g                Town Code
-admin_5         byte    %16.0g                Subcity Code
-admin_6         int     %16.0g                Kebele/FA Code
-ea              byte    %16.0g                EA
-mg1_edu         byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-mg1_farm        byte    %9.0g                 works on farm
-mg1_nfe         byte    %9.0g                 works for nfe
-mg1_wage        byte    %9.0g                 works for wages
-mgmt1           byte    %9.0g                 
-holder_id       str20   %-20s                 Unique Holder Indentifier
-parcel_id       byte    %16.0g                Parcel ID
-tenure          byte    %16.0g     pp_s2q03   How did your HH acquire
-                                                the [Parcel]?
-dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-dj1_sex         byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-dj1_age         byte    %16.0g                How old is [Name]?
-                                                (Years)
-dj1_away        byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-dj1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-dj1_edu         byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-dj1_farm        byte    %9.0g                 works on farm
-dj1_nfe         byte    %9.0g                 works for nfe
-dj1_wage        byte    %9.0g                 works for wages
-deju1           byte    %9.0g                 
-title           byte    %16.0g     yesno      Does your HH have a
-                                                certificate for this
-                                                [Parcel]?
-deju2           byte    %16.0g                Under whose name(s) is
-                                                the certificate issued
-                                                for this [Parcel]?
-dj2_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-dj2_sex         byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-dj2_age         byte    %16.0g                How old is [Name]?
-                                                (Years)
-dj2_away        byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-dj2_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-dj2_edu         byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-dj2_farm        byte    %9.0g                 works on farm
-dj2_nfe         byte    %9.0g                 works for nfe
-dj2_wage        byte    %9.0g                 works for wages
-wave            byte    %9.0g                 
-household_id2   str18   %-18s                 Unique HH ID in wave 2
-individual_id2  str20   %-20s                 Unique individual ID in
-                                                wave 2
-ea_id2          str15   %-15s                 Unique EA identifier in
-                                                wave 2
-household_num   int     %16.0g                Household ID
-collat          byte    %16.0g     yesno      Does anyone in the
-                                                household have the
-                                                right to sell this
-                                                [PARCEL] or use it as c
-defa1           byte    %16.0g                Who in HH can decide
-                                                whether to sell parcel
-                                                or use as collateral
-                                                [ID #1]
-defa2           byte    %16.0g                Who in HH can decide
-                                                whether to sell parcel
-                                                or use as collateral
-                                                [ID #2]
-deju1_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-deju1_sex       byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-deju1_age       byte    %16.0g                How old is [Name]?
-                                                (Years)
-deju1_away      byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-deju1_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-deju1_edu       byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-deju1_farm      byte    %9.0g                 works on farm
-deju1_nfe       byte    %9.0g                 works for nfe
-deju1_wage      byte    %9.0g                 works for wages
-deju2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-deju2_sex       byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-deju2_age       byte    %16.0g                How old is [Name]?
-                                                (Years)
-deju2_away      byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-deju2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-deju2_edu       byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-deju2_farm      byte    %9.0g                 works on farm
-deju2_nfe       byte    %9.0g                 works for nfe
-deju2_wage      byte    %9.0g                 works for wages
-mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-mgmt2_sex       byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-mgmt2_age       byte    %16.0g                How old is [Name]?
-                                                (Years)
-mgmt2_away      byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-mgmt2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-mgmt2_edu       byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-mgmt2_farm      byte    %9.0g                 works on farm
-mgmt2_nfe       byte    %9.0g                 works for nfe
-mgmt2_wage      byte    %9.0g                 works for wages
-mgmt2           byte    %9.0g                 
-field_id        byte    %16.0g                Field ID
-mgmt3           byte    %16.0g                Who are the other
-                                                household mebers
-                                                consulted by the
-                                                primary decision maker
-                                                on th
-mgmt4           byte    %16.0g                Who are the other
-                                                household mebers
-                                                consulted by the
-                                                primary decision maker
-                                                on th
-mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-mgmt3_sex       byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-mgmt3_age       byte    %16.0g                How old is [Name]?
-                                                (Years)
-mgmt3_away      byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-mgmt3_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-mgmt3_edu       byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-mgmt3_farm      byte    %9.0g                 works on farm
-mgmt3_nfe       byte    %9.0g                 works for nfe
-mgmt3_wage      byte    %9.0g                 works for wages
-mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to
-                                                HH Head
-mgmt4_sex       byte    %16.0g     hh_s1q03   What is the sex of
-                                                [Name]?
-mgmt4_age       byte    %16.0g                How old is [Name]?
-                                                (Years)
-mgmt4_away      byte    %16.0g                For how many months
-                                                during the last 12
-                                                months was [Name] way
-                                                from the HH?
-mgmt4_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital
-                                                status?
-mgmt4_edu       byte    %16.0g     hh_s2q05   What is the highest grade
-                                                you completed?
-mgmt4_farm      byte    %9.0g                 works on farm
-mgmt4_nfe       byte    %9.0g                 works for nfe
-mgmt4_wage      byte    %9.0g                 works for wages
-_merge          byte    %23.0g     _merge     Matching result from
-                                                merge
-deju3           byte    %1.0g                 4b. Which HH members are
-                                                listed as owners or use
-                                                rights holders: HH ID 3
-deju4           byte    %1.0g                 4b. Which HH members are
-                                                listed as owners or use
-                                                rights holders: HH ID 4
------------------------------------------------------------------------
-Sorted by: 
+-----------------------------------------------------------------------------------------
+any_csa         float   %9.0g      csa_yesno
+                                              Adopted any observed CSA practice
+csa_count_obs   float   %9.0g                 Number of adopted practices among observed
+                                                indicators
+csa_irr         float   %9.0g      csa_yesno
+                                              Field irrigated
+csa_seed        float   %9.0g      csa_yesno
+                                              Improved seed used on field
+csa_soil        float   %9.0g      csa_yesno
+                                              Manure or compost used on field
+csa_cons        float   %9.0g      csa_yesno
+                                              Field protected from erosion
+
+. 
+. * check outcome distributions
+.         tab             any_csa, missing
+
+Adopted any |
+   observed |
+        CSA |
+   practice |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         No |     23,539       31.37       31.37
+        Yes |     51,368       68.46       99.83
+          . |        126        0.17      100.00
+------------+-----------------------------------
+      Total |     75,033      100.00
+
+.         tab             csa_count_obs, missing
+
+  Number of |
+    adopted |
+  practices |
+      among |
+   observed |
+ indicators |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |     23,539       31.37       31.37
+          1 |     35,173       46.88       78.25
+          2 |     14,116       18.81       97.06
+          3 |      1,995        2.66       99.72
+          4 |         84        0.11       99.83
+          . |        126        0.17      100.00
+------------+-----------------------------------
+      Total |     75,033      100.00
+
+. 
+. * summarize outcomes by survey wave
+.         tabstat any_csa csa_count_obs, ///
+>                                 by(wave) ///
+>                                 statistics(n mean sd min max)
+
+Summary statistics: N, Mean, SD, Min, Max
+Group variable: wave 
+
+    wave |   any_csa  csa_c~bs
+---------+--------------------
+       1 |      6460      6460
+         |   .250774  .2821981
+         |  .4334922    .51941
+         |         0         0
+         |         1         3
+---------+--------------------
+       2 |     22424     22424
+         |  .7139672  .9606225
+         |   .451915  .7599033
+         |         0         0
+         |         1         4
+---------+--------------------
+       3 |     22657     22657
+         |  .7282076  .9605861
+         |  .4448933  .7420067
+         |         0         0
+         |         1         4
+---------+--------------------
+       4 |     12907     12907
+         |  .7657085  1.094832
+         |  .4235716   .810588
+         |         0         0
+         |         1         4
+---------+--------------------
+       5 |     10459     10459
+         |  .7033177  1.000765
+         |  .4568171  .8315813
+         |         0         0
+         |         1         4
+---------+--------------------
+   Total |     74907     74907
+         |   .685757  .9308342
+         |  .4642168  .7839253
+         |         0         0
+         |         1         4
+------------------------------
 
 . 
 . 
-. *********************************************************************
-> ***
-. * 2. Construct preliminary variables
-. *********************************************************************
-> ***
+. ************************************************************************
+. **# 2 - construct preliminary variables
+. ************************************************************************
 . 
-. * Female primary manager
-. * Confirm that 1 = male and 2 = female
-. tab mg1_sex, missing
+. * female primary manager
+. * confirm that 1 = male and 2 = female
+.         tab             mg1_sex, missing
 
 What is the |
      sex of |
     [Name]? |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-       Male |     75,896       80.68       80.68
-     Female |     17,847       18.97       99.65
-          . |        327        0.35      100.00
+       Male |     61,682       82.21       82.21
+     Female |     13,096       17.45       99.66
+          . |        255        0.34      100.00
 ------------+-----------------------------------
-      Total |     94,070      100.00
+      Total |     75,033      100.00
 
 . 
-. gen female_manager = .
-(94,070 missing values generated)
+.         gen             female_manager = .
+(75,033 missing values generated)
 
-. replace female_manager = 0 if mg1_sex == 1
-(75,896 real changes made)
+.         replace female_manager = 0 if mg1_sex == 1
+(61,682 real changes made)
 
-. replace female_manager = 1 if mg1_sex == 2
-(17,847 real changes made)
-
-. 
-. label define yesno01 0 "No" 1 "Yes", replace
-
-. label values female_manager yesno01
-
-. label variable female_manager "Female primary manager"
+.         replace female_manager = 1 if mg1_sex == 2
+(13,096 real changes made)
 
 . 
-. * Manager age
-. clonevar manager_age = mg1_age
-(573 missing values generated)
+.         label   define yesno01 0 "No" 1 "Yes", replace
 
-. label variable manager_age "Primary manager age"
+.         label   values female_manager yesno01
 
-. 
-. * Lowest/no formal education category
-. * Preserve the original mg1_edu variable
-. gen manager_lowedu = (mg1_edu == 98) if !missing(mg1_edu)
-(10,070 missing values generated)
-
-. label values manager_lowedu yesno01
-
-. label variable manager_lowedu "Manager has little or no formal educat
-> ion"
+.         label   variable female_manager ///
+>                                 "Female primary manager"
 
 . 
-. * Land certificate
-. * Account for possible 0/1 and 1/2 coding
-. tab wave title, missing
+. * primary manager age
+.         clonevar        manager_age = mg1_age
+(419 missing values generated)
+
+. 
+.         label   variable manager_age ///
+>                                 "Primary manager age"
+
+. 
+. * lowest or no formal education category
+. * preserve the original mg1_edu variable
+.         gen             manager_lowedu = (mg1_edu == 98) ///
+>                                 if !missing(mg1_edu)
+(7,972 missing values generated)
+
+. 
+.         label   values manager_lowedu yesno01
+
+.         label   variable manager_lowedu ///
+>                                 "Manager has little or no formal education"
+
+. 
+. * land certificate
+. * account for possible 0/1 and 1/2 coding
+.         tab             wave title, missing
 
            |  Does your HH have a certificate for this
            |                  [Parcel]?
       wave |        no        yes          2          . |     Total
 -----------+--------------------------------------------+----------
-         1 |         1      3,714          0      7,063 |    10,778 
-         2 |        11     12,804          0     14,093 |    26,908 
-         3 |         0     14,516          0     13,980 |    28,496 
-         4 |     4,108     11,003          0          0 |    15,111 
-         5 |         0      8,897      2,977        903 |    12,777 
+         1 |         0      2,206          0      4,370 |     6,576 
+         2 |        10     11,378          0     11,045 |    22,433 
+         3 |         0     12,855          0      9,803 |    22,658 
+         4 |     3,156      9,751          0          0 |    12,907 
+         5 |         0      8,133      2,326          0 |    10,459 
 -----------+--------------------------------------------+----------
-     Total |     4,120     50,934      2,977     36,039 |    94,070 
+     Total |     3,166     44,323      2,326     25,218 |    75,033 
 
 . 
-. gen has_certificate = .
-(94,070 missing values generated)
+.         gen             has_certificate = .
+(75,033 missing values generated)
 
-. replace has_certificate = 1 if title == 1
-(50,934 real changes made)
+.         replace has_certificate = 1 if title == 1
+(44,323 real changes made)
 
-. replace has_certificate = 0 if inlist(title, 0, 2)
-(7,097 real changes made)
-
-. 
-. label values has_certificate yesno01
-
-. label variable has_certificate "Household has parcel certificate"
+.         replace has_certificate = 0 if inlist(title, 0, 2)
+(5,492 real changes made)
 
 . 
-. * Right to sell or use parcel as collateral
-. tab wave collat, missing
+.         label   values has_certificate yesno01
+
+.         label   variable has_certificate ///
+>                                 "Household has parcel certificate"
+
+. 
+. * right to sell or use parcel as collateral
+.         tab             wave collat, missing
 
            |   Does anyone in the household
            |   have the right to sell this
            |     [PARCEL] or use it as c
       wave |        no        yes          . |     Total
 -----------+---------------------------------+----------
-         1 |         0          0     10,778 |    10,778 
-         2 |     2,313     20,925      3,670 |    26,908 
-         3 |     1,889     21,962      4,645 |    28,496 
-         4 |     1,589     12,082      1,440 |    15,111 
-         5 |     1,012      9,988      1,777 |    12,777 
+         1 |         0          0      6,576 |     6,576 
+         2 |     2,008     18,248      2,177 |    22,433 
+         3 |     1,583     19,101      1,974 |    22,658 
+         4 |     1,259     10,384      1,264 |    12,907 
+         5 |       801      8,866        792 |    10,459 
 -----------+---------------------------------+----------
-     Total |     6,803     64,957     22,310 |    94,070 
+     Total |     5,651     56,599     12,783 |    75,033 
 
 . 
-. gen collateral_right = .
-(94,070 missing values generated)
+.         gen             collateral_right = .
+(75,033 missing values generated)
 
-. replace collateral_right = 1 if collat == 1
-(64,957 real changes made)
+.         replace collateral_right = 1 if collat == 1
+(56,599 real changes made)
 
-. replace collateral_right = 0 if inlist(collat, 0, 2)
-(6,803 real changes made)
+.         replace collateral_right = 0 if inlist(collat, 0, 2)
+(5,651 real changes made)
 
 . 
-. label values collateral_right yesno01
+.         label   values collateral_right yesno01
 
-. label variable collateral_right ///
->     "Right to sell or use parcel as collateral"
+.         label   variable collateral_right ///
+>                                 "Right to sell or use parcel as collateral"
 
-.         
-.         
-. *********************************************************************
-> ***
-. * 3. Descriptive statistics by wave
-. *********************************************************************
-> ***
 . 
-. tabstat female_manager manager_age manager_lowedu ///
->         mg1_farm mg1_nfe mg1_wage ///
->         has_certificate collateral_right, ///
->         by(wave) statistics(n mean sd) columns(statistics)
+. 
+. ************************************************************************
+. **# 3 - descriptive statistics by wave
+. ************************************************************************
+. 
+. * display descriptive statistics
+.         tabstat female_manager manager_age manager_lowedu ///
+>                                 mg1_farm mg1_nfe mg1_wage ///
+>                                 has_certificate collateral_right, ///
+>                                 by(wave) ///
+>                                 statistics(n mean sd) ///
+>                                 columns(statistics)
 
-Summary for variables: female_manager manager_age manager_lowedu mg1_fa
-> rm mg1_nfe mg1_wage has_certificate collateral_right
+Summary for variables: female_manager manager_age manager_lowedu mg1_farm mg1_nfe mg1_wag
+> e has_certificate collateral_right
 Group variable: wave 
 
     wave |         N      Mean        SD
 ---------+------------------------------
-       1 |     10735  .1538891  .3608593
-         |     10701  44.38959   14.8268
-         |      9489   .654442  .4755749
-         |     10623   .763532  .4249328
-         |     10499  .2387846  .4263612
-         |     10533  .0258236  .1586163
-         |      3715  .9997308  .0164067
+       1 |      6557   .122312  .3276708
+         |      6540  43.89358  14.60062
+         |      5713  .6441449  .4788135
+         |      6502  .7832974  .4120299
+         |      6427  .2388362  .4264056
+         |      6446  .0249767  .1560662
+         |      2206         1         0
          |         0         .         .
 ---------+------------------------------
-       2 |     26835  .1781256  .3826256
-         |     26801   46.7218  14.57265
-         |     23868  .6391822  .4802478
-         |     26495   .706171  .4555232
-         |     26506  .0766996  .2661193
-         |     26521  .0285434  .1665225
-         |     12815  .9991416  .0292865
-         |     23238  .9004648  .2993858
+       2 |     22367  .1657799  .3718913
+         |     22338  46.73982  14.46901
+         |     19933  .6366327  .4809814
+         |     22094  .7223681   .447841
+         |     22104  .0733351  .2606917
+         |     22117  .0261337  .1595366
+         |     11388  .9991219  .0296213
+         |     20256  .9008689  .2988454
 ---------+------------------------------
-       3 |     28293  .1813523  .3853166
-         |     28115  48.13637  14.37249
-         |     25082  .6238338  .4844322
-         |     28040  .6622325  .4729573
-         |     28040  .0805635  .2721684
-         |     28040   .024679  .1551478
-         |     14516         1         0
-         |     23851     .9208  .2700564
+       3 |     22496  .1674964  .3734268
+         |     22378  48.21302  14.14873
+         |     19994  .6195859  .4855008
+         |     22322  .6886928  .4630385
+         |     22322   .076606  .2659713
+         |     22322  .0206523  .1422205
+         |     12855         1         0
+         |     20684  .9234674  .2658548
 ---------+------------------------------
-       4 |     15111  .2244061  .4172044
-         |     15111  45.04136  15.31723
-         |     13690    .63813   .480559
-         |     11328         1         0
-         |     14781         1         0
-         |     14781         1         0
-         |     15111  .7281451  .4449303
-         |     13671  .8837686   .320514
+       4 |     12907  .2032231  .4024127
+         |     12907  45.18238  15.10344
+         |     11668  .6318992  .4823096
+         |     10035         1         0
+         |     12624         1         0
+         |     12624         1         0
+         |     12907  .7554815   .429818
+         |     11643  .8918664  .3105625
 ---------+------------------------------
-       5 |     12769  .2265643  .4186247
-         |     12769  46.44397  14.83152
-         |     11871  .5874821  .4923081
-         |     12644         1         0
-         |     12644         1         0
-         |     12644         1         0
-         |     11874  .7492842  .4334435
-         |     11000      .908  .2890391
+       5 |     10451  .2100277  .4073475
+         |     10451  46.27873  14.60082
+         |      9753  .5736696  .4945684
+         |     10371         1         0
+         |     10371         1         0
+         |     10371         1         0
+         |     10459  .7776078  .4158731
+         |      9667  .9171408  .2756836
 ---------+------------------------------
-   Total |     93743  .1903822  .3926047
-         |     93497   46.5707  14.75705
-         |     84000  .6288452  .4831166
-         |     89130  .7782116  .4154519
-         |     92470  .3701092  .4828363
-         |     92519  .3150272  .4645292
-         |     58031  .8777033   .327631
-         |     71760  .9051979  .2929435
+   Total |     74778  .1751317  .3800823
+         |     74614  46.59819  14.57737
+         |     67061  .6222096  .4848384
+         |     71324  .7968145  .4023722
+         |     73848  .3772749  .4847079
+         |     73880  .3274905   .469301
+         |     49815  .8897521  .3132017
+         |     62250  .9092209   .287297
 ----------------------------------------
 
-.                 
-.                 
-. collect clear
+. 
+. * clear previous collection
+.         collect clear
 
 . 
-. table wave, ///
->     statistic(frequency) ///
->     statistic(mean female_manager) ///
->     statistic(mean manager_age) ///
->     statistic(mean manager_lowedu) ///
->     statistic(mean mg1_farm) ///
->     statistic(mean mg1_nfe) ///
->     statistic(mean mg1_wage) ///
->     statistic(mean has_certificate) ///
->     statistic(mean collateral_right) ///
->     nformat(%12.0fc frequency) ///
->     nformat(%9.3f mean)
+. * create preliminary characteristics table
+.         table   wave, ///
+>                                 statistic(frequency) ///
+>                                 statistic(mean female_manager) ///
+>                                 statistic(mean manager_age) ///
+>                                 statistic(mean manager_lowedu) ///
+>                                 statistic(mean mg1_farm) ///
+>                                 statistic(mean mg1_nfe) ///
+>                                 statistic(mean mg1_wage) ///
+>                                 statistic(mean has_certificate) ///
+>                                 statistic(mean collateral_right) ///
+>                                 nformat(%12.0fc frequency) ///
+>                                 nformat(%9.3f mean)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 > ----------------------------------------
@@ -457,143 +368,240 @@ Group variable: wave
 > ----------------------------------------
 wave    |                                                                                                                                                                                               
 >                                         
-  1     |     10,778                    0.154                44.390                                       0.654           0.764           0.239             0.026                              1.000    
+  1     |      6,576                    0.122                43.894                                       0.644           0.783           0.239             0.025                              1.000    
 >                                        .
-  2     |     26,908                    0.178                46.722                                       0.639           0.706           0.077             0.029                              0.999    
->                                    0.900
-  3     |     28,496                    0.181                48.136                                       0.624           0.662           0.081             0.025                              1.000    
->                                    0.921
-  4     |     15,111                    0.224                45.041                                       0.638           1.000           1.000             1.000                              0.728    
->                                    0.884
-  5     |     12,777                    0.227                46.444                                       0.587           1.000           1.000             1.000                              0.749    
->                                    0.908
-  Total |     94,070                    0.190                46.571                                       0.629           0.778           0.370             0.315                              0.878    
->                                    0.905
+  2     |     22,433                    0.166                46.740                                       0.637           0.722           0.073             0.026                              0.999    
+>                                    0.901
+  3     |     22,658                    0.167                48.213                                       0.620           0.689           0.077             0.021                              1.000    
+>                                    0.923
+  4     |     12,907                    0.203                45.182                                       0.632           1.000           1.000             1.000                              0.755    
+>                                    0.892
+  5     |     10,459                    0.210                46.279                                       0.574           1.000           1.000             1.000                              0.778    
+>                                    0.917
+  Total |     75,033                    0.175                46.598                                       0.622           0.797           0.377             0.327                              0.890    
+>                                    0.909
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 > ----------------------------------------
 
 . 
-. collect title ///
->     "Table 1. Preliminary Characteristics of Plot Managers and Land R
-> ights by Survey Wave"
+. * add table title
+.         collect title ///
+>                                 "Table 1. Preliminary Characteristics of Plot Managers 
+> and Land Rights by Survey Wave"
 
 . 
-. collect export ///
->     "$csa_output/table1_preliminary_characteristics.docx", ///
->     replace
+. * export table
+.         collect export ///
+>                                 "$export/table1_preliminary_characteristics.docx", ///
+>                                 replace
 (collection Table exported to file
- C:/Users/tijer/git/UROC/climate-smart-ag-adoption/04-output/table1_p
- > reliminary_characteristics.docx)
-
-.         
-.         
-. *********************************************************************
-> ***
-. * 4. Female-managed observations by wave
-. *********************************************************************
-> ***
-. preserve
+ C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table1_preli
+ > minary_characteristics.docx)
 
 . 
-. collapse (mean) female_manager, by(wave)
+. 
+. ************************************************************************
+. **# 4 - female-managed observations by wave
+. ************************************************************************
+. 
+.         preserve
 
-. replace female_manager = female_manager * 100
+. 
+. * calculate female-managed share
+.         collapse        (mean) female_manager, by(wave)
+
+. 
+.         replace female_manager = female_manager * 100
 (5 real changes made)
 
 . 
-. graph bar female_manager, ///
->     over(wave, relabel( ///
->         1 "Wave 1" ///
->         2 "Wave 2" ///
->         3 "Wave 3" ///
->         4 "Wave 4" ///
->         5 "Wave 5")) ///
->     bar(1, color(teal) lcolor(black)) ///
->     blabel(bar, format(%4.1f) color(black)) ///
->     ytitle("Female-managed observations (%)") ///
->     title("Share of Female-Managed Observations by Survey Wave") ///
->     subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22
-> ") ///
->     note("Source: Ethiopia Socioeconomic Survey. Preliminary results.
-> ")
+. * create female-manager figure
+.         graph   bar female_manager, ///
+>                                 over(wave, relabel( ///
+>                                         1 "Wave 1" ///
+>                                         2 "Wave 2" ///
+>                                         3 "Wave 3" ///
+>                                         4 "Wave 4" ///
+>                                         5 "Wave 5")) ///
+>                                 bar(1, color(teal) lcolor(black)) ///
+>                                 blabel(bar, format(%4.1f) color(black)) ///
+>                                 ytitle("Female-managed observations (%)") ///
+>                                 title("Share of Female-Managed Observations by Survey W
+> ave") ///
+>                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/1
+> 9, 2021/22") ///
+>                                 note("Source: Ethiopia Socioeconomic Survey. Preliminar
+> y results.") ///
+>                                 legend(off)
 
 . 
-. graph export ///
->     "$cs_output/figure1_female_manager_bar.png", ///
->     width(2000) replace
+. * export female-manager figure
+.         graph   export ///
+>                                 "$export/figure1_female_manager_bar.png", ///
+>                                 width(2000) replace
 file
-    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smar
-    > t/output/figure1_female_manager_bar.png saved as PNG format
+    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure1_f
+    > emale_manager_bar.png saved as PNG format
 
 . 
-. restore
+.         restore
 
 . 
-. *********************************************************************
-> ***
-. * 5. Land certification by wave
-. *********************************************************************
-> ***
-. *********************************************************************
-> ***
-. * Figure 2: Land certification by survey wave
-. *********************************************************************
-> ***
 . 
-. preserve
+. ************************************************************************
+. **# 5 - land certification by wave
+. ************************************************************************
+. 
+.         preserve
 
 . 
-. * Keep observations with a valid certificate response
-. keep if !missing(has_certificate)
-(36,039 observations deleted)
+. * retain observations with a valid certificate response
+.         keep    if !missing(has_certificate)
+(25,218 observations deleted)
 
 . 
-. * Calculate the share with a certificate in each wave
-. collapse (mean) has_certificate, by(wave)
+. * calculate certificate share
+.         collapse        (mean) has_certificate, by(wave)
 
-. replace has_certificate = has_certificate * 100
+. 
+.         replace has_certificate = has_certificate * 100
 (5 real changes made)
 
 . 
-. graph bar has_certificate, ///
->     over(wave, relabel( ///
->         1 "Wave 1" ///
->         2 "Wave 2" ///
->         3 "Wave 3" ///
->         4 "Wave 4" ///
->         5 "Wave 5")) ///
->     bar(1, color(teal) lcolor(black)) ///
->     blabel(bar, format(%4.1f) color(black)) ///
->     ytitle("Land observations with a certificate (%)") ///
->     title("Share of Land Observations with a Certificate") ///
->     subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22
-> ") ///
->     note("Source: Ethiopia Socioeconomic Survey. Preliminary results.
-> ") ///
->     legend(off)
+. * create land-certificate figure
+.         graph   bar has_certificate, ///
+>                                 over(wave, relabel( ///
+>                                         1 "Wave 1" ///
+>                                         2 "Wave 2" ///
+>                                         3 "Wave 3" ///
+>                                         4 "Wave 4" ///
+>                                         5 "Wave 5")) ///
+>                                 bar(1, color(teal) lcolor(black)) ///
+>                                 blabel(bar, format(%4.1f) color(black)) ///
+>                                 ytitle("Land observations with a certificate (%)") ///
+>                                 title("Share of Land Observations with a Certificate") 
+> ///
+>                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/1
+> 9, 2021/22") ///
+>                                 note("Source: Ethiopia Socioeconomic Survey. Preliminar
+> y results.") ///
+>                                 legend(off)
 
 . 
-. graph export ///
->     "$cs_output/figure2_land_certificate.png", ///
->     width(2000) replace
+. * export land-certificate figure
+.         graph   export ///
+>                                 "$export/figure2_land_certificate.png", ///
+>                                 width(2000) replace
 file
-    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smar
-    > t/output/figure2_land_certificate.png saved as PNG format
+    C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure2_l
+    > and_certificate.png saved as PNG format
 
 . 
-. restore
+.         restore
 
 . 
 . 
-. *********************************************************************
-> ***
-. * / END MATTER /
-. *********************************************************************
-> ***
-. log close
+. ************************************************************************
+. **# 6 - check coding of preliminary explanatory variables
+. ************************************************************************
+. 
+. * inspect employment variables across waves
+.         tab             wave mg1_farm, missing
+
+           |          works on farm
+      wave |         0          1          . |     Total
+-----------+---------------------------------+----------
+         1 |     1,409      5,093         74 |     6,576 
+         2 |     6,134     15,960        339 |    22,433 
+         3 |     6,949     15,373        336 |    22,658 
+         4 |         0     10,035      2,872 |    12,907 
+         5 |         0     10,371         88 |    10,459 
+-----------+---------------------------------+----------
+     Total |    14,492     56,832      3,709 |    75,033 
+
+.         tab             wave mg1_nfe, missing
+
+           |          works for nfe
+      wave |         0          1          . |     Total
+-----------+---------------------------------+----------
+         1 |     4,892      1,535        149 |     6,576 
+         2 |    20,483      1,621        329 |    22,433 
+         3 |    20,612      1,710        336 |    22,658 
+         4 |         0     12,624        283 |    12,907 
+         5 |         0     10,371         88 |    10,459 
+-----------+---------------------------------+----------
+     Total |    45,987     27,861      1,185 |    75,033 
+
+.         tab             wave mg1_wage, missing
+
+           |         works for wages
+      wave |         0          1          . |     Total
+-----------+---------------------------------+----------
+         1 |     6,285        161        130 |     6,576 
+         2 |    21,539        578        316 |    22,433 
+         3 |    21,861        461        336 |    22,658 
+         4 |         0     12,624        283 |    12,907 
+         5 |         0     10,371         88 |    10,459 
+-----------+---------------------------------+----------
+     Total |    49,685     24,195      1,153 |    75,033 
+
+. 
+. * inspect variable coding
+.         codebook        mg1_farm mg1_nfe mg1_wage
+
+-----------------------------------------------------------------------------------------
+mg1_farm                                                                    works on farm
+-----------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,1]                         Units: 1
+         Unique values: 2                         Missing .: 3,709/75,033
+
+            Tabulation: Freq.  Value
+                       14,492  0
+                       56,832  1
+                        3,709  .
+
+-----------------------------------------------------------------------------------------
+mg1_nfe                                                                     works for nfe
+-----------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,1]                         Units: 1
+         Unique values: 2                         Missing .: 1,185/75,033
+
+            Tabulation: Freq.  Value
+                       45,987  0
+                       27,861  1
+                        1,185  .
+
+-----------------------------------------------------------------------------------------
+mg1_wage                                                                  works for wages
+-----------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,1]                         Units: 1
+         Unique values: 2                         Missing .: 1,153/75,033
+
+            Tabulation: Freq.  Value
+                       49,685  0
+                       24,195  1
+                        1,153  .
+
+. 
+. 
+. ************************************************************************
+. **# 7 - end matter
+. ************************************************************************
+. 
+. * close log
+.         log             close
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-clima
-> te-smart/logs/preliminary_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/prel
+> iminary_results.log
   log type:  text
- closed on:  26 Jul 2026, 19:20:49
------------------------------------------------------------------------
+ closed on:  26 Jul 2026, 21:17:27
+-----------------------------------------------------------------------------------------
