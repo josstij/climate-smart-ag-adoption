@@ -1,9 +1,8 @@
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/fina
-> l_results.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/final_results.log
   log type:  text
- opened on:  26 Jul 2026, 23:03:01
+ opened on:  27 Jul 2026, 17:35:52
 
 . 
 . * load final analysis data
@@ -103,7 +102,7 @@ What is the |
 .         label   values manager_lowedu yesno01
 
 .         label   variable manager_lowedu ///
->                                 "Manager has little or no formal education"
+>                                 "Manager has no formal education"
 
 . 
 . * collateral rights
@@ -309,11 +308,10 @@ NC Certificate (10+3) Level 3 Two Years |         41        0.05       32.29
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
 mg1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mg1_away        byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
+mg1_away        byte    %16.0g                For how many months during the last 12 months was [Name] way from the HH?
 tenure          byte    %16.0g     pp_s2q03   How did your HH acquire the [Parcel]?
 mgmt1           byte    %9.0g                 
 deju1           byte    %9.0g                 
@@ -324,67 +322,31 @@ admin_1         byte    %16.0g     saq01      Region Code
 . * manager relationship to household head
 .         tab             wave mg1_relat, missing
 
-           |           HH Member Relationship to HH Head
-      wave |      Head     Spouse  Son/Daugh  Grandchil  Father/Mo |     Total
------------+-------------------------------------------------------+----------
-         1 |     6,358         64         91          6          5 |     6,576 
-         2 |    21,699        285        283         13         45 |    22,433 
-         3 |    22,089        108        121          3         59 |    22,658 
-         4 |    11,552        914        345         40         26 |    12,907 
-         5 |     9,409        652        289          7         20 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |    71,107      2,023      1,129         69        155 |    75,033 
-
-
-           |           HH Member Relationship to HH Head
-      wave | Sister/Br  Niece/Nep  Uncle/Aun  Son/Daugh  Brother/S |     Total
------------+-------------------------------------------------------+----------
-         1 |         9          1          0          0          0 |     6,576 
-         2 |         9          4          0          0          9 |    22,433 
-         3 |        11          1          0         20          0 |    22,658 
-         4 |         8          0          0         11          0 |    12,907 
-         5 |        31          0          4          9          6 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        68          6          4         40         15 |    75,033 
-
-
-           |           HH Member Relationship to HH Head
-      wave | Grandpare  Other Rel    Servant  Non Relat          . |     Total
------------+-------------------------------------------------------+----------
-         1 |         0          1          2          2         37 |     6,576 
-         2 |         7          1          2          6         70 |    22,433 
-         3 |         2          0          0          0        244 |    22,658 
-         4 |         1          8          0          2          0 |    12,907 
-         5 |         6         17          0          1          8 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        16         27          4         11        359 |    75,033 
+           |                                                                  HH Member Relationship to HH Head
+      wave |      Head     Spouse  Son/Daugh  Grandchil  Father/Mo  Sister/Br  Niece/Nep  Uncle/Aun  Son/Daugh  Brother/S  Grandpare  Other Rel    Servant  Non Relat          . |     Total
+-----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------
+         1 |     6,358         64         91          6          5          9          1          0          0          0          0          1          2          2         37 |     6,576 
+         2 |    21,699        285        283         13         45          9          4          0          0          9          7          1          2          6         70 |    22,433 
+         3 |    22,089        108        121          3         59         11          1          0         20          0          2          0          0          0        244 |    22,658 
+         4 |    11,552        914        345         40         26          8          0          0         11          0          1          8          0          2          0 |    12,907 
+         5 |     9,409        652        289          7         20         31          0          4          9          6          6         17          0          1          8 |    10,459 
+-----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------
+     Total |    71,107      2,023      1,129         69        155         68          6          4         40         15         16         27          4         11        359 |    75,033 
 
 . 
 . * manager marital status
 .         tab             wave mg1_mrry, missing
 
-           |            What is [Name]'s marital status?
-      wave | Never Mar  Married (  Married (   Divorced  Separated |     Total
------------+-------------------------------------------------------+----------
-         1 |       166      5,331        305        176         65 |     6,576 
-         2 |       560     17,492        909        652        170 |    22,433 
-         3 |       228     17,733        859        775        122 |    22,658 
-         4 |       482     10,054        420        397        142 |    12,907 
-         5 |       406      8,329        498        145        142 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |     1,842     58,939      2,991      2,145        641 |    75,033 
-
-
-           | What is [Name]'s marital status?
-      wave |   Widowed          7          . |     Total
------------+---------------------------------+----------
-         1 |       482          0         51 |     6,576 
-         2 |     2,350          0        300 |    22,433 
-         3 |     2,600          0        341 |    22,658 
-         4 |     1,089         23        300 |    12,907 
-         5 |       851          0         88 |    10,459 
------------+---------------------------------+----------
-     Total |     7,372         23      1,080 |    75,033 
+           |                            What is [Name]'s marital status?
+      wave | Never Mar  Married (  Married (   Divorced  Separated    Widowed          7          . |     Total
+-----------+----------------------------------------------------------------------------------------+----------
+         1 |       166      5,331        305        176         65        482          0         51 |     6,576 
+         2 |       560     17,492        909        652        170      2,350          0        300 |    22,433 
+         3 |       228     17,733        859        775        122      2,600          0        341 |    22,658 
+         4 |       482     10,054        420        397        142      1,089         23        300 |    12,907 
+         5 |       406      8,329        498        145        142        851          0         88 |    10,459 
+-----------+----------------------------------------------------------------------------------------+----------
+     Total |     1,842     58,939      2,991      2,145        641      7,372         23      1,080 |    75,033 
 
 . 
 . * manager time away from household
@@ -410,41 +372,16 @@ Group variable: wave
 . * parcel tenure
 .         tab             wave tenure, missing
 
-           |         How did your HH acquire the [Parcel]?
-      wave | Granted b  Inherited       Rent  Borrowed   Moved in  |     Total
------------+-------------------------------------------------------+----------
-         1 |     2,593      2,127      1,123        248          0 |     6,576 
-         2 |     8,560     10,847      1,721        160        263 |    22,433 
-         3 |     7,862     11,419        721        170        284 |    22,658 
-         4 |     4,654      6,284        384         61        195 |    12,907 
-         5 |     2,571      6,143        228         39        210 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |    26,240     36,820      4,177        678        952 |    75,033 
-
-
-           |         How did your HH acquire the [Parcel]?
-      wave | Other Spe          7          8  Moved in   Other Spe |     Total
------------+-------------------------------------------------------+----------
-         1 |         0          0          0        161        313 |     6,576 
-         2 |       770          0          0          0          0 |    22,433 
-         3 |       927      1,056         63          0          0 |    22,658 
-         4 |       819        461         49          0          0 |    12,907 
-         5 |       525        600        143          0          0 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |     3,041      2,117        255        161        313 |    75,033 
-
-
-           |    How did your HH
-           | acquire the [Parcel]?
-      wave |        12          . |     Total
------------+----------------------+----------
-         1 |         1         10 |     6,576 
-         2 |         0        112 |    22,433 
-         3 |         0        156 |    22,658 
-         4 |         0          0 |    12,907 
-         5 |         0          0 |    10,459 
------------+----------------------+----------
-     Total |         1        278 |    75,033 
+           |                                                How did your HH acquire the [Parcel]?
+      wave | Granted b  Inherited       Rent  Borrowed   Moved in   Other Spe          7          8  Moved in   Other Spe         12          . |     Total
+-----------+------------------------------------------------------------------------------------------------------------------------------------+----------
+         1 |     2,593      2,127      1,123        248          0          0          0          0        161        313          1         10 |     6,576 
+         2 |     8,560     10,847      1,721        160        263        770          0          0          0          0          0        112 |    22,433 
+         3 |     7,862     11,419        721        170        284        927      1,056         63          0          0          0        156 |    22,658 
+         4 |     4,654      6,284        384         61        195        819        461         49          0          0          0          0 |    12,907 
+         5 |     2,571      6,143        228         39        210        525        600        143          0          0          0          0 |    10,459 
+-----------+------------------------------------------------------------------------------------------------------------------------------------+----------
+     Total |    26,240     36,820      4,177        678        952      3,041      2,117        255        161        313          1        278 |    75,033 
 
 . 
 . * sex of first reported parcel owner or rights holder
@@ -465,105 +402,44 @@ Group variable: wave
 . * compare manager and owner identifiers
 .         tab             wave mgmt1, missing
 
-           |                         mgmt1
-      wave |         1          2          3          4          5 |     Total
------------+-------------------------------------------------------+----------
-         1 |     6,424         86         45          7          5 |     6,576 
-         2 |    21,504        662        149         49         18 |    22,433 
-         3 |    21,593        714        139         98         42 |    22,658 
-         4 |    11,663        942        126         58         61 |    12,907 
-         5 |     9,065        952        200        133         26 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |    70,249      3,356        659        345        152 |    75,033 
-
-
-           |                         mgmt1
-      wave |         6          7          8          9         10 |     Total
------------+-------------------------------------------------------+----------
-         1 |         4          2          1          1          1 |     6,576 
-         2 |         1         33         14          0          1 |    22,433 
-         3 |        30         19         13          7          0 |    22,658 
-         4 |        33          3         16          5          0 |    12,907 
-         5 |        14         37         26          6          0 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        82         94         70         19          2 |    75,033 
-
-
-           |         mgmt1
-      wave |        11         14 |     Total
------------+----------------------+----------
-         1 |         0          0 |     6,576 
-         2 |         2          0 |    22,433 
-         3 |         0          3 |    22,658 
-         4 |         0          0 |    12,907 
-         5 |         0          0 |    10,459 
------------+----------------------+----------
-     Total |         2          3 |    75,033 
+           |                                                                mgmt1
+      wave |         1          2          3          4          5          6          7          8          9         10         11         14 |     Total
+-----------+------------------------------------------------------------------------------------------------------------------------------------+----------
+         1 |     6,424         86         45          7          5          4          2          1          1          1          0          0 |     6,576 
+         2 |    21,504        662        149         49         18          1         33         14          0          1          2          0 |    22,433 
+         3 |    21,593        714        139         98         42         30         19         13          7          0          0          3 |    22,658 
+         4 |    11,663        942        126         58         61         33          3         16          5          0          0          0 |    12,907 
+         5 |     9,065        952        200        133         26         14         37         26          6          0          0          0 |    10,459 
+-----------+------------------------------------------------------------------------------------------------------------------------------------+----------
+     Total |    70,249      3,356        659        345        152         82         94         70         19          2          2          3 |    75,033 
 
 .         tab             wave deju1, missing
 
-           |                         deju1
-      wave |         1          2          3          4          5 |     Total
------------+-------------------------------------------------------+----------
-         1 |     2,145         54          6          0          1 |     6,576 
-         2 |    10,884        369         53         24         20 |    22,433 
-         3 |    12,017        616         46         52         47 |    22,658 
-         4 |     9,533        171         16         13         15 |    12,907 
-         5 |     7,672        355         33         49          2 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |    42,251      1,565        154        138         85 |    75,033 
-
-
-           |                         deju1
-      wave |         6          7          8          9          . |     Total
------------+-------------------------------------------------------+----------
-         1 |         0          0          0          0      4,370 |     6,576 
-         2 |        27         11          0          0     11,045 |    22,433 
-         3 |        31          6         15         25      9,803 |    22,658 
-         4 |         0          0          0          3      3,156 |    12,907 
-         5 |         0          8          9          0      2,331 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        58         25         24         28     30,705 |    75,033 
+           |                                                     deju1
+      wave |         1          2          3          4          5          6          7          8          9          . |     Total
+-----------+--------------------------------------------------------------------------------------------------------------+----------
+         1 |     2,145         54          6          0          1          0          0          0          0      4,370 |     6,576 
+         2 |    10,884        369         53         24         20         27         11          0          0     11,045 |    22,433 
+         3 |    12,017        616         46         52         47         31          6         15         25      9,803 |    22,658 
+         4 |     9,533        171         16         13         15          0          0          0          3      3,156 |    12,907 
+         5 |     7,672        355         33         49          2          0          8          9          0      2,331 |    10,459 
+-----------+--------------------------------------------------------------------------------------------------------------+----------
+     Total |    42,251      1,565        154        138         85         58         25         24         28     30,705 |    75,033 
 
 . 
 . * geographic availability
 .         tab             wave admin_1, missing
 
-           |                      Region Code
-      wave |    Tigray       Afar     Amhara     Oromia    Somalie |     Total
------------+-------------------------------------------------------+----------
-         1 |       693         10      2,090      1,579        155 |     6,576 
-         2 |     1,980         44      4,753      5,368        357 |    22,433 
-         3 |     2,021         44      4,723      5,525        385 |    22,658 
-         4 |     1,467         57      3,101      2,088          7 |    12,907 
-         5 |         0          0          0          0          0 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |     6,161        155     14,667     14,560        904 |    75,033 
-
-
-           |                      Region Code
-      wave | Benshagul       SNNP   Gambelia     Harari    Diredwa |     Total
------------+-------------------------------------------------------+----------
-         1 |       279      1,122         99        322        227 |     6,576 
-         2 |       734      7,369        353        600        561 |    22,433 
-         3 |       846      7,158        399        685        539 |    22,658 
-         4 |     1,198      3,187        684        761        357 |    12,907 
-         5 |         0          0          0          0          0 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |     3,057     18,836      1,535      2,368      1,684 |    75,033 
-
-
-           |   Region
-           |    Code
-      wave |         . |     Total
------------+-----------+----------
-         1 |         0 |     6,576 
-         2 |       314 |    22,433 
-         3 |       333 |    22,658 
-         4 |         0 |    12,907 
-         5 |    10,459 |    10,459 
------------+-----------+----------
-     Total |    11,106 |    75,033 
+           |                                                       Region Code
+      wave |    Tigray       Afar     Amhara     Oromia    Somalie  Benshagul       SNNP   Gambelia     Harari    Diredwa          . |     Total
+-----------+-------------------------------------------------------------------------------------------------------------------------+----------
+         1 |       693         10      2,090      1,579        155        279      1,122         99        322        227          0 |     6,576 
+         2 |     1,980         44      4,753      5,368        357        734      7,369        353        600        561        314 |    22,433 
+         3 |     2,021         44      4,723      5,525        385        846      7,158        399        685        539        333 |    22,658 
+         4 |     1,467         57      3,101      2,088          7      1,198      3,187        684        761        357          0 |    12,907 
+         5 |         0          0          0          0          0          0          0          0          0          0     10,459 |    10,459 
+-----------+-------------------------------------------------------------------------------------------------------------------------+----------
+     Total |     6,161        155     14,667     14,560        904      3,057     18,836      1,535      2,368      1,684     11,106 |    75,033 
 
 . 
 . * inspect candidate-variable missingness
@@ -874,20 +750,16 @@ manager age |      Freq.     Percent        Cum.
 
 .         assert  sample_owner <= sample_land
 
-. 
-end of do-file
-
-. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000004.tmp"
-
+.         
 .         
 . ************************************************************************
-. **# 7 - all-wave LASSO and elastic-net selection
+. **# 7 - all-wave LASSO selection
 . ************************************************************************
 . 
-. * variables in parentheses are theoretically required
-. * remaining variables are eligible for selection
+. * Theoretically required variables are enclosed in parentheses.
+. * The remaining candidate controls are eligible for selection.
 . 
-. * LASSO: any observed CSA practice
+. * LASSO: adoption of any observed CSA practice
 .         lasso   linear any_csa ///
 >                                 (female_manager manager_age manager_lowedu i.wave) ///
 >                                 manager_age_sq ///
@@ -920,7 +792,6 @@ Note: Minimum of CV function not found; lambda selected based on stop()
 .         estimates       store lasso_any_all
 
 . 
-. * display selected variables
 .         lassocoef, ///
 >                                 sort(coef, standardized)
 
@@ -953,221 +824,6 @@ Legend:
   x - estimated
 
 . 
-. 
-. * elastic net: any observed CSA practice
-.         elasticnet linear any_csa ///
->                                 (female_manager manager_age manager_lowedu i.wave) ///
->                                 manager_age_sq ///
->                                 manager_head ///
->                                 manager_married ///
->                                 rented_borrowed ///
->                                 if sample_all, ///
->                                 alpha(.25 .50 .75) ///
->                                 rseed(20260726) ///
->                                 nolog
-lambda not selected
-    No minimum of cross-validation function found. Change in deviance stopping
-    tolerance not reached.
-lambda not selected
-    No minimum of cross-validation function found. Change in deviance stopping
-    tolerance not reached.
-
-Elastic net linear model                         No. of obs        =     66,572
-                                                 No. of covariates =         12
-Selection: Cross-validation                      No. of CV folds   =         10
-
--------------------------------------------------------------------------------
-               |                               No. of      Out-of-      CV mean
-               |                              nonzero       sample   prediction
-alpha       ID |     Description      lambda    coef.    R-squared        error
----------------+---------------------------------------------------------------
-0.750          |
-             1 |    first lambda    .0079377        7       0.0831     .2003273
-           113 |     last lambda    2.65e-07       11       0.0846     .2000122
----------------+---------------------------------------------------------------
-0.500          |
-           114 |    first lambda    .0079377        7       0.0831     .2003273
-           226 |     last lambda    2.65e-07       11       0.0846     .2000122
----------------+---------------------------------------------------------------
-0.250          |
-           227 |    first lambda    .0079377        7       0.0831     .2003261
-           339 |     last lambda    2.65e-07       11       0.0846     .2000122
--------------------------------------------------------------------------------
-Note: No lambda selected. lassoselect can be used to select lambda.
-r(430);
-
-end of do-file
-
-r(430);
-
-. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000005.tmp"
-
-. 
-. * LASSO: any observed CSA practice
-.         lasso   linear any_csa ///
->                                 (female_manager manager_age manager_lowedu i.wave) ///
->                                 manager_age_sq ///
->                                 manager_head ///
->                                 manager_married ///
->                                 rented_borrowed ///
->                                 if sample_all, ///
->                                 selection(cv) ///
->                                 rseed(20260726) ///
->                                 nolog
-
-Lasso linear model                          No. of obs        =     66,572
-                                            No. of covariates =         12
-Selection: Cross-validation                 No. of CV folds   =         10
-
---------------------------------------------------------------------------
-         |                                No. of      Out-of-      CV mean
-         |                               nonzero       sample   prediction
-      ID |     Description      lambda     coef.    R-squared        error
----------+----------------------------------------------------------------
-       1 |    first lambda    .0019844         7       0.0831     .2003261
-      40 |   lambda before    .0000527        11       0.0845     .2000132
-    * 41 | selected lambda     .000048        11       0.0845     .2000131
---------------------------------------------------------------------------
-* lambda selected by cross-validation.
-Note: Minimum of CV function not found; lambda selected based on stop()
-      stopping criterion.
-
-. 
-.         estimates       store lasso_any_all
-
-. 
-. * display selected variables
-.         lassocoef, ///
->                                 sort(coef, standardized)
-
--------------------------------
-                | lasso_any_all
-----------------+--------------
-           wave |
-             3  |       x      
-             2  |       x      
-             4  |       x      
-             5  |       x      
-                |
-    manager_age |       x      
- manager_age_sq |       x      
- manager_lowedu |       x      
- female_manager |       x      
-   manager_head |       x      
-manager_married |       x      
-rented_borrowed |       x      
-                |
-           wave |
-             1  |       e      
-                |
-          _cons |       x      
--------------------------------
-Legend:
-  b - base level
-  e - empty cell
-  o - omitted
-  x - estimated
-
-. 
-. 
-. * elastic net: any observed CSA practice
-.         elasticnet linear any_csa ///
->                                 (female_manager manager_age manager_lowedu i.wave) ///
->                                 manager_age_sq ///
->                                 manager_head ///
->                                 manager_married ///
->                                 rented_borrowed ///
->                                 if sample_all, ///
->                                 alpha(.25 .50 .75) ///
->                                 rseed(20260726) ///
->                                 nolog
-lambda not selected
-    No minimum of cross-validation function found. Change in deviance stopping
-    tolerance not reached.
-lambda not selected
-    No minimum of cross-validation function found. Change in deviance stopping
-    tolerance not reached.
-
-Elastic net linear model                         No. of obs        =     66,572
-                                                 No. of covariates =         12
-Selection: Cross-validation                      No. of CV folds   =         10
-
--------------------------------------------------------------------------------
-               |                               No. of      Out-of-      CV mean
-               |                              nonzero       sample   prediction
-alpha       ID |     Description      lambda    coef.    R-squared        error
----------------+---------------------------------------------------------------
-0.750          |
-             1 |    first lambda    .0079377        7       0.0831     .2003273
-           113 |     last lambda    2.65e-07       11       0.0846     .2000122
----------------+---------------------------------------------------------------
-0.500          |
-           114 |    first lambda    .0079377        7       0.0831     .2003273
-           226 |     last lambda    2.65e-07       11       0.0846     .2000122
----------------+---------------------------------------------------------------
-0.250          |
-           227 |    first lambda    .0079377        7       0.0831     .2003261
-           339 |     last lambda    2.65e-07       11       0.0846     .2000122
--------------------------------------------------------------------------------
-Note: No lambda selected. lassoselect can be used to select lambda.
-r(430);
-
-end of do-file
-
-r(430);
-
-. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000006.tmp"
-
-. 
-. * elastic net: any observed CSA practice
-. * use BIC because CV did not identify a minimum
-.         elasticnet linear any_csa ///
->                                 (female_manager manager_age manager_lowedu i.wave) ///
->                                 manager_age_sq ///
->                                 manager_head ///
->                                 manager_married ///
->                                 rented_borrowed ///
->                                 if sample_all, ///
->                                 alpha(.25 .50 .75) ///
->                                 selection(bic) ///
->                                 nolog
-lambda not selected
-    No minimum of BIC found. Change in deviance stopping tolerance not reached.
-lambda not selected
-    No minimum of BIC found. Change in deviance stopping tolerance not reached.
-lambda not selected
-    No minimum of BIC found. Change in deviance stopping tolerance not reached.
-
-Elastic net linear model                         No. of obs        =     66,572
-                                                 No. of covariates =         12
-Selection: Bayesian information criterion
-
--------------------------------------------------------------------------------
-               |                               No. of
-               |                              nonzero    In-sample
-alpha       ID |     Description      lambda    coef.    R-squared          BIC
----------------+---------------------------------------------------------------
-0.750          |
-             1 |    first lambda    .0079377        7       0.0834     81957.57
-           113 |     last lambda    2.65e-07       11       0.0850     81888.07
----------------+---------------------------------------------------------------
-0.500          |
-           114 |    first lambda    .0079377        7       0.0834     81957.57
-           226 |     last lambda    2.65e-07       11       0.0850     81888.07
----------------+---------------------------------------------------------------
-0.250          |
-           227 |    first lambda    .0079377        7       0.0834     81957.57
-           339 |     last lambda    2.65e-07       11       0.0850     81888.07
--------------------------------------------------------------------------------
-Note: No lambda selected. lassoselect can be used to select lambda.
-r(430);
-
-end of do-file
-
-r(430);
-
-. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000007.tmp"
-
 . 
 . * LASSO: number of adopted practices among observed indicators
 .         lasso   linear csa_count_obs ///
@@ -1202,7 +858,6 @@ Note: Minimum of CV function not found; lambda selected based on stop()
 .         estimates       store lasso_count_all
 
 . 
-. * display selected variables
 .         lassocoef, ///
 >                                 sort(coef, standardized)
 
@@ -1234,75 +889,36 @@ Legend:
   x - estimated
 
 . 
-end of do-file
-
-. do "C:\Users\tijer\AppData\Local\Temp\STD23d0_000008.tmp"
-
-. * LASSO: number of adopted practices among observed indicators
-.         lasso   linear csa_count_obs ///
->                                 (female_manager manager_age manager_lowedu i.wave) ///
->                                 manager_age_sq ///
->                                 manager_head ///
->                                 manager_married ///
->                                 rented_borrowed ///
->                                 if sample_all, ///
->                                 selection(cv) ///
->                                 rseed(20260726) ///
->                                 nolog
-
-Lasso linear model                          No. of obs        =     66,572
-                                            No. of covariates =         12
-Selection: Cross-validation                 No. of CV folds   =         10
-
---------------------------------------------------------------------------
-         |                                No. of      Out-of-      CV mean
-         |                               nonzero       sample   prediction
-      ID |     Description      lambda     coef.    R-squared        error
----------+----------------------------------------------------------------
-       1 |    first lambda    .0061684         7       0.0686     .5702495
-      48 |   lambda before    .0000778        11       0.0705     .5690769
-    * 49 | selected lambda    .0000709        11       0.0705     .5690765
---------------------------------------------------------------------------
-* lambda selected by cross-validation.
-Note: Minimum of CV function not found; lambda selected based on stop()
-      stopping criterion.
-
 . 
-.         estimates       store lasso_count_all
-
+. ************************************************************************
+. **# 8 - model-selection decision
+. ************************************************************************
 . 
-. * display selected variables
-.         lassocoef, ///
+. * Elastic-net models were evaluated using cross-validation and BIC.
+. * Neither method identified an interior minimum for lambda.
+. * The fit criteria continued to improve toward an essentially zero penalty,
+. * and all candidate controls remained nonzero.
+. *
+. * The elastic-net diagnostic therefore did not identify a sparser model.
+. * Final post-selection models retain the full pruned candidate-control set:
+. *
+. *               manager_age_sq
+. *               manager_head
+. *               manager_married
+. *               rented_borrowed
+. 
+. 
+. ************************************************************************
+. **# 8 - compare selected all-wave controls
+. ************************************************************************
+. 
+. * compare LASSO and elastic-net selection for any adoption
+.         lassocoef       lasso_any_all enet_any_all, ///
 >                                 sort(coef, standardized)
+estimation result enet_any_all not found
+r(111);
 
----------------------------------
-                | lasso_count_all
-----------------+----------------
-           wave |
-             4  |        x       
-             2  |        x       
-             3  |        x       
-             5  |        x       
-                |
-    manager_age |        x       
- manager_age_sq |        x       
- manager_lowedu |        x       
-rented_borrowed |        x       
-manager_married |        x       
-   manager_head |        x       
- female_manager |        x       
-          _cons |        x       
-                |
-           wave |
-             1  |        e       
----------------------------------
-Legend:
-  b - base level
-  e - empty cell
-  o - omitted
-  x - estimated
-
-. 
 end of do-file
 
-. exit, clear
+r(111);
+

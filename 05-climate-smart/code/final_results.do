@@ -98,7 +98,7 @@ cap log close _all
 
 	label	values manager_lowedu yesno01
 	label	variable manager_lowedu ///
-				"Manager has little or no formal education"
+				"Manager has no formal education"
 
 * collateral rights
 	gen		collateral_right = .
@@ -301,13 +301,13 @@ cap log close _all
 	
 	
 ************************************************************************
-**# 7 - all-wave LASSO and elastic-net selection
+**# 7 - all-wave LASSO selection
 ************************************************************************
 
-* variables in parentheses are theoretically required
-* remaining variables are eligible for selection
+* Theoretically required variables are enclosed in parentheses.
+* The remaining candidate controls are eligible for selection.
 
-* LASSO: any observed CSA practice
+* LASSO: adoption of any observed CSA practice
 	lasso	linear any_csa ///
 				(female_manager manager_age manager_lowedu i.wave) ///
 				manager_age_sq ///
@@ -321,67 +321,9 @@ cap log close _all
 
 	estimates	store lasso_any_all
 
-* display selected variables
 	lassocoef, ///
 				sort(coef, standardized)
 
-
-* elastic net: any observed CSA practice
-	elasticnet linear any_csa ///
-				(female_manager manager_age manager_lowedu i.wave) ///
-				manager_age_sq ///
-				manager_head ///
-				manager_married ///
-				rented_borrowed ///
-				if sample_all, ///
-				alpha(.25 .50 .75) ///
-				rseed(20260726) ///
-				nolog
-
-	estimates	store enet_any_all
-
-* display selected variables
-	lassocoef, ///
-				sort(coef, standardized)
-
-
-* LASSO: number of observed CSA practices
-	lasso	linear csa_count_obs ///
-				(female_manager manager_age manager_lowedu i.wave) ///
-				manager_age_sq ///
-				manager_head ///
-				manager_married ///
-				rented_borrowed ///
-				if sample_all, ///
-				selection(cv) ///
-				rseed(20260726) ///
-				nolog
-
-	estimates	store lasso_count_all
-
-* display selected variables
-	lassocoef, ///
-				sort(coef, standardized)
-
-
-* elastic net: any observed CSA practice
-* use BIC because CV did not identify a minimum
-	elasticnet linear any_csa ///
-				(female_manager manager_age manager_lowedu i.wave) ///
-				manager_age_sq ///
-				manager_head ///
-				manager_married ///
-				rented_borrowed ///
-				if sample_all, ///
-				alpha(.25 .50 .75) ///
-				selection(bic) ///
-				nolog
-
-	estimates	store enet_any_all
-
-* display selected variables
-	lassocoef, ///
-				sort(coef, standardized)
 
 * LASSO: number of adopted practices among observed indicators
 	lasso	linear csa_count_obs ///
@@ -397,9 +339,28 @@ cap log close _all
 
 	estimates	store lasso_count_all
 
-* display selected variables
 	lassocoef, ///
 				sort(coef, standardized)
+
+
+************************************************************************
+**# 8 - model-selection decision
+************************************************************************
+
+* Elastic-net models were evaluated using cross-validation and BIC.
+* Neither method identified an interior minimum for lambda.
+* The fit criteria continued to improve toward an essentially zero penalty,
+* and all candidate controls remained nonzero.
+*
+* The elastic-net diagnostic therefore did not identify a sparser model.
+* Final post-selection models retain the full pruned candidate-control set:
+*
+*		manager_age_sq
+*		manager_head
+*		manager_married
+*		rented_borrowed
+
+
 ************************************************************************
 **# 8 - compare selected all-wave controls
 ************************************************************************
