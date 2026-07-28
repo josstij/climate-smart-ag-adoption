@@ -58,6 +58,46 @@
 	tabstat				manager_age, by(wave) ///
 							statistics(n mean min max)
 	
+	lookfor				education school grade
+	
+	tab					mg1_edu, missing
+	
+	tab 				mg1_edu, missing nolabel
+	
+	gen byte			manager_lowedu = (mg1_edu == 98) ///
+							if !missing(mg1_edu)
+
+	label values		manager_lowedu yesno01
+	label variable		manager_lowedu ///
+							"Manager cannot read or write"
+
+	tab					wave manager_lowedu, missing
+	
+	gen					manager_age_sq = manager_age^2
+
+	label variable		manager_age_sq ///
+							"Age of first plot manager squared"
+	lookfor				collateral tenure title certificate sell rent transfer
+	
+	tab 				wave collat, missing
+	
+	tab 				collat, missing nolabel
+	
+	gen byte			no_collateral_right = (collat == 0) ///
+							if !missing(collat)
+
+	label values		no_collateral_right yesno01
+	label variable		no_collateral_right ///
+							"Household lacks right to sell or collateralize parcel"
+
+	tab					wave no_collateral_right, missing
+	
+	tab					wave title, missing
+	
+	label list			yesno
+	
+	notes				title
+	
 	
 	
 	
