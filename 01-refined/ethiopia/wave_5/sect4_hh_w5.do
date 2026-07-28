@@ -37,27 +37,66 @@
 
 * load data
 		use			"$root/sect4_hh_w5", clear
+		
+* inspect Wave 5 labor questions
+	describe	s4q05 s4q08 s4q12
 
-* create labor variables
-	gen				farm = 1 if s4q05 > 0 & s4q05 != .
-	replace			farm = 0 if s4q05 == 0
-	lab var			farm "works on farm"
-	
-	gen				nfe = 1 if s4q08 > 0 & s4q08 != .
-	replace			nfe = 0 if s4q08 == 0
-	lab var			nfe "works for nfe"
-	
-	gen				wage = 1 if s4q12 > 0 & s4q12 != . 
-	replace			wage = 0 if s4q12 == 0
-	lab var			wage "works for wages"
+	codebook	s4q05 s4q08 s4q12
+* create individual farm-work indicator
+	gen			farm = .
+	replace		farm = 1 if s4q05 == 1
+	replace		farm = 0 if s4q05 == 2
+
+	lab var		farm ///
+					"did agricultural work for household last 7 days"
+
+* create individual nonfarm-enterprise indicator
+	gen			nfe = .
+	replace		nfe = 1 if s4q08 == 1
+	replace		nfe = 0 if s4q08 == 2
+
+	lab var		nfe ///
+					"worked on own account or in household enterprise last 7 days"
+
+* create individual paid-work indicator
+	gen			wage = .
+	replace		wage = 1 if s4q12 == 1
+	replace		wage = 0 if s4q12 == 2
+
+	lab var		wage ///
+					"worked for payment during last 7 days"
+
+* create household-level nonfarm-enterprise indicator
+	bysort		household_id: ///
+		egen	hh_nfe = max(nfe)
+
+* create nonfarm-enterprise barrier
+	gen			no_nfe = .
+	replace		no_nfe = 0 if hh_nfe == 1
+	replace		no_nfe = 1 if hh_nfe == 0
+
+	lab define	barrier01 ///
+					0 "no barrier" ///
+					1 "barrier", replace
+
+	lab var		no_nfe ///
+					"no household member worked in household enterprise last 7 days"
+
+	lab values	no_nfe barrier01
+
+* verify once per household
+	egen		hh_tag = tag(household_id)
+
+	tab			hh_nfe if hh_tag, missing
+	tab			no_nfe if hh_tag, missing
 	
 * rename individual number
 	rename			(saq08) ///
 					(indiv_num)
 	
 * keep essential variables
- 	keep		individual_id household_id ea_id ///
-				 indiv_num farm nfe wage
+	keep		individual_id household_id ea_id indiv_num ///
+				farm nfe wage hh_nfe no_nfe
 
 
 		
