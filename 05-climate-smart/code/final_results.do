@@ -98,7 +98,7 @@ cap log close _all
 
 	label	values manager_lowedu yesno01
 	label	variable manager_lowedu ///
-				"Manager has no formal education"
+				"Manager has no education and cannot read or write"
 
 * collateral rights
 	gen		collateral_right = .

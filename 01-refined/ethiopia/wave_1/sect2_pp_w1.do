@@ -1,7 +1,7 @@
 * Project: lsms gender
 * Created on: oct 2025
 * Created by: jt
-* Edited on: 20 oct 2025
+* Edited on: 27 july 2026
 * Edited by: jt
 * Stata v.19.5
 
@@ -48,9 +48,40 @@
 	lab			define yesno 0 "no" 1 "yes"
 	lab			value title yesno
 	
+	tab		title, missing
+	
+* create land-certification barrier
+	gen			no_title = .
+	replace		no_title = 0 if title == 1
+	replace		no_title = 1 if title == 0
+
+* label variable
+	lab var		no_title "household does not have parcel certificate"
+
+* apply barrier value label
+	lab values	no_title barrier01
+
+* verify construction
+	tab			title no_title, missing
+	
+* create potential tenure-security barrier
+	gen			insecure_tenure = .
+	replace		insecure_tenure = 0 if inlist(tenure, 1, 2)
+	replace		insecure_tenure = 1 if inlist(tenure, 3, 4, 10)
+
+* label variable
+	lab var		insecure_tenure ///
+					"parcel acquired through potentially insecure tenure arrangement"
+
+* apply barrier value label
+	lab values	insecure_tenure barrier01
+
+* verify construction
+	tab			tenure insecure_tenure, missing
+	
 * keep essential variables
  	keep		holder_id household_id parcel_id mgmt1 tenure title deju1 ///
-					deju2 ea_id
+					deju2 ea_id no_title insecure_tenure
 
 		
 ************************************************************************

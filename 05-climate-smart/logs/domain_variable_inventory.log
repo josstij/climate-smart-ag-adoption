@@ -1,0 +1,21 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/domain_variable_inventory.log
+  log type:  text
+ opened on:  27 Jul 2026, 18:44:31
+
+.                                 
+. 
+end of do-file
+
+. do "C:\Users\tijer\AppData\Local\Temp\STD1cb0_000003.tmp"
+
+.         global  root    "$data/raw_lsms_data/ethiopia/wave_1/raw"
+
+.         global  export  "$data/lsms_gender_data/01-refined_data/ethiopia/wave_1"
+
+.         global  logout  "$data/lsms_gender_data/01-refined_data/ethiopia/logs"
+
+.         
+. * open log 
+.         cap             log             close

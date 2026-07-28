@@ -1,7 +1,7 @@
 * Project: lsms gender
 * Created on: 3 nov 2025
 * Created by: jt
-* Edited on: 10 nov 2025
+* Edited on: 27 july 2026
 * Edited by: jt
 * Stata v.19.5
 
@@ -57,7 +57,31 @@
 * keep essential variables
  	keep		individual_id household_id ea_id indiv_num farm nfe wage
 
-		
+* identify household participation in a nonfarm enterprise
+	bysort		household_id: ///
+		egen	hh_nfe = max(nfe)
+
+* create nonfarm-enterprise barrier
+	gen			no_nfe = .
+	replace		no_nfe = 0 if hh_nfe == 1
+	replace		no_nfe = 1 if hh_nfe == 0
+
+* label variables
+	lab var		hh_nfe "any household member worked in household nonfarm business"
+	lab var		no_nfe "no household member worked in household nonfarm business"
+
+	lab values	no_nfe barrier01
+	
+	egen		hh_tag = tag(household_id)
+
+	tab			hh_nfe if hh_tag, missing
+	tab			no_nfe if hh_tag, missing
+
+* keep essential variables
+	keep		individual_id household_id ea_id indiv_num ///
+				farm nfe wage hh_nfe no_nfe
+				
+				
 ************************************************************************
 **# 2 - end matter
 ************************************************************************
