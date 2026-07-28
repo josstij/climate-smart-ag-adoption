@@ -42,11 +42,26 @@
 	rename		(hh_s1q00 hh_s1q02 hh_s1q03 hh_s1q04a hh_s1q05 hh_s1q08) ///
 					(indiv_num relat sex age away mrry)
 	
+* remove duplicate individual records
+	duplicates drop household_id individual_id, force
+
+* create household size
+	bysort		household_id: ///
+		gen		hhsize = _N
+
+* label variable
+	lab var		hhsize "household size"
+
 * keep essential variables
  	keep		household_id individual_id ///
-					ea_id ea_id2 indiv_num relat sex age away mrry
+				ea_id ea_id2 indiv_num relat sex age away mrry hhsize
 
-	duplicates drop household_id individual_id, force	
+* verify household size
+	egen		hh_tag = tag(household_id)
+
+	summarize	hhsize if hh_tag, detail
+	
+	
 ************************************************************************
 **# 2 - end matter
 ************************************************************************

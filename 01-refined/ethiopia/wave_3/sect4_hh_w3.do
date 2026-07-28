@@ -37,6 +37,10 @@
 
 * load data
 		use			"$root/sect4_hh_w3", clear
+		
+		codebook		hh_s4q05
+
+		tab			hh_s4q05, missing
 
 * create labor variables
 	gen				farm = 1 if hh_s4q04 > 0 & hh_s4q04 != .
@@ -54,12 +58,43 @@
 * rename individual number
 	rename			hh_s4q00 indiv_num
 	
+* remove duplicate individual records
+	duplicates drop household_id individual_id, force
+	
+* identify household participation in a nonfarm enterprise
+	bysort		household_id: ///
+		egen	hh_nfe = max(nfe)
+
+* create nonfarm-enterprise barrier
+	gen			no_nfe = .
+	replace		no_nfe = 0 if hh_nfe == 1
+	replace		no_nfe = 1 if hh_nfe == 0
+
+* label variables
+	lab var		hh_nfe ///
+					"any household member worked in household nonfarm business"
+	lab var		no_nfe ///
+					"no household member worked in household nonfarm business"
+
+* define and apply barrier value label
+	lab define	barrier01 ///
+					0 "no barrier" ///
+					1 "barrier", replace
+
+	lab values	no_nfe barrier01
+
+* verify once per household
+	egen		hh_tag = tag(household_id)
+
+	tab			hh_nfe if hh_tag, missing
+	tab			no_nfe if hh_tag, missing
+	
 * keep essential variables
- 	keep		individual_id household_id ea_id ///
-					ea_id2 indiv_num farm nfe wage
-
-
-	duplicates drop household_id individual_id, force		
+	keep		individual_id household_id ea_id ///
+				ea_id2 indiv_num farm nfe wage ///
+				hh_nfe no_nfe	
+	
+	
 ************************************************************************
 **# 2 - end matter
 ************************************************************************
