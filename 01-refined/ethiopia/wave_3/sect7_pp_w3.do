@@ -62,37 +62,32 @@
 	replace		no_credit = 0 if pp_s7q06 == 1
 	replace		no_credit = 1 if pp_s7q06 == 2
 
-* label variable
-	lab var		no_credit "does not receive credit services"
-
-* label values
-	lab define	barrier01 ///
-					0 "no barrier" ///
-					1 "barrier", replace
-
-	lab values	no_credit barrier01
-	
 * create extension-program barrier
 	gen			no_extension = .
 	replace		no_extension = 0 if pp_s7q04 == 1
 	replace		no_extension = 1 if pp_s7q04 == 2
 
-* label variable
-	lab var		no_extension "does not participate in extension program"
+	lab var		no_extension ///
+					"does not participate in extension program"
 
-* apply barrier value label
 	lab values	no_extension barrier01
-	
+
 * create advisory-services barrier
 	gen			no_advisory = .
 	replace		no_advisory = 0 if pp_s7q08 == 1
 	replace		no_advisory = 1 if pp_s7q08 == 2
 
-* label variable
-	lab var		no_advisory "does not receive advisory services"
+	lab var		no_advisory ///
+					"does not receive advisory services"
 
-* apply barrier value label
 	lab values	no_advisory barrier01
+
+* define and apply barrier value label
+	lab define	barrier01 ///
+					0 "no barrier" ///
+					1 "barrier", replace
+
+	lab values	no_credit no_extension no_advisory barrier01
 	
 * verify barrier indicators
 	tab			pp_s7q04 no_extension, missing
