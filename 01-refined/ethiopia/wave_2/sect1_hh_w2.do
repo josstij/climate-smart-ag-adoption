@@ -1,7 +1,7 @@
 * Project: lsms gender
 * Created on: 3 nov 2025
 * Created by: jt
-* Edited on: 10 now 2025
+* Edited on: 27 july 2026
 * Edited by: jt
 * Stata v.19.5
 
@@ -41,10 +41,17 @@
 * rename variables
 	rename		(hh_s1q00 hh_s1q02 hh_s1q03 hh_s1q04_a hh_s1q05 hh_s1q08) ///
 					(indiv_num relat sex age away mrry)
+					
+* create household size
+	bysort		household_id2: ///
+		gen		hhsize = _N
+
+* label variable
+	lab var		hhsize "household size"
 	
 * keep essential variables
  	keep		household_id household_id2 individual_id individual_id2 ///
-					ea_id ea_id2 indiv_num relat sex age away mrry
+				ea_id ea_id2 indiv_num relat sex age away mrry hhsize
 
 		
 ************************************************************************
