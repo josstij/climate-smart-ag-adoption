@@ -115,8 +115,8 @@
 	keep		holder_id household_id parcel_id mgmt1 tenure ea_id ///
 				collat defa1 defa2 title deju1 deju2 deju3 deju4 ///
 				no_title insecure_tenure no_transfer_right
-
-		
+	
+	
 ************************************************************************
 **# 2 - end matter
 ************************************************************************
