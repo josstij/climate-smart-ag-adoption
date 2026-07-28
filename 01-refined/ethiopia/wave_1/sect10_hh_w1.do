@@ -6,9 +6,9 @@
 * Stata v.19.5
 
 * does
-	* inputs wave1 dataset for hh indv labor data
+	* inputs wave1 dataset for hh indv communication data
 	* cleans up indv lvl variables 
-	* outputs file containing farm, wages, nfe
+	* outputs file containing communication
 		
 * assumes
 	* access to raw data 
