@@ -37,14 +37,30 @@
 
 * load data
 		use			"$root/sect1_hh_w4", clear
+		
+* inspect roster identifiers
+	describe	household_id individual_id
+
+	isid		household_id individual_id
+	duplicates report household_id individual_id
 
 * rename variables
 	rename		(s1q01 s1q02 s1q03a s1q06 s1q09) ///
 					(relat sex age away mrry)
+					
+* create household size
+	bysort		household_id: ///
+		gen		hhsize = _N
+
+* verify household-size distribution
+	egen		hh_tag = tag(household_id)
+
+	tabstat		hhsize if hh_tag, ///
+					statistics(n mean p50 min max)
 	
 * keep essential variables
- 	keep		household_id ea_id relat individual_id ///
-					sex age away mrry
+	keep		household_id ea_id relat individual_id ///
+				sex age away mrry hhsize
 
 		
 ************************************************************************

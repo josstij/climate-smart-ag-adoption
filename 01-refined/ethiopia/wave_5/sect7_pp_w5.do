@@ -23,25 +23,25 @@
 ************************************************************************
 
 * define paths
-	global	root 	"$data/raw_lsms_data/ethiopia/wave_4/raw"
-	global	export 	"$data/lsms_gender_data/01-refined_data/ethiopia/wave_4"
+	global	root 	"$data/raw_lsms_data/ethiopia/wave_5/raw"
+	global	export 	"$data/lsms_gender_data/01-refined_data/ethiopia/wave_5"
 	global	logout 	"$data/lsms_gender_data/01-refined_data/ethiopia/logs"
 	
 * open log 
 	cap		log		close
-	log		using	"$logout/sect7_pp_w4", append
+	log		using	"$logout/sect7_pp_w5", append
 	
 
 ************************************************************************
 **# 1 - inspect data
 ************************************************************************
 
-	use			"$root/sect7_pp_w4", clear
+	use			"$root/sect7_pp_w5", clear
 	
-* inspect Wave 4 identifiers
+* inspect wave 5 identifiers
 	describe	holder_id household_id* ea_id*
 
-* locate relevant Wave 4 questions
+* locate relevant wave 5 questions
 	lookfor		extension
 	lookfor		credit
 	lookfor		advisory
@@ -105,7 +105,7 @@
 * save file
 	qui:			compress
 	isid			holder_id
-	save			"$export/sect7_pp_w4", replace
+	save			"$export/sect7_pp_w5", replace
 
 * close the log
 	log			close
