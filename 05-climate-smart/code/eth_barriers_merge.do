@@ -452,7 +452,46 @@
 	
 	
 ************************************************************************
-**# 7 - save barriers data
+**# 7 - merge wave 5 region
+************************************************************************
+
+* prepare Wave 5 region data
+	preserve
+
+		use				"$raw_data/ethiopia/wave_5/raw/sect2_pp_w5.dta", clear
+
+		keep				holder_id parcel_id saq01
+
+		rename				saq01 admin_1_w5
+
+		gen					wave = 5
+
+		isid				wave holder_id parcel_id
+
+		tempfile			region_w5
+		save				`region_w5'
+
+	restore
+
+* merge Wave 5 region into field-level data
+	merge				m:1 wave holder_id parcel_id ///
+						using `region_w5', ///
+						keep(master match) nogen
+
+* fill missing Wave 5 region codes
+	replace				admin_1 = admin_1_w5 ///
+						if wave == 5 & missing(admin_1)
+
+	drop				admin_1_w5
+
+* verify Wave 5 region coverage
+	assert				!missing(admin_1) if wave == 5
+
+	tab					wave admin_1, missing
+	
+	
+************************************************************************
+**# 8 - save barriers data
 ************************************************************************
 
 * confirm final field-level sample
