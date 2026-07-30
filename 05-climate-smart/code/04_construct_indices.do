@@ -63,3 +63,119 @@
 							econ_barrier_n, ///
 							by(wave) ///
 							statistics(n mean min max)
+							
+
+************************************************************************
+**# 3 - construct institutional barrier index
+************************************************************************
+
+* construct institutional-barrier count
+	egen				inst_barrier_count = ///
+							rowtotal(no_extension no_advisory ///
+							no_communication), missing
+
+* count observed institutional-barrier components
+	egen				inst_barrier_n = ///
+							rownonmiss(no_extension no_advisory ///
+							no_communication)
+
+* construct share of observed institutional barriers present
+	gen					inst_barrier_index = ///
+							inst_barrier_count / inst_barrier_n ///
+							if inst_barrier_n > 0
+
+* label institutional-barrier measures
+	label variable		inst_barrier_count ///
+							"Number of observed institutional barriers"
+
+	label variable		inst_barrier_n ///
+							"Number of observed institutional-barrier components"
+
+	label variable		inst_barrier_index ///
+							"Share of observed institutional barriers present"
+
+* inspect institutional-barrier measures by wave
+	tabstat				inst_barrier_count ///
+							inst_barrier_index ///
+							inst_barrier_n, ///
+							by(wave) ///
+							statistics(n mean min max)
+							
+							
+************************************************************************
+**# 4 - construct land and tenure barrier index
+************************************************************************
+
+* construct land-and-tenure barrier count
+	egen				land_barrier_count = ///
+							rowtotal(no_collateral_right ///
+							no_land_certificate ///
+							insecure_tenure), missing
+
+* count observed land-and-tenure barrier components
+	egen				land_barrier_n = ///
+							rownonmiss(no_collateral_right ///
+							no_land_certificate ///
+							insecure_tenure)
+
+* construct share of observed land-and-tenure barriers present
+	gen					land_barrier_index = ///
+							land_barrier_count / land_barrier_n ///
+							if land_barrier_n > 0
+
+* label land-and-tenure barrier measures
+	label variable		land_barrier_count ///
+							"Number of observed land and tenure barriers"
+
+	label variable		land_barrier_n ///
+							"Number of observed land and tenure components"
+
+	label variable		land_barrier_index ///
+							"Share of observed land and tenure barriers present"
+
+* inspect land-and-tenure barrier measures by wave
+	tabstat				land_barrier_count ///
+							land_barrier_index ///
+							land_barrier_n, ///
+							by(wave) ///
+							statistics(n mean min max)
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
