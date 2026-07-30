@@ -8,9 +8,9 @@
 	* This file:
 		* 1. opens the appended Ethiopia CSA analysis data
 		* 2. constructs manager-level explanatory variables
-		* 3. harmonizes and constructs barriers to CSA adoption
-		* 4. creates barrier indices across available survey waves
-		* 5. saves the final Ethiopia barriers analysis data
+		* 3. harmonizes land and tenure barriers
+		* 4. merges economic and institutional barriers
+		* 5. saves the final Ethiopia barriers dataset
 
 
 ************************************************************************
@@ -432,49 +432,6 @@
 * inspect communication-barrier merge results
 	tab					wave merge_communication, missing
 	
-* inspect Wave 3 household identifiers from analysis data
-	preserve
-
-	keep				if wave == 3 & merge_communication == 1
-
-	list				comm_merge_id household_id ///
-							in 1/10, clean noobs
-
-	restore
-
-
-* inspect Wave 3 household identifiers from communication data
-	preserve
-
-	keep				if wave == 3 & merge_communication == 2
-
-	list				comm_merge_id ///
-							in 1/10, clean noobs
-
-	restore
-	
-* inspect extra characters in Wave 3 communication identifiers
-	preserve
-
-	keep				if wave == 3 & ///
-							merge_communication == 2
-
-	gen str4			id_extra = ///
-							substr(hh_merge_id, 7, 4)
-
-	tab					id_extra, missing
-
-	restore
-	
-* inspect Wave 3 communication-file identifiers
-	preserve
-
-	use				"$aide_data/lsms_gender_data/01-refined_data/ethiopia/wave_3/sect10_hh_w3.dta", clear
-
-	describe			*id*
-
-	restore
-	
 * inspect communication-barrier merge results
 	tab					wave merge_communication, missing
 
@@ -494,17 +451,21 @@
 						hh_merge_id comm_merge_id
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+************************************************************************
+**# 7 - save barriers data
+************************************************************************
+
+* confirm final field-level sample
+	assert				_N == 75033
+
+	isid				wave holder_id parcel_id field_id
+
+* sort final barriers data
+	sort				wave holder_id parcel_id field_id
+
+* save merged barriers data
+	qui:				compress
+
+	save				"$clean_data/ethiopia/eth_csa_barriers", replace
 	
 	
