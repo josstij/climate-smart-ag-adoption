@@ -1,7 +1,7 @@
 * Project: climate smart ag adoption
 * Created on: 28 july 2026
 * Created by: jt
-* Edited on: 28 july 2026
+* Edited on: 29 july 2026
 * Edited by: jt
 * Stata v.18.5
 
@@ -256,9 +256,19 @@
 * inspect merge results by wave
 	tab					wave merge_sect7, missing
 	
+* remove holders outside the CSA analysis sample
+	drop				if merge_sect7 == 2
 
+* confirm original analysis sample is preserved
+	count
+
+	isid				wave holder_id parcel_id field_id
+
+* remove merge indicator
+	drop				merge_sect7
 	
-	
+* inspect credit-access barrier by wave
+	tab					wave no_credit, missing
 	
 	
 	
