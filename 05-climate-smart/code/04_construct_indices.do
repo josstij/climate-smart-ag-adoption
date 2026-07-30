@@ -141,41 +141,109 @@
 							statistics(n mean min max)
 							
 							
+************************************************************************
+**# 5 - construct overall barrier index
+************************************************************************
+
+* count observed barrier domains
+	egen				overall_barrier_n = ///
+							rownonmiss(econ_barrier_index ///
+							inst_barrier_index ///
+							land_barrier_index)
+
+* construct average barrier index across observed domains
+	egen				overall_barrier_index = ///
+							rowmean(econ_barrier_index ///
+							inst_barrier_index ///
+							land_barrier_index)
+
+* label overall barrier measures
+	label variable		overall_barrier_n ///
+							"Number of observed barrier domains"
+
+	label variable		overall_barrier_index ///
+							"Average barrier share across observed domains"
+
+* inspect overall barrier index by wave
+	tabstat				overall_barrier_index ///
+							overall_barrier_n, ///
+							by(wave) ///
+							statistics(n mean min max)
 							
+						
+************************************************************************
+**# 6 - inspect csa index availability
+************************************************************************
+
+* inspect complete CSA observations by wave
+	tab					wave csa_complete, missing				
 							
+* inspect CSA indicator availability by wave
+	tabstat				csa_irr csa_seed ///
+							csa_soil csa_cons, ///
+							by(wave) ///
+							statistics(n mean min max)				
 							
+* count observations with three comparable CSA indicators
+	egen				csa_pca3_n = ///
+							rownonmiss(csa_irr csa_seed csa_soil)
+
+	tab					wave csa_pca3_n, missing
 							
+					
+************************************************************************
+**# 7 - estimate data-driven csa index
+************************************************************************
+
+* estimate first principal component using complete CSA observations
+	pca				csa_irr csa_seed ///
+							csa_soil csa_cons ///
+							if csa_complete == 1, ///
+							components(1)
 							
+* inspect correlations among complete CSA indicators
+	pwcorr				csa_irr csa_seed ///
+							csa_soil csa_cons ///
+							if csa_complete == 1, ///
+							sig obs		
 							
+* re-estimate first principal component
+	pca				csa_irr csa_seed ///
+							csa_soil csa_cons ///
+							if csa_complete == 1, ///
+							components(1)
+
+* generate data-driven CSA score
+	predict				csa_pca_index ///
+							if e(sample), score
+
+	label variable		csa_pca_index ///
+							"Data-driven CSA practice-pattern index"
+
+* inspect PCA score by number of adopted practices
+	tabstat				csa_pca_index, ///
+							by(csa_count) ///
+							statistics(n mean min max)				
 							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
+
+************************************************************************
+**# 8 - save final regression data
+************************************************************************
+
+* remove temporary diagnostic variable
+	drop				csa_pca3_n
+
+* confirm final field-level sample
+	assert				_N == 75033
+
+	isid				wave holder_id parcel_id field_id
+
+* sort final regression data
+	sort				wave holder_id parcel_id field_id
+
+* save final regression data
+	qui:				compress
+
+	save				"$clean_data/ethiopia/eth_csa_regression", replace
 							
 							
