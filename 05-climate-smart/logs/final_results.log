@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/final_results.log
   log type:  text
- opened on:  30 Jul 2026, 15:29:49
+ opened on:  30 Jul 2026, 16:04:35
 
 . 
 . 
@@ -59,7 +59,7 @@
 .         misstable summarize ///
 >                                                 csa_pca_index ///
 >                                                 any_csa ///
->                                                 csa_count_obs ///
+>                                                 csa_count ///
 >                                                 csa_irr csa_seed csa_soil csa_cons ///
 >                                                 `barriers' ///
 >                                                 `manager'
@@ -70,7 +70,7 @@
   -------------+--------------------------------+------------------------------
   csa_pca_in~x |    31,422              43,611  |     16  -1.558572    3.827248
        any_csa |       126              74,907  |      2          0           1
-  csa_count_~s |       126              74,907  |      5          0           4
+     csa_count |    31,422              43,611  |      5          0           4
        csa_irr |       331              74,702  |      2          0           1
       csa_seed |     7,975              67,058  |      2          0           1
       csa_soil |    25,780              49,253  |      2          0           1
@@ -198,7 +198,7 @@ admin_6         int     %16.0g                Kebele/FA Code
 . 
 .         gen                                     sample_count = ///
 >                                                 sample_rhs == 1 & ///
->                                                 !missing(csa_count_obs)
+>                                                 !missing(csa_count)
 
 . 
 .         gen                                     sample_irr = ///
@@ -237,13 +237,13 @@ Group variable: wave
 
     wave |  sample~a  sample~y  sample~t  sample~r  sample~d  sample~l  sampl~ns
 ---------+----------------------------------------------------------------------
-       1 |       179      5315      5315      5226      4612      2204       435
-       2 |      7699     19626     19626     19566     14288     10060     19541
-       3 |      9453     19850     19850     19821     18881      9920     19838
+       1 |       179      5315       179      5226      4612      2204       435
+       2 |      7699     19626      7699     19566     14288     10060     19541
+       3 |      9453     19850      9453     19821     18881      9920     19838
        4 |     11609     11609     11609     11609     11609     11609     11609
-       5 |      9749      9751      9751      9750      9751      9750      9751
+       5 |      9749      9751      9749      9750      9751      9750      9751
 ---------+----------------------------------------------------------------------
-   Total |     38689     66151     66151     65972     59141     43543     61174
+   Total |     38689     66151     38689     65972     59141     43543     61174
 --------------------------------------------------------------------------------
 
 .         
@@ -366,23 +366,923 @@ land_barrier_index |  -.0444689   .0099723    -4.46   0.000    -.0640184   -.024
 
 .         
 .         
+. ************************************************************************
+. **# 7 - estimate csa-count outcome model
+. ************************************************************************
+. 
+. * estimate OLS model for number of adopted CSA practices
+.         regress                         csa_count ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_count == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+Linear regression                               Number of obs     =     38,689
+                                                F(20, 4716)       =     172.87
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1522
+                                                Root MSE          =     .71639
+
+                           (Std. err. adjusted for 4,717 clusters in holder_cluster)
+------------------------------------------------------------------------------------
+                   |               Robust
+         csa_count | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------------+----------------------------------------------------------------
+econ_barrier_index |   .0245841   .0280532     0.88   0.381    -.0304133    .0795815
+inst_barrier_index |  -.0161942   .0265432    -0.61   0.542    -.0682312    .0358428
+land_barrier_index |  -.2262277   .0206319   -10.96   0.000    -.2666758   -.1857795
+    female_manager |   .0066166   .0198654     0.33   0.739    -.0323288     .045562
+       manager_age |   .0026738   .0031939     0.84   0.403    -.0035877    .0089353
+    manager_age_sq |   -.000022   .0000315    -0.70   0.486    -.0000838    .0000398
+    manager_lowedu |  -.0068608   .0180472    -0.38   0.704    -.0422418    .0285202
+                   |
+              wave |
+                2  |   .4098121   .0728511     5.63   0.000     .2669898    .5526344
+                3  |   .3956641   .0730344     5.42   0.000     .2524825    .5388457
+                4  |   .2027895   .0737769     2.75   0.006     .0581523    .3474267
+                5  |   .1537399   .0742435     2.07   0.038      .008188    .2992917
+                   |
+           admin_1 |
+             Afar  |    .300419   .0965972     3.11   0.002     .1110434    .4897946
+           Amhara  |   .0031065   .0266258     0.12   0.907    -.0490925    .0553056
+           Oromia  |  -.2247401   .0289979    -7.75   0.000    -.2815894   -.1678908
+          Somalie  |   .0231222   .1881926     0.12   0.902    -.3458232    .3920676
+  Benshagul Gumuz  |  -.4038615   .0395225   -10.22   0.000    -.4813441    -.326379
+             SNNP  |  -.3320183   .0271288   -12.24   0.000    -.3852033   -.2788332
+         Gambelia  |  -1.098416   .0337531   -32.54   0.000    -1.164588   -1.032245
+           Harari  |   .3708562   .0514618     7.21   0.000     .2699671    .4717452
+          Diredwa  |   .4078033   .0463114     8.81   0.000     .3170113    .4985954
+                   |
+             _cons |   1.021213    .108563     9.41   0.000     .8083791    1.234048
+------------------------------------------------------------------------------------
+
+. 
+. * store CSA-count model
+.         estimates store         count_domains
+
 .         
 .         
+. ************************************************************************
+. **# 8 - estimate practice-specific models
+. ************************************************************************
+. 
+. * estimate irrigation-adoption model
+.         quietly regress         csa_irr ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_irr == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         irr_domains
+
+. 
+. * estimate improved-seed adoption model
+.         quietly regress         csa_seed ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_seed == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         seed_domains
+
+. 
+. * estimate soil-management adoption model
+.         quietly regress         csa_soil ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_soil == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         soil_domains
+
+. 
+. * estimate conservation-practice adoption model
+.         quietly regress         csa_cons ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_cons == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         cons_domains
+
+. 
+. * display coefficients of primary interest
+.         estimates table         irr_domains ///
+>                                                 seed_domains ///
+>                                                 soil_domains ///
+>                                                 cons_domains, ///
+>                                                 keep(`barriers' `manager') ///
+>                                                 b(%9.3f) ///
+>                                                 se(%9.3f) ///
+>                                                 stats(N r2)
+
+--------------------------------------------------------------
+    Variable | irr_dom~s   seed_do~s   soil_do~s   cons_do~s  
+-------------+------------------------------------------------
+econ_barri~x |     0.014      -0.020       0.053      -0.015  
+             |     0.005       0.007       0.015       0.018  
+inst_barri~x |    -0.017      -0.108       0.162      -0.032  
+             |     0.006       0.006       0.015       0.015  
+land_barri~x |    -0.020       0.002      -0.273       0.045  
+             |     0.003       0.005       0.012       0.013  
+female_man~r |    -0.001       0.002       0.015      -0.033  
+             |     0.004       0.005       0.012       0.012  
+ manager_age |     0.001       0.000       0.000       0.004  
+             |     0.001       0.001       0.002       0.002  
+manager_ag~q |    -0.000      -0.000      -0.000      -0.000  
+             |     0.000       0.000       0.000       0.000  
+manager_lo~u |    -0.005       0.002      -0.011      -0.001  
+             |     0.004       0.004       0.010       0.011  
+-------------+------------------------------------------------
+           N |     65972       59141       43543       61174  
+          r2 |     0.091       0.028       0.144       0.221  
+--------------------------------------------------------------
+                                                  Legend: b/se
+
 .         
 .         
+. ************************************************************************
+. **# 9 - estimate overall-barrier models
+. ************************************************************************
+. 
+. * define overall barrier specification
+.         local overall_rhs       overall_barrier_index ///
+>                                                 `manager'
+
+. 
+. * estimate PCA model using overall barrier index
+.         quietly regress         csa_pca_index ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_pca == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         pca_overall
+
+. 
+. * estimate any-CSA model using overall barrier index
+.         quietly regress         any_csa ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_any == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         any_overall
+
+. 
+. * estimate CSA-count model using overall barrier index
+.         quietly regress         csa_count ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_count == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         count_overall
+
+. 
+. * display overall-barrier results
+.         estimates table         pca_overall ///
+>                                                 any_overall ///
+>                                                 count_overall, ///
+>                                                 keep(`overall_rhs') ///
+>                                                 b(%9.3f) ///
+>                                                 se(%9.3f) ///
+>                                                 stats(N r2)
+
+--------------------------------------------------
+    Variable | pca_ove~l   any_ove~l   count_o~l  
+-------------+------------------------------------
+overall_ba~x |    -0.216      -0.142      -0.217  
+             |     0.057       0.021       0.042  
+female_man~r |    -0.052      -0.014       0.013  
+             |     0.024       0.010       0.020  
+ manager_age |    -0.000       0.006       0.004  
+             |     0.004       0.002       0.003  
+manager_ag~q |    -0.000      -0.000      -0.000  
+             |     0.000       0.000       0.000  
+manager_lo~u |    -0.000      -0.012      -0.004  
+             |     0.023       0.009       0.018  
+-------------+------------------------------------
+           N |     38689       66151       38689  
+          r2 |     0.127       0.194       0.148  
+--------------------------------------------------
+                                      Legend: b/se
+
 .         
 .         
+. ************************************************************************
+. **# 10 - estimate overall-barrier practice models
+. ************************************************************************
+. 
+. * estimate irrigation model using overall barrier index
+.         quietly regress         csa_irr ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_irr == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         irr_overall
+
+. 
+. * estimate improved-seed model using overall barrier index
+.         quietly regress         csa_seed ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_seed == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         seed_overall
+
+. 
+. * estimate soil-management model using overall barrier index
+.         quietly regress         csa_soil ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_soil == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         soil_overall
+
+. 
+. * estimate conservation model using overall barrier index
+.         quietly regress         csa_cons ///
+>                                                 `overall_rhs' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_cons == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         cons_overall
+
+. 
+. * display overall-barrier practice results
+.         estimates table         irr_overall ///
+>                                                 seed_overall ///
+>                                                 soil_overall ///
+>                                                 cons_overall, ///
+>                                                 keep(`overall_rhs') ///
+>                                                 b(%9.3f) ///
+>                                                 se(%9.3f) ///
+>                                                 stats(N r2)
+
+--------------------------------------------------------------
+    Variable | irr_ove~l   seed_ov~l   soil_ov~l   cons_ov~l  
+-------------+------------------------------------------------
+overall_ba~x |    -0.026      -0.131      -0.038      -0.007  
+             |     0.008       0.010       0.025       0.025  
+female_man~r |    -0.001      -0.002       0.029      -0.035  
+             |     0.004       0.005       0.012       0.012  
+ manager_age |     0.001      -0.000       0.002       0.004  
+             |     0.001       0.001       0.002       0.002  
+manager_ag~q |    -0.000      -0.000      -0.000      -0.000  
+             |     0.000       0.000       0.000       0.000  
+manager_lo~u |    -0.005      -0.001      -0.003      -0.003  
+             |     0.004       0.004       0.010       0.011  
+-------------+------------------------------------------------
+           N |     65972       59141       43543       61174  
+          r2 |     0.089       0.020       0.110       0.219  
+--------------------------------------------------------------
+                                                  Legend: b/se
+
 .         
 .         
+. ************************************************************************
+. **# 11 - export main regression table
+. ************************************************************************
+. 
+. * create domain-index table for aggregate CSA outcomes
+.         etable,                         estimates( ///
+>                                                         pca_domains ///
+>                                                         any_domains ///
+>                                                         count_domains) ///
+>                                                 keep( ///
+>                                                         econ_barrier_index ///
+>                                                         inst_barrier_index ///
+>                                                         land_barrier_index ///
+>                                                         female_manager ///
+>                                                         manager_age ///
+>                                                         manager_age_sq ///
+>                                                         manager_lowedu) ///
+>                                                 mstat(N) ///
+>                                                 mstat(r2) ///
+>                                                 showstars ///
+>                                                 showstarsnote ///
+>                                                 column(index) ///
+>                                                 title("Barrier domains and CSA adoption outcomes") ///
+>                                                 note("All models include wave and region fixed effects. Standard errors are clustered by holder.")
+
+Barrier domains and CSA adoption outcomes
+-----------------------------------------------------------------------------------
+                                                        1          2          3    
+-----------------------------------------------------------------------------------
+Share of observed economic barriers present         -0.080 *                       
+                                                   (0.038)                         
+Share of observed institutional barriers present    -0.422 **                      
+                                                   (0.035)                         
+Share of observed land and tenure barriers present   0.318 **                      
+                                                   (0.028)                         
+First plot manager is female                        -0.029                         
+                                                   (0.024)                         
+Age of first plot manager                            0.003                         
+                                                   (0.004)                         
+Age of first plot manager squared                   -0.000                         
+                                                   (0.000)                         
+Manager cannot read or write                         0.009                         
+                                                   (0.023)                         
+Share of observed economic barriers present                    -0.019              
+                                                              (0.014)              
+Share of observed institutional barriers present               -0.074 **           
+                                                              (0.013)              
+Share of observed land and tenure barriers present             -0.044 **           
+                                                              (0.010)              
+First plot manager is female                                   -0.014              
+                                                              (0.010)              
+Age of first plot manager                                       0.006 **           
+                                                              (0.002)              
+Age of first plot manager squared                              -0.000 **           
+                                                              (0.000)              
+Manager cannot read or write                                   -0.011              
+                                                              (0.009)              
+Share of observed economic barriers present                                0.025   
+                                                                         (0.028)   
+Share of observed institutional barriers present                          -0.016   
+                                                                         (0.027)   
+Share of observed land and tenure barriers present                        -0.226 **
+                                                                         (0.021)   
+First plot manager is female                                               0.007   
+                                                                         (0.020)   
+Age of first plot manager                                                  0.003   
+                                                                         (0.003)   
+Age of first plot manager squared                                         -0.000   
+                                                                         (0.000)   
+Manager cannot read or write                                              -0.007   
+                                                                         (0.018)   
+Number of observations                               38689      66151      38689   
+R-squared                                             0.15       0.19       0.15   
+-----------------------------------------------------------------------------------
+** p<.01, * p<.05
+All models include wave and region fixed effects. Standard errors are clustered by
+holder.
+
+. 
+. * assign clear model-column labels
+.         collect label levels    cmdset ///
+>                                                         1 "PCA index" ///
+>                                                         2 "Any CSA" ///
+>                                                         3 "CSA count", ///
+>                                                         modify
+
+. 
+. * shorten explanatory-variable labels
+.         collect label levels    colname ///
+>                                                         econ_barrier_index ///
+>                                                                 "Economic barriers" ///
+>                                                         inst_barrier_index ///
+>                                                                 "Institutional barriers" ///
+>                                                         land_barrier_index ///
+>                                                                 "Land and tenure barriers" ///
+>                                                         female_manager ///
+>                                                                 "Female manager" ///
+>                                                         manager_age ///
+>                                                                 "Manager age" ///
+>                                                         manager_age_sq ///
+>                                                                 "Manager age squared" ///
+>                                                         manager_lowedu ///
+>                                                                 "Manager cannot read or write", ///
+>                                                         modify
+
+. 
+. * align identical coefficients across models
+.         collect layout          (colname#result[_r_b _r_se] ///
+>                                                  result[N r2]) ///
+>                                                 (cmdset#stars)
+
+Collection: ETable
+      Rows: colname#result[_r_b _r_se] result[N r2]
+   Columns: cmdset#stars
+   Table 1: 46 x 6
+
+Barrier domains and CSA adoption outcomes
+-------------------------------------------------------------
+                                  1          2          3    
+-------------------------------------------------------------
+Economic barriers             -0.080 *   -0.019      0.025   
+                             (0.038)    (0.014)    (0.028)   
+Institutional barriers        -0.422 **  -0.074 **  -0.016   
+                             (0.035)    (0.013)    (0.027)   
+Land and tenure barriers       0.318 **  -0.044 **  -0.226 **
+                             (0.028)    (0.010)    (0.021)   
+Female manager                -0.029     -0.014      0.007   
+                             (0.024)    (0.010)    (0.020)   
+Manager age                    0.003      0.006 **   0.003   
+                             (0.004)    (0.002)    (0.003)   
+Manager age squared           -0.000     -0.000 **  -0.000   
+                             (0.000)    (0.000)    (0.000)   
+Manager cannot read or write   0.009     -0.011     -0.007   
+                             (0.023)    (0.009)    (0.018)   
+wave                                                         
+  2                           -0.127      0.486 **   0.410 **
+                             (0.095)    (0.011)    (0.073)   
+  3                           -0.256 **   0.495 **   0.396 **
+                             (0.097)    (0.011)    (0.073)   
+  4                            0.009      0.560 **   0.203 **
+                             (0.096)    (0.012)    (0.074)   
+  5                           -0.044      0.528 **   0.154 * 
+                             (0.097)    (0.013)    (0.074)   
+Region Code                                                  
+  Afar                         0.474 **   0.023      0.300 **
+                             (0.176)    (0.029)    (0.097)   
+  Amhara                       0.085 **  -0.016      0.003   
+                             (0.032)    (0.010)    (0.027)   
+  Oromia                      -0.366 **  -0.185 **  -0.225 **
+                             (0.035)    (0.012)    (0.029)   
+  Somalie                     -0.014     -0.105 **   0.023   
+                             (0.173)    (0.032)    (0.188)   
+  Benshagul Gumuz             -0.401 **  -0.292 **  -0.404 **
+                             (0.046)    (0.023)    (0.040)   
+  SNNP                        -0.703 **  -0.247 **  -0.332 **
+                             (0.034)    (0.012)    (0.027)   
+  Gambelia                    -0.994 **  -0.774 **  -1.098 **
+                             (0.037)    (0.017)    (0.034)   
+  Harari                       0.074      0.048 **   0.371 **
+                             (0.050)    (0.013)    (0.051)   
+  Diredwa                      0.140 *    0.090 **   0.408 **
+                             (0.059)    (0.012)    (0.046)   
+Intercept                      0.561 **   0.273 **   1.021 **
+                             (0.135)    (0.041)    (0.109)   
+Number of observations         38689      66151      38689   
+R-squared                       0.15       0.19       0.15   
+-------------------------------------------------------------
+** p<.01, * p<.05
+All models include wave and region fixed effects. Standard
+errors are clustered by holder.
+
+. 
+. * format table cells and headers
+.         collect style header    result[_r_b _r_se], ///
+>                                                         level(hide)
+
+. 
+.         collect style header    cmdset, ///
+>                                                         level(label)
+
+. 
+.         collect style cell      result[_r_b _r_se], ///
+>                                                         nformat(%9.3f)
+
+. 
+.         collect style cell      result[_r_se], ///
+>                                                         sformat("(%s)")
+
+. 
+.         collect style column,   extraspace(1)
+
+. 
+.         collect style putdocx, ///
+>                                                         width(100%) ///
+>                                                         halign(center)
+
+. 
+. * export corrected table
+.         collect export          "$export/table_domain_models.docx", ///
+>                                                         replace
+(collection ETable exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table_domain_models.docx)
+
 .         
 .         
+. ************************************************************************
+. **# 12 - estimate any-csa robustness model
+. ************************************************************************
+. 
+. * estimate logit model for any CSA adoption
+.         logit                           any_csa ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_any == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+Iteration 0:  Log pseudolikelihood = -41473.828  
+Iteration 1:  Log pseudolikelihood = -34828.926  
+Iteration 2:  Log pseudolikelihood = -34684.441  
+Iteration 3:  Log pseudolikelihood = -34683.243  
+Iteration 4:  Log pseudolikelihood = -34683.243  
+
+Logistic regression                                    Number of obs =  66,151
+                                                       Wald chi2(20) = 2751.03
+                                                       Prob > chi2   =  0.0000
+Log pseudolikelihood = -34683.243                      Pseudo R2     =  0.1637
+
+                           (Std. err. adjusted for 5,741 clusters in holder_cluster)
+------------------------------------------------------------------------------------
+                   |               Robust
+           any_csa | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------------+----------------------------------------------------------------
+econ_barrier_index |  -.1084037   .0783824    -1.38   0.167    -.2620304     .045223
+inst_barrier_index |  -.4186659   .0712959    -5.87   0.000    -.5584033   -.2789285
+land_barrier_index |  -.2552215    .057831    -4.41   0.000    -.3685682   -.1418748
+    female_manager |  -.0717785   .0572536    -1.25   0.210    -.1839934    .0404364
+       manager_age |   .0338548   .0086502     3.91   0.000     .0169007    .0508088
+    manager_age_sq |  -.0002816   .0000843    -3.34   0.001    -.0004467   -.0001164
+    manager_lowedu |  -.0702748    .052579    -1.34   0.181    -.1733277    .0327781
+                   |
+              wave |
+                2  |   2.453216   .0654669    37.47   0.000     2.324903    2.581528
+                3  |   2.500493   .0658879    37.95   0.000     2.371356    2.629631
+                4  |   2.903529   .0794399    36.55   0.000     2.747829    3.059228
+                5  |   2.691672   .0806218    33.39   0.000     2.533657    2.849688
+                   |
+           admin_1 |
+             Afar  |   .1654382   .2831925     0.58   0.559    -.3896088    .7204853
+           Amhara  |  -.1492151   .0835649    -1.79   0.074    -.3129994    .0145691
+           Oromia  |  -1.201697   .0833462   -14.42   0.000    -1.365052   -1.038341
+          Somalie  |   -.747119   .1820842    -4.10   0.000    -1.103998   -.3902405
+  Benshagul Gumuz  |  -1.711326   .1185855   -14.43   0.000    -1.943749   -1.478903
+             SNNP  |  -1.495153   .0812395   -18.40   0.000    -1.654379   -1.335926
+         Gambelia  |  -4.423992   .1958789   -22.59   0.000    -4.807907   -4.040076
+           Harari  |   .5188126    .133826     3.88   0.000     .2565185    .7811067
+          Diredwa  |   .8592545   .1250498     6.87   0.000     .6141614    1.104348
+                   |
+             _cons |  -1.068033   .2317485    -4.61   0.000    -1.522251   -.6138142
+------------------------------------------------------------------------------------
+
+. 
+. * store logit robustness model
+.         estimates store         any_logit
+
 .         
 .         
+. ************************************************************************
+. **# 13 - estimate csa-count robustness model
+. ************************************************************************
+. 
+. * estimate Poisson model for number of adopted CSA practices
+.         poisson                         csa_count ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_count == 1, ///
+>                                                 vce(cluster holder_cluster) irr
+
+Iteration 0:  Log pseudolikelihood = -46571.565  
+Iteration 1:  Log pseudolikelihood = -46541.769  
+Iteration 2:  Log pseudolikelihood = -46541.698  
+Iteration 3:  Log pseudolikelihood = -46541.698  
+
+Poisson regression                                     Number of obs =  38,689
+                                                       Wald chi2(20) = 1151.69
+                                                       Prob > chi2   =  0.0000
+Log pseudolikelihood = -46541.698                      Pseudo R2     =  0.0380
+
+                           (Std. err. adjusted for 4,717 clusters in holder_cluster)
+------------------------------------------------------------------------------------
+                   |               Robust
+         csa_count |        IRR   std. err.      z    P>|z|     [95% conf. interval]
+-------------------+----------------------------------------------------------------
+econ_barrier_index |   1.020554   .0241275     0.86   0.389     .9743442    1.068956
+inst_barrier_index |   .9822491   .0219666    -0.80   0.423     .9401252     1.02626
+land_barrier_index |   .8194377   .0158487   -10.30   0.000     .7889563    .8510967
+    female_manager |   1.005326   .0171861     0.31   0.756        .9722    1.039581
+       manager_age |   1.002323   .0028411     0.82   0.413     .9967705    1.007907
+    manager_age_sq |   .9999806   .0000278    -0.70   0.485      .999926    1.000035
+    manager_lowedu |   .9942938   .0154862    -0.37   0.713     .9644001    1.025114
+                   |
+              wave |
+                2  |   1.437782   .1112857     4.69   0.000     1.235405    1.673312
+                3  |   1.422856   .1104458     4.54   0.000     1.222049     1.65666
+                4  |   1.217715   .0953767     2.51   0.012     1.044422    1.419762
+                5  |   1.158353   .0914756     1.86   0.063     .9922508    1.352262
+                   |
+           admin_1 |
+             Afar  |   1.258995    .080628     3.60   0.000     1.110483    1.427369
+           Amhara  |   1.005717   .0195039     0.29   0.769      .968207    1.044679
+           Oromia  |   .8371894   .0190334    -7.82   0.000     .8007035    .8753379
+          Somalie  |   1.023671   .1398792     0.17   0.864      .783156    1.338051
+  Benshagul Gumuz  |   .6931778   .0279501    -9.09   0.000     .6405054    .7501818
+             SNNP  |   .7591133   .0165345   -12.65   0.000     .7273883    .7922219
+         Gambelia  |   .1070981   .0187623   -12.75   0.000     .0759734     .150974
+           Harari  |   1.298692   .0419909     8.08   0.000     1.218945    1.383656
+          Diredwa  |   1.325146   .0375846     9.93   0.000     1.253492    1.400896
+                   |
+             _cons |    .994708   .1045991    -0.05   0.960     .8094444    1.222374
+------------------------------------------------------------------------------------
+Note: _cons estimates baseline incidence rate.
+
+. 
+. * store Poisson robustness model
+.         estimates store         count_poisson
+
 .         
 .         
+. ************************************************************************
+. **# 14 - estimate practice-specific robustness models
+. ************************************************************************
+. 
+. * estimate irrigation-adoption logit model
+.         quietly logit           csa_irr ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_irr == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         irr_logit
+
+. 
+. * estimate improved-seed adoption logit model
+.         quietly logit           csa_seed ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_seed == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         seed_logit
+
+. 
+. * estimate soil-management adoption logit model
+.         quietly logit           csa_soil ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_soil == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         soil_logit
+
+. 
+. * estimate conservation-adoption logit model
+.         quietly logit           csa_cons ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1 ///
+>                                                 if sample_cons == 1, ///
+>                                                 vce(cluster holder_cluster)
+
+. 
+.         estimates store         cons_logit
+
+. 
+. * display barrier-domain odds ratios separately
+.         foreach model in        irr_logit ///
+>                                                 seed_logit ///
+>                                                 soil_logit ///
+>                                                 cons_logit {
+  2. 
+.                 estimates table `model', ///
+>                                                         keep(`barriers') ///
+>                                                         eform ///
+>                                                         b(%9.3f) ///
+>                                                         se(%9.3f) ///
+>                                                         stats(N)
+  3.         }
+
+--------------------------
+    Variable | irr_logit  
+-------------+------------
+econ_barri~x |     1.564  
+             |     0.268  
+inst_barri~x |     0.568  
+             |     0.097  
+land_barri~x |     0.491  
+             |     0.061  
+-------------+------------
+           N |     65972  
+--------------------------
+              Legend: b/se
+
+--------------------------
+    Variable | seed_lo~t  
+-------------+------------
+econ_barri~x |     0.742  
+             |     0.067  
+inst_barri~x |     0.170  
+             |     0.017  
+land_barri~x |     1.042  
+             |     0.069  
+-------------+------------
+           N |     59141  
+--------------------------
+              Legend: b/se
+
+--------------------------
+    Variable | soil_lo~t  
+-------------+------------
+econ_barri~x |     1.279  
+             |     0.090  
+inst_barri~x |     2.133  
+             |     0.155  
+land_barri~x |     0.244  
+             |     0.017  
+-------------+------------
+           N |     43543  
+--------------------------
+              Legend: b/se
+
+--------------------------
+    Variable | cons_lo~t  
+-------------+------------
+econ_barri~x |     0.928  
+             |     0.085  
+inst_barri~x |     0.851  
+             |     0.067  
+land_barri~x |     1.285  
+             |     0.088  
+-------------+------------
+           N |     61174  
+--------------------------
+              Legend: b/se
+
 .         
-.         
-.         
+. 
+. ************************************************************************
+. **# 15 - create adjusted-prediction figure
+. ************************************************************************
+. 
+. * restore primary any-CSA model
+.         estimates restore       any_domains
+(results any_domains are active now)
+
+. 
+. * estimate adjusted probability across institutional-barrier values
+.         margins,                        at( ///
+>                                                         inst_barrier_index = ///
+>                                                         (0(.10)1))
+
+Predictive margins                                      Number of obs = 66,151
+Model VCE: Robust
+
+Expression: Linear prediction, predict()
+1._at:  inst_barrier_i~x =  0
+2._at:  inst_barrier_i~x = .1
+3._at:  inst_barrier_i~x = .2
+4._at:  inst_barrier_i~x = .3
+5._at:  inst_barrier_i~x = .4
+6._at:  inst_barrier_i~x = .5
+7._at:  inst_barrier_i~x = .6
+8._at:  inst_barrier_i~x = .7
+9._at:  inst_barrier_i~x = .8
+10._at: inst_barrier_i~x = .9
+11._at: inst_barrier_i~x =  1
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   .7134002   .0069694   102.36   0.000     .6997376    .7270628
+          2  |   .7060419   .0059702   118.26   0.000     .6943382    .7177457
+          3  |   .6986837   .0050982   137.04   0.000     .6886892    .7086782
+          4  |   .6913255   .0044294   156.08   0.000     .6826421    .7000088
+          5  |   .6839672   .0040653   168.25   0.000     .6759977    .6919367
+          6  |    .676609    .004088   165.51   0.000     .6685949    .6846231
+          7  |   .6692507   .0044918   148.99   0.000     .6604451    .6780564
+          8  |   .6618925   .0051884   127.57   0.000     .6517213    .6720637
+          9  |   .6545343   .0060779   107.69   0.000     .6426193    .6664493
+         10  |    .647176   .0070881    91.30   0.000     .6332807    .6610714
+         11  |   .6398178   .0081744    78.27   0.000     .6237929    .6558427
+------------------------------------------------------------------------------
+
+. 
+. * plot adjusted probability of any CSA adoption
+.         marginsplot,            ///
+>                                                 title( ///
+>                                                         "Institutional barriers and CSA adoption") ///
+>                                                 xtitle( ///
+>                                                         "Share of institutional barriers present") ///
+>                                                 ytitle( ///
+>                                                         "Adjusted probability of adoption") ///
+>                                                 xlabel(0(.20)1) ///
+>                                                 ylabel( ///
+>                                                         .62 "62%" ///
+>                                                         .64 "64%" ///
+>                                                         .66 "66%" ///
+>                                                         .68 "68%" ///
+>                                                         .70 "70%" ///
+>                                                         .72 "72%", ///
+>                                                         angle(horizontal)) ///
+>                                                 legend(off) ///
+>                                                 name(inst_any_figure, replace)
+
+Variables that uniquely identify margins: inst_barrier_index
+
+. 
+. * export poster figure
+.         graph export            "$export/figure_inst_barrier_any_csa.png", ///
+>                                                 replace ///
+>                                                 width(2400)
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure_inst_barrier_any_csa.png saved as PNG format
+
+. 
+.         graph export            "$export/figure_inst_barrier_any_csa.pdf", ///
+>                                                 replace
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure_inst_barrier_any_csa.pdf saved as PDF format
+
+.                                                 
+.                                                 
+. ************************************************************************
+. **# 16 - export compact latex table
+. ************************************************************************
+. 
+. * clear previous table collection
+.         collect clear
+
+. 
+. * shorten barrier labels
+.         label variable          econ_barrier_index ///
+>                                                 "Economic barriers"
+
+. 
+.         label variable          inst_barrier_index ///
+>                                                 "Institutional barriers"
+
+. 
+.         label variable          land_barrier_index ///
+>                                                 "Land and tenure barriers"
+
+. 
+. * create compact table of aggregate outcomes
+.         etable,                         estimates( ///
+>                                                         pca_domains ///
+>                                                         any_domains ///
+>                                                         count_domains) ///
+>                                                 keep( ///
+>                                                         econ_barrier_index ///
+>                                                         inst_barrier_index ///
+>                                                         land_barrier_index) ///
+>                                                 column(index) ///
+>                                                 mstat(N) ///
+>                                                 mstat(r2) ///
+>                                                 showstars ///
+>                                                 showstarsnote ///
+>                                                 title( ///
+>                                                         "Barrier domains and CSA adoption outcomes") ///
+>                                                 note( ///
+>                                                         "Manager characteristics, wave fixed effects, and region fixed effects are included but not displayed. Standa
+> rd errors are clustered by holder.")
+
+Barrier domains and CSA adoption outcomes
+---------------------------------------------------------
+                              1          2          3    
+---------------------------------------------------------
+Economic barriers         -0.080 *                       
+                         (0.038)                         
+Institutional barriers    -0.422 **                      
+                         (0.035)                         
+Land and tenure barriers   0.318 **                      
+                         (0.028)                         
+Economic barriers                    -0.019              
+                                    (0.014)              
+Institutional barriers               -0.074 **           
+                                    (0.013)              
+Land and tenure barriers             -0.044 **           
+                                    (0.010)              
+Economic barriers                                0.025   
+                                               (0.028)   
+Institutional barriers                          -0.016   
+                                               (0.027)   
+Land and tenure barriers                        -0.226 **
+                                               (0.021)   
+Number of observations     38689      66151      38689   
+R-squared                   0.15       0.19       0.15   
+---------------------------------------------------------
+** p<.01, * p<.05
+Manager characteristics, wave fixed effects, and region
+fixed effects are included but not displayed. Standard
+errors are clustered by holder.
+
+. 
+. * label model columns
+.         collect label levels    cmdset ///
+>                                                         1 "PCA index" ///
+>                                                         2 "Any CSA" ///
+>                                                         3 "CSA count", ///
+>                                                         modify
+
+. 
+. * export table-only LaTeX code
+.         collect export          "$export/table_domain_models.tex", ///
+>                                                         tableonly replace
+(collection ETable exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table_domain_models.tex)
+
 .         
 . 
 end of do-file
