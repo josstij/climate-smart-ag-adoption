@@ -1,15 +1,17 @@
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/01_v
-> ariable_inventory.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoptio
+> n/05-climate-smart/logs/01_variable_inventory.log
   log type:  text
- opened on:  26 Jul 2026, 22:41:47
+ opened on:  29 Jul 2026, 16:45:55
 
 . 
 . 
-. ************************************************************************
+. ***********************************************************
+> *************
 . **# 1 - open Ethiopia CSA analysis data
-. ************************************************************************
+. ***********************************************************
+> *************
 . 
 . * load final merged analysis data
 .         use             "$root/eth_csa_analysis", clear
@@ -42,25 +44,41 @@
 . * inspect dataset structure
 .         describe
 
-Contains data from C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/cle
-> an-data/ethiopia/eth_csa_analysis.dta
- Observations:        75,033                  Ethiopia CSA adoption analysis data,
-                                                waves 1-5
-    Variables:           116                  26 Jul 2026 21:09
------------------------------------------------------------------------------------------
+Contains data from C:/Users/tijer/git/UROC/climate-smart-ag-a
+> doption/05-climate-smart/clean-data/ethiopia/eth_csa_analys
+> is.dta
+ Observations:        75,033                  Ethiopia CSA
+                                                adoption
+                                                analysis
+                                                data, waves
+                                                1-5
+    Variables:           116                  26 Jul 2026 21:
+> 09
+-------------------------------------------------------------
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-household_id    str18   %-18s                 Household ID unique
+-------------------------------------------------------------
+household_id    str18   %-18s                 Household ID
+                                         unique
 individual_id   str16   %-16s                 Individual ID
 ea_id           str15   %-15s                 EA ID
-indiv_num       int     %16.0g                HH Member ID Code
-mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mg1_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mg1_age         byte    %16.0g                How old is [Name]? (Years)
-mg1_away        byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-mg1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
+indiv_num       int     %16.0g                HH Member ID
+                                         Code
+mg1_relat       byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mg1_sex         byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+mg1_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
+mg1_away        byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+mg1_mrry        byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
 admin_1         byte    %16.0g     saq01      Region Code
 admin_2         byte    %16.0g                Zone Code
 admin_3         byte    %16.0g                Woreda Code
@@ -68,161 +86,296 @@ admin_4         byte    %16.0g                Town Code
 admin_5         byte    %16.0g                Subcity Code
 admin_6         int     %16.0g                Kebele/FA Code
 ea              byte    %16.0g                EA
-mg1_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mg1_edu         byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 mg1_farm        byte    %9.0g                 works on farm
 mg1_nfe         byte    %9.0g                 works for nfe
 mg1_wage        byte    %9.0g                 works for wages
 mgmt1           byte    %9.0g                 
-holder_id       str21   %-21s                 Unique Holder Indentifier
+holder_id       str21   %-21s                 Unique Holder
+                                         Indentifier
 parcel_id       double  %16.0g                Parcel ID
-tenure          byte    %16.0g     pp_s2q03   How did your HH acquire the [Parcel]?
-dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj1_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-dj1_age         byte    %16.0g                How old is [Name]? (Years)
-dj1_away        byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-dj1_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-dj1_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+tenure          byte    %16.0g     pp_s2q03   How did your HH
+                                         acquire the
+                                         [Parcel]?
+dj1_relat       byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+dj1_sex         byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+dj1_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
+dj1_away        byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+dj1_mrry        byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+dj1_edu         byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 dj1_farm        byte    %9.0g                 works on farm
 dj1_nfe         byte    %9.0g                 works for nfe
 dj1_wage        byte    %9.0g                 works for wages
 deju1           byte    %9.0g                 
-title           byte    %16.0g     yesno      Does your HH have a certificate for this
-                                                [Parcel]?
-deju2           byte    %16.0g                Under whose name(s) is the certificate
-                                                issued for this [Parcel]?
-dj2_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj2_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-dj2_age         byte    %16.0g                How old is [Name]? (Years)
-dj2_away        byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-dj2_mrry        byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-dj2_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+title           byte    %16.0g     yesno      Does your HH
+                                         have a certificate
+                                         for this [Parcel]?
+deju2           byte    %16.0g                Under whose
+                                         name(s) is the
+                                         certificate issued
+                                         for this [Parcel]?
+dj2_relat       byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+dj2_sex         byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+dj2_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
+dj2_away        byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+dj2_mrry        byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+dj2_edu         byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 dj2_farm        byte    %9.0g                 works on farm
 dj2_nfe         byte    %9.0g                 works for nfe
 dj2_wage        byte    %9.0g                 works for wages
 wave            float   %9.0g                 
-household_id2   str18   %-18s                 Unique HH ID in wave 2
-individual_id2  str20   %-20s                 Unique individual ID in wave 2
-ea_id2          str15   %-15s                 Unique EA identifier in wave 2
+household_id2   str18   %-18s                 Unique HH ID in
+                                         wave 2
+individual_id2  str20   %-20s                 Unique
+                                         individual ID in
+                                         wave 2
+ea_id2          str15   %-15s                 Unique EA
+                                         identifier in wave 2
 household_num   int     %16.0g                Household ID
-collat          byte    %16.0g     yesno      Does anyone in the household have the right
-                                                to sell this [PARCEL] or use it as c
-defa1           byte    %16.0g                Who in HH can decide whether to sell parcel
-                                                or use as collateral [ID #1]
-defa2           byte    %16.0g                Who in HH can decide whether to sell parcel
-                                                or use as collateral [ID #2]
-deju1_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju1_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-deju1_age       byte    %16.0g                How old is [Name]? (Years)
-deju1_away      byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-deju1_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-deju1_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+collat          byte    %16.0g     yesno      Does anyone in
+                                         the household have
+                                         the right to sell
+                                         this [PARCEL] or use
+                                         it as c
+defa1           byte    %16.0g                Who in HH can
+                                         decide whether to
+                                         sell parcel or use
+                                         as collateral [ID
+                                         #1]
+defa2           byte    %16.0g                Who in HH can
+                                         decide whether to
+                                         sell parcel or use
+                                         as collateral [ID
+                                         #2]
+deju1_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+deju1_sex       byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+deju1_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
+deju1_away      byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+deju1_mrry      byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+deju1_edu       byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 deju1_farm      byte    %9.0g                 works on farm
 deju1_nfe       byte    %9.0g                 works for nfe
 deju1_wage      byte    %9.0g                 works for wages
-deju2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju2_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-deju2_age       byte    %16.0g                How old is [Name]? (Years)
-deju2_away      byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-deju2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-deju2_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+deju2_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+deju2_sex       byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+deju2_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
+deju2_away      byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+deju2_mrry      byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+deju2_edu       byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 deju2_farm      byte    %9.0g                 works on farm
 deju2_nfe       byte    %9.0g                 works for nfe
 deju2_wage      byte    %9.0g                 works for wages
-mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt2_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mgmt2_age       byte    %16.0g                How old is [Name]? (Years)
-mgmt2_away      byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-mgmt2_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mgmt2_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mgmt2_sex       byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+mgmt2_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
+mgmt2_away      byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+mgmt2_mrry      byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+mgmt2_edu       byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 mgmt2_farm      byte    %9.0g                 works on farm
 mgmt2_nfe       byte    %9.0g                 works for nfe
 mgmt2_wage      byte    %9.0g                 works for wages
 mgmt2           byte    %9.0g                 
 field_id        double  %16.0g                Field ID
-mgmt3           byte    %16.0g                Who are the other household mebers
-                                                consulted by the primary decision maker
-                                                on th
-mgmt4           byte    %16.0g                Who are the other household mebers
-                                                consulted by the primary decision maker
-                                                on th
-mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt3_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mgmt3_age       byte    %16.0g                How old is [Name]? (Years)
-mgmt3_away      byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-mgmt3_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mgmt3_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mgmt3           byte    %16.0g                Who are the
+                                         other household
+                                         mebers consulted by
+                                         the primary decision
+                                         maker on th
+mgmt4           byte    %16.0g                Who are the
+                                         other household
+                                         mebers consulted by
+                                         the primary decision
+                                         maker on th
+mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mgmt3_sex       byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+mgmt3_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
+mgmt3_away      byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+mgmt3_mrry      byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+mgmt3_edu       byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 mgmt3_farm      byte    %9.0g                 works on farm
 mgmt3_nfe       byte    %9.0g                 works for nfe
 mgmt3_wage      byte    %9.0g                 works for wages
-mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt4_sex       byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mgmt4_age       byte    %16.0g                How old is [Name]? (Years)
-mgmt4_away      byte    %16.0g                For how many months during the last 12
-                                                months was [Name] way from the HH?
-mgmt4_mrry      byte    %16.0g     hh_s1q08   What is [Name]'s marital status?
-mgmt4_edu       byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mgmt4_sex       byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+mgmt4_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
+mgmt4_away      byte    %16.0g                For how many
+                                         months during the
+                                         last 12 months was
+                                         [Name] way from the
+                                         HH?
+mgmt4_mrry      byte    %16.0g     hh_s1q08   What is
+                                         [Name]'s marital
+                                         status?
+mgmt4_edu       byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 mgmt4_farm      byte    %9.0g                 works on farm
 mgmt4_nfe       byte    %9.0g                 works for nfe
 mgmt4_wage      byte    %9.0g                 works for wages
-_merge          byte    %23.0g     _merge     Matching result from merge
-deju3           byte    %1.0g                 4b. Which HH members are listed as owners
-                                                or use rights holders: HH ID 3
-deju4           byte    %1.0g                 4b. Which HH members are listed as owners
-                                                or use rights holders: HH ID 4
+_merge          byte    %23.0g     _merge     Matching result
+                                         from merge
+deju3           byte    %1.0g                 4b. Which HH
+                                         members are listed
+                                         as owners or use
+                                         rights holders: HH
+                                         ID 3
+deju4           byte    %1.0g                 4b. Which HH
+                                         members are listed
+                                         as owners or use
+                                         rights holders: HH
+                                         ID 4
 csa_irr         float   %9.0g      csa_yesno
                                               Field irrigated
 csa_seed        float   %9.0g      csa_yesno
-                                              Improved seed used on field
+                                              Improved seed
+                                         used on field
 csa_soil        float   %9.0g      csa_yesno
-                                              Manure or compost used on field
+                                              Manure or
+                                         compost used on
+                                         field
 csa_cons        float   %9.0g      csa_yesno
-                                              Field protected from erosion
-csa_n_obs       float   %9.0g                 Number of nonmissing CSA indicators
-csa_count_obs   float   %9.0g                 Number of adopted practices among observed
-                                                indicators
+                                              Field protected
+                                         from erosion
+csa_n_obs       float   %9.0g                 Number of
+                                         nonmissing CSA
+                                         indicators
+csa_count_obs   float   %9.0g                 Number of
+                                         adopted practices
+                                         among observed
+                                         indicators
 any_csa         float   %9.0g      csa_yesno
-                                              Adopted any observed CSA practice
+                                              Adopted any
+                                         observed CSA
+                                         practice
 csa_complete    float   %9.0g      csa_yesno
-                                              All four CSA indicators observed
-csa_count       float   %9.0g                 Number of adopted CSA practices, complete
-                                                cases
+                                              All four CSA
+                                         indicators observed
+csa_count       float   %9.0g                 Number of
+                                         adopted CSA
+                                         practices, complete
+                                         cases
 any_csa_compl~e float   %9.0g      csa_yesno
-                                              Adopted any CSA practice, complete cases
+                                              Adopted any CSA
+                                         practice, complete
+                                         cases
 holder_length   float   %9.0g                 
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 Sorted by: wave  holder_id  parcel_id  field_id
 
 . 
 . 
-. ************************************************************************
+. ***********************************************************
+> *************
 . **# 2 - inspect CSA outcomes and core variables
-. ************************************************************************
+. ***********************************************************
+> *************
 . 
 . * inspect CSA outcomes
 .         describe        any_csa csa_count_obs ///
->                                 csa_irr csa_seed csa_soil csa_cons
+>                                 csa_irr csa_seed csa_soil c
+> sa_cons
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 any_csa         float   %9.0g      csa_yesno
-                                              Adopted any observed CSA practice
-csa_count_obs   float   %9.0g                 Number of adopted practices among observed
-                                                indicators
+                                              Adopted any
+                                         observed CSA
+                                         practice
+csa_count_obs   float   %9.0g                 Number of
+                                         adopted practices
+                                         among observed
+                                         indicators
 csa_irr         float   %9.0g      csa_yesno
                                               Field irrigated
 csa_seed        float   %9.0g      csa_yesno
-                                              Improved seed used on field
+                                              Improved seed
+                                         used on field
 csa_soil        float   %9.0g      csa_yesno
-                                              Manure or compost used on field
+                                              Manure or
+                                         compost used on
+                                         field
 csa_cons        float   %9.0g      csa_yesno
-                                              Field protected from erosion
+                                              Field protected
+                                         from erosion
 
 . 
 .         tab             wave any_csa, missing
@@ -242,7 +395,8 @@ csa_cons        float   %9.0g      csa_yesno
 . 
 .         tabstat any_csa csa_count_obs, ///
 >                                 by(wave) ///
->                                 statistics(n mean sd min max)
+>                                 statistics(n mean sd min ma
+> x)
 
 Summary statistics: N, Mean, SD, Min, Max
 Group variable: wave 
@@ -293,10 +447,14 @@ Group variable: wave
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-mg1_sex         byte    %16.0g     hh_s1q03   What is the sex of [Name]?
-mg1_age         byte    %16.0g                How old is [Name]? (Years)
-mg1_edu         byte    %16.0g     hh_s2q05   What is the highest grade you completed?
+-------------------------------------------------------------
+mg1_sex         byte    %16.0g     hh_s1q03   What is the sex
+                                         of [Name]?
+mg1_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
+mg1_edu         byte    %16.0g     hh_s2q05   What is the
+                                         highest grade you
+                                         completed?
 mg1_farm        byte    %9.0g                 works on farm
 mg1_nfe         byte    %9.0g                 works for nfe
 mg1_wage        byte    %9.0g                 works for wages
@@ -317,116 +475,186 @@ mg1_wage        byte    %9.0g                 works for wages
 
 .         tab             wave mg1_edu, missing
 
-           |        What is the highest grade you completed?
-      wave | Kindergar  1st Grade  2nd Grade  3rd Grade  4th Grade |     Total
------------+-------------------------------------------------------+----------
-         1 |         4        103        300        319        345 |     6,576 
-         2 |         0        327        766      1,090      1,154 |    22,433 
-         3 |         0        273        810      1,225      1,097 |    22,658 
-         4 |         1        152        284        665        661 |    12,907 
-         5 |        19         91        239        682        535 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        24        946      2,399      3,981      3,792 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | Kindergar  1st Grade  2nd Grade |     Total
+-----------+---------------------------------+----------
+         1 |         4        103        300 |     6,576 
+         2 |         0        327        766 |    22,433 
+         3 |         0        273        810 |    22,658 
+         4 |         1        152        284 |    12,907 
+         5 |        19         91        239 |    10,459 
+-----------+---------------------------------+----------
+     Total |        24        946      2,399 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | 5th Grade  6th Grade  7th Grade  8th Grade  9th Grade |     Total
------------+-------------------------------------------------------+----------
-         1 |       192        260        100        139         47 |     6,576 
-         2 |     1,011        777        634        576        147 |    22,433 
-         3 |       911      1,007        671        567        157 |    22,658 
-         4 |       528        393        334        431         57 |    12,907 
-         5 |       386        373        317        389        101 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |     3,028      2,810      2,056      2,102        509 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | 3rd Grade  4th Grade  5th Grade |     Total
+-----------+---------------------------------+----------
+         1 |       319        345        192 |     6,576 
+         2 |     1,090      1,154      1,011 |    22,433 
+         3 |     1,225      1,097        911 |    22,658 
+         4 |       665        661        528 |    12,907 
+         5 |       682        535        386 |    10,459 
+-----------+---------------------------------+----------
+     Total |     3,981      3,792      3,028 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | 10th Grad  11th Grad  12th Grad  Certifica  Teacher T |     Total
------------+-------------------------------------------------------+----------
-         1 |        34         15         31          2          5 |     6,576 
-         2 |       154         24         79         17          3 |    22,433 
-         3 |       181         45         92          5          3 |    22,658 
-         4 |        31         11         43          0          0 |    12,907 
-         5 |       115         16         38          6          0 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |       515        111        283         30         11 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | 6th Grade  7th Grade  8th Grade |     Total
+-----------+---------------------------------+----------
+         1 |       260        100        139 |     6,576 
+         2 |       777        634        576 |    22,433 
+         3 |     1,007        671        567 |    22,658 
+         4 |       393        334        431 |    12,907 
+         5 |       373        317        389 |    10,459 
+-----------+---------------------------------+----------
+     Total |     2,810      2,056      2,102 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | 1st Year   2nd Year     Diploma  3rd Year   1st Degre |     Total
------------+-------------------------------------------------------+----------
-         1 |         3          1          4          0          0 |     6,576 
-         2 |         1         22         74          0         24 |    22,433 
-         3 |         0          2         34          1          7 |    22,658 
-         4 |         0         18         15          0          1 |    12,907 
-         5 |         5          0         82         11         56 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |         9         43        209         12         88 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | 9th Grade  10th Grad  11th Grad |     Total
+-----------+---------------------------------+----------
+         1 |        47         34         15 |     6,576 
+         2 |       147        154         24 |    22,433 
+         3 |       157        181         45 |    22,658 
+         4 |        57         31         11 |    12,907 
+         5 |       101        115         16 |    10,459 
+-----------+---------------------------------+----------
+     Total |       509        515        111 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | Graduate   NC 9th Gr  NC 10th G  NC 11th G  NC 12th G |     Total
------------+-------------------------------------------------------+----------
-         1 |         0         30         52          2          0 |     6,576 
-         2 |         1          0        165          1          9 |    22,433 
-         3 |         0         46        228          0          0 |    22,658 
-         4 |         0         41        274          6          0 |    12,907 
-         5 |         0        102        153         10         24 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |         1        219        872         19         33 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | 12th Grad  Certifica  Teacher T |     Total
+-----------+---------------------------------+----------
+         1 |        31          2          5 |     6,576 
+         2 |        79         17          3 |    22,433 
+         3 |        92          5          3 |    22,658 
+         4 |        43          0          0 |    12,907 
+         5 |        38          6          0 |    10,459 
+-----------+---------------------------------+----------
+     Total |       283         30         11 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | NC Certif  NC Certif  NC Certif  NC Certif  NC Certif |     Total
------------+-------------------------------------------------------+----------
-         1 |         0          0          0          0          7 |     6,576 
-         2 |        11          9          0          1          9 |    22,433 
-         3 |         0          0          0          1          9 |    22,658 
-         4 |         8          6          7         12         16 |    12,907 
-         5 |         7          4          3         14          0 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        26         19         10         28         41 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | 1st Year   2nd Year     Diploma |     Total
+-----------+---------------------------------+----------
+         1 |         3          1          4 |     6,576 
+         2 |         1         22         74 |    22,433 
+         3 |         0          2         34 |    22,658 
+         4 |         0         18         15 |    12,907 
+         5 |         5          0         82 |    10,459 
+-----------+---------------------------------+----------
+     Total |         9         43        209 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | NC Diplom  1st Year   2nd Year   3rd Year   1st Degre |     Total
------------+-------------------------------------------------------+----------
-         1 |         7          0          2          0          6 |     6,576 
-         2 |        57          1          3         25         18 |    22,433 
-         3 |        76         17          1         17         97 |    22,658 
-         4 |        66          0         23          1         30 |    12,907 
-         5 |       115          0          4         42         12 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |       321         18         33         85        163 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | 3rd Year   1st Degre  Graduate  |     Total
+-----------+---------------------------------+----------
+         1 |         0          0          0 |     6,576 
+         2 |         0         24          1 |    22,433 
+         3 |         1          7          0 |    22,658 
+         4 |         0          1          0 |    12,907 
+         5 |        11         56          0 |    10,459 
+-----------+---------------------------------+----------
+     Total |        12         88          1 |    75,033 
 
 
-           |        What is the highest grade you completed?
-      wave | Above 1st  Basic edu  Adult edu  Informal   Not educa |     Total
------------+-------------------------------------------------------+----------
-         1 |         0         22          0          1      3,680 |     6,576 
-         2 |         4         13          1         35     12,690 |    22,433 
-         3 |         8         18          0          0     12,388 |    22,658 
-         4 |        27         86         10         57      7,373 |    12,907 
-         5 |        18        112          1         76      5,595 |    10,459 
------------+-------------------------------------------------------+----------
-     Total |        57        251         12        169     41,726 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | NC 9th Gr  NC 10th G  NC 11th G |     Total
+-----------+---------------------------------+----------
+         1 |        30         52          2 |     6,576 
+         2 |         0        165          1 |    22,433 
+         3 |        46        228          0 |    22,658 
+         4 |        41        274          6 |    12,907 
+         5 |       102        153         10 |    10,459 
+-----------+---------------------------------+----------
+     Total |       219        872         19 |    75,033 
 
 
-           |  What is
-           |    the
-           |  highest
-           | grade you
-           | completed?
-      wave |         . |     Total
------------+-----------+----------
-         1 |       863 |     6,576 
-         2 |     2,500 |    22,433 
-         3 |     2,664 |    22,658 
-         4 |     1,239 |    12,907 
-         5 |       706 |    10,459 
------------+-----------+----------
-     Total |     7,972 |    75,033 
+           |  What is the highest grade you
+           |            completed?
+      wave | NC 12th G  NC Certif  NC Certif |     Total
+-----------+---------------------------------+----------
+         1 |         0          0          0 |     6,576 
+         2 |         9         11          9 |    22,433 
+         3 |         0          0          0 |    22,658 
+         4 |         0          8          6 |    12,907 
+         5 |        24          7          4 |    10,459 
+-----------+---------------------------------+----------
+     Total |        33         26         19 |    75,033 
+
+
+           |  What is the highest grade you
+           |            completed?
+      wave | NC Certif  NC Certif  NC Certif |     Total
+-----------+---------------------------------+----------
+         1 |         0          0          7 |     6,576 
+         2 |         0          1          9 |    22,433 
+         3 |         0          1          9 |    22,658 
+         4 |         7         12         16 |    12,907 
+         5 |         3         14          0 |    10,459 
+-----------+---------------------------------+----------
+     Total |        10         28         41 |    75,033 
+
+
+           |  What is the highest grade you
+           |            completed?
+      wave | NC Diplom  1st Year   2nd Year  |     Total
+-----------+---------------------------------+----------
+         1 |         7          0          2 |     6,576 
+         2 |        57          1          3 |    22,433 
+         3 |        76         17          1 |    22,658 
+         4 |        66          0         23 |    12,907 
+         5 |       115          0          4 |    10,459 
+-----------+---------------------------------+----------
+     Total |       321         18         33 |    75,033 
+
+
+           |  What is the highest grade you
+           |            completed?
+      wave | 3rd Year   1st Degre  Above 1st |     Total
+-----------+---------------------------------+----------
+         1 |         0          6          0 |     6,576 
+         2 |        25         18          4 |    22,433 
+         3 |        17         97          8 |    22,658 
+         4 |         1         30         27 |    12,907 
+         5 |        42         12         18 |    10,459 
+-----------+---------------------------------+----------
+     Total |        85        163         57 |    75,033 
+
+
+           |  What is the highest grade you
+           |            completed?
+      wave | Basic edu  Adult edu  Informal  |     Total
+-----------+---------------------------------+----------
+         1 |        22          0          1 |     6,576 
+         2 |        13          1         35 |    22,433 
+         3 |        18          0          0 |    22,658 
+         4 |        86         10         57 |    12,907 
+         5 |       112          1         76 |    10,459 
+-----------+---------------------------------+----------
+     Total |       251         12        169 |    75,033 
+
+
+           |  What is the highest
+           | grade you completed?
+      wave | Not educa          . |     Total
+-----------+----------------------+----------
+         1 |     3,680        863 |     6,576 
+         2 |    12,690      2,500 |    22,433 
+         3 |    12,388      2,664 |    22,658 
+         4 |     7,373      1,239 |    12,907 
+         5 |     5,595        706 |    10,459 
+-----------+----------------------+----------
+     Total |    41,726      7,972 |    75,033 
 
 . 
 . * inspect land-rights variables
@@ -434,26 +662,46 @@ mg1_wage        byte    %9.0g                 works for wages
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-title           byte    %16.0g     yesno      Does your HH have a certificate for this
-                                                [Parcel]?
-collat          byte    %16.0g     yesno      Does anyone in the household have the right
-                                                to sell this [PARCEL] or use it as c
+-------------------------------------------------------------
+title           byte    %16.0g     yesno      Does your HH
+                                         have a certificate
+                                         for this [Parcel]?
+collat          byte    %16.0g     yesno      Does anyone in
+                                         the household have
+                                         the right to sell
+                                         this [PARCEL] or use
+                                         it as c
 
 . 
 .         tab             wave title, missing
 
-           |  Does your HH have a certificate for this
-           |                  [Parcel]?
-      wave |        no        yes          2          . |     Total
------------+--------------------------------------------+----------
-         1 |         0      2,206          0      4,370 |     6,576 
-         2 |        10     11,378          0     11,045 |    22,433 
-         3 |         0     12,855          0      9,803 |    22,658 
-         4 |     3,156      9,751          0          0 |    12,907 
-         5 |         0      8,133      2,326          0 |    10,459 
------------+--------------------------------------------+----------
-     Total |     3,166     44,323      2,326     25,218 |    75,033 
+           | Does your HH have a certificate
+           |        for this [Parcel]?
+      wave |        no        yes          2 |     Total
+-----------+---------------------------------+----------
+         1 |         0      2,206          0 |     6,576 
+         2 |        10     11,378          0 |    22,433 
+         3 |         0     12,855          0 |    22,658 
+         4 |     3,156      9,751          0 |    12,907 
+         5 |         0      8,133      2,326 |    10,459 
+-----------+---------------------------------+----------
+     Total |     3,166     44,323      2,326 |    75,033 
+
+
+           | Does your
+           | HH have a
+           | certificat
+           | e for this
+           | [Parcel]?
+      wave |         . |     Total
+-----------+-----------+----------
+         1 |     4,370 |     6,576 
+         2 |    11,045 |    22,433 
+         3 |     9,803 |    22,658 
+         4 |         0 |    12,907 
+         5 |         0 |    10,459 
+-----------+-----------+----------
+     Total |    25,218 |    75,033 
 
 .         tab             wave collat, missing
 
@@ -472,9 +720,11 @@ collat          byte    %16.0g     yesno      Does anyone in the household have 
 
 . 
 . 
-. ************************************************************************
+. ***********************************************************
+> *************
 . **# 3 - identify candidate explanatory variables
-. ************************************************************************
+. ***********************************************************
+> *************
 . 
 . * gender and household management
 .         lookfor         female
@@ -485,26 +735,51 @@ collat          byte    %16.0g     yesno      Does anyone in the household have 
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-household_id    str18   %-18s                 Household ID unique
-mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj2_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-household_id2   str18   %-18s                 Unique HH ID in wave 2
+-------------------------------------------------------------
+household_id    str18   %-18s                 Household ID
+                                         unique
+mg1_relat       byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+dj1_relat       byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+dj2_relat       byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+household_id2   str18   %-18s                 Unique HH ID in
+                                         wave 2
 household_num   int     %16.0g                Household ID
-collat          byte    %16.0g     yesno      Does anyone in the household have the right
-                                                to sell this [PARCEL] or use it as c
-deju1_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt3           byte    %16.0g                Who are the other household mebers
-                                                consulted by the primary decision maker
-                                                on th
-mgmt4           byte    %16.0g                Who are the other household mebers
-                                                consulted by the primary decision maker
-                                                on th
-mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
+collat          byte    %16.0g     yesno      Does anyone in
+                                         the household have
+                                         the right to sell
+                                         this [PARCEL] or use
+                                         it as c
+deju1_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+deju2_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mgmt3           byte    %16.0g                Who are the
+                                         other household
+                                         mebers consulted by
+                                         the primary decision
+                                         maker on th
+mgmt4           byte    %16.0g                Who are the
+                                         other household
+                                         mebers consulted by
+                                         the primary decision
+                                         maker on th
+mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
+mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member
+                                         Relationship to HH
+                                         Head
 
 .         lookfor         manager
 
@@ -512,11 +787,17 @@ mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-deju3           byte    %1.0g                 4b. Which HH members are listed as owners
-                                                or use rights holders: HH ID 3
-deju4           byte    %1.0g                 4b. Which HH members are listed as owners
-                                                or use rights holders: HH ID 4
+-------------------------------------------------------------
+deju3           byte    %1.0g                 4b. Which HH
+                                         members are listed
+                                         as owners or use
+                                         rights holders: HH
+                                         ID 3
+deju4           byte    %1.0g                 4b. Which HH
+                                         members are listed
+                                         as owners or use
+                                         rights holders: HH
+                                         ID 4
 
 . 
 . * household characteristics
@@ -524,39 +805,56 @@ deju4           byte    %1.0g                 4b. Which HH members are listed as
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-household_id    str18   %-18s                 Household ID unique
-household_id2   str18   %-18s                 Unique HH ID in wave 2
+-------------------------------------------------------------
+household_id    str18   %-18s                 Household ID
+                                         unique
+household_id2   str18   %-18s                 Unique HH ID in
+                                         wave 2
 household_num   int     %16.0g                Household ID
-collat          byte    %16.0g     yesno      Does anyone in the household have the right
-                                                to sell this [PARCEL] or use it as c
-mgmt3           byte    %16.0g                Who are the other household mebers
-                                                consulted by the primary decision maker
-                                                on th
-mgmt4           byte    %16.0g                Who are the other household mebers
-                                                consulted by the primary decision maker
-                                                on th
+collat          byte    %16.0g     yesno      Does anyone in
+                                         the household have
+                                         the right to sell
+                                         this [PARCEL] or use
+                                         it as c
+mgmt3           byte    %16.0g                Who are the
+                                         other household
+                                         mebers consulted by
+                                         the primary decision
+                                         maker on th
+mgmt4           byte    %16.0g                Who are the
+                                         other household
+                                         mebers consulted by
+                                         the primary decision
+                                         maker on th
 
 .         lookfor         working age
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-mg1_age         byte    %16.0g                How old is [Name]? (Years)
+-------------------------------------------------------------
+mg1_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
 mg1_wage        byte    %9.0g                 works for wages
-dj1_age         byte    %16.0g                How old is [Name]? (Years)
+dj1_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
 dj1_wage        byte    %9.0g                 works for wages
-dj2_age         byte    %16.0g                How old is [Name]? (Years)
+dj2_age         byte    %16.0g                How old is
+                                         [Name]? (Years)
 dj2_wage        byte    %9.0g                 works for wages
-deju1_age       byte    %16.0g                How old is [Name]? (Years)
+deju1_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
 deju1_wage      byte    %9.0g                 works for wages
-deju2_age       byte    %16.0g                How old is [Name]? (Years)
+deju2_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
 deju2_wage      byte    %9.0g                 works for wages
-mgmt2_age       byte    %16.0g                How old is [Name]? (Years)
+mgmt2_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
 mgmt2_wage      byte    %9.0g                 works for wages
-mgmt3_age       byte    %16.0g                How old is [Name]? (Years)
+mgmt3_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
 mgmt3_wage      byte    %9.0g                 works for wages
-mgmt4_age       byte    %16.0g                How old is [Name]? (Years)
+mgmt4_age       byte    %16.0g                How old is
+                                         [Name]? (Years)
 mgmt4_wage      byte    %9.0g                 works for wages
 
 .         lookfor         dependency
@@ -575,36 +873,48 @@ mgmt4_wage      byte    %9.0g                 works for wages
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-tenure          byte    %16.0g     pp_s2q03   How did your HH acquire the [Parcel]?
+-------------------------------------------------------------
+tenure          byte    %16.0g     pp_s2q03   How did your HH
+                                         acquire the
+                                         [Parcel]?
 
 .         lookfor         title
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-title           byte    %16.0g     yesno      Does your HH have a certificate for this
-                                                [Parcel]?
+-------------------------------------------------------------
+title           byte    %16.0g     yesno      Does your HH
+                                         have a certificate
+                                         for this [Parcel]?
 
 .         lookfor         certificate
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-title           byte    %16.0g     yesno      Does your HH have a certificate for this
-                                                [Parcel]?
-deju2           byte    %16.0g                Under whose name(s) is the certificate
-                                                issued for this [Parcel]?
+-------------------------------------------------------------
+title           byte    %16.0g     yesno      Does your HH
+                                         have a certificate
+                                         for this [Parcel]?
+deju2           byte    %16.0g                Under whose
+                                         name(s) is the
+                                         certificate issued
+                                         for this [Parcel]?
 
 .         lookfor         collateral
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
-defa1           byte    %16.0g                Who in HH can decide whether to sell parcel
-                                                or use as collateral [ID #1]
-defa2           byte    %16.0g                Who in HH can decide whether to sell parcel
-                                                or use as collateral [ID #2]
+-------------------------------------------------------------
+defa1           byte    %16.0g                Who in HH can
+                                         decide whether to
+                                         sell parcel or use
+                                         as collateral [ID
+                                         #1]
+defa2           byte    %16.0g                Who in HH can
+                                         decide whether to
+                                         sell parcel or use
+                                         as collateral [ID
+                                         #2]
 
 .         lookfor         slope
 
@@ -612,9 +922,11 @@ defa2           byte    %16.0g                Who in HH can decide whether to se
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 csa_soil        float   %9.0g      csa_yesno
-                                              Manure or compost used on field
+                                              Manure or
+                                         compost used on
+                                         field
 
 . 
 . * labor and economic characteristics
@@ -636,7 +948,7 @@ csa_soil        float   %9.0g      csa_yesno
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 mg1_wage        byte    %9.0g                 works for wages
 dj1_wage        byte    %9.0g                 works for wages
 dj2_wage        byte    %9.0g                 works for wages
@@ -684,21 +996,21 @@ mgmt4_wage      byte    %9.0g                 works for wages
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 admin_1         byte    %16.0g     saq01      Region Code
 
 .         lookfor         zone
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 admin_2         byte    %16.0g                Zone Code
 
 .         lookfor         woreda
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
------------------------------------------------------------------------------------------
+-------------------------------------------------------------
 admin_3         byte    %16.0g                Woreda Code
 
 .         lookfor         rural
@@ -709,11 +1021,14 @@ admin_3         byte    %16.0g                Woreda Code
 
 . 
 . 
-. ************************************************************************
+. ***********************************************************
+> *************
 . **# 4 - document known cross-wave problems
-. ************************************************************************
+. ***********************************************************
+> *************
 . 
-. * employment variables are not comparable across all five waves
+. * employment variables are not comparable across all five w
+> aves
 .         tab             wave mg1_farm, missing
 
            |          works on farm
@@ -757,17 +1072,33 @@ admin_3         byte    %16.0g                Woreda Code
 . * land certification requires additional harmonization
 .         tab             wave title, missing
 
-           |  Does your HH have a certificate for this
-           |                  [Parcel]?
-      wave |        no        yes          2          . |     Total
------------+--------------------------------------------+----------
-         1 |         0      2,206          0      4,370 |     6,576 
-         2 |        10     11,378          0     11,045 |    22,433 
-         3 |         0     12,855          0      9,803 |    22,658 
-         4 |     3,156      9,751          0          0 |    12,907 
-         5 |         0      8,133      2,326          0 |    10,459 
------------+--------------------------------------------+----------
-     Total |     3,166     44,323      2,326     25,218 |    75,033 
+           | Does your HH have a certificate
+           |        for this [Parcel]?
+      wave |        no        yes          2 |     Total
+-----------+---------------------------------+----------
+         1 |         0      2,206          0 |     6,576 
+         2 |        10     11,378          0 |    22,433 
+         3 |         0     12,855          0 |    22,658 
+         4 |     3,156      9,751          0 |    12,907 
+         5 |         0      8,133      2,326 |    10,459 
+-----------+---------------------------------+----------
+     Total |     3,166     44,323      2,326 |    75,033 
+
+
+           | Does your
+           | HH have a
+           | certificat
+           | e for this
+           | [Parcel]?
+      wave |         . |     Total
+-----------+-----------+----------
+         1 |     4,370 |     6,576 
+         2 |    11,045 |    22,433 
+         3 |     9,803 |    22,658 
+         4 |         0 |    12,907 
+         5 |         0 |    10,459 
+-----------+-----------+----------
+     Total |    25,218 |    75,033 
 
 . 
 . * collateral rights are unavailable in Wave 1
@@ -788,15 +1119,17 @@ admin_3         byte    %16.0g                Woreda Code
 
 . 
 . 
-. ************************************************************************
+. ***********************************************************
+> *************
 . **# 5 - end matter
-. ************************************************************************
+. ***********************************************************
+> *************
 . 
 . * close log
 .         log             close
       name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/01_v
-> ariable_inventory.log
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoptio
+> n/05-climate-smart/logs/01_variable_inventory.log
   log type:  text
- closed on:  26 Jul 2026, 22:41:47
------------------------------------------------------------------------------------------
+ closed on:  29 Jul 2026, 16:45:55
+-------------------------------------------------------------
