@@ -1,8 +1,8 @@
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/candidate_variable_audit.log
   log type:  text
- opened on:  27 Jul 2026, 18:24:21
+ opened on:  30 Jul 2026, 12:57:14
 
 . 
 . 
@@ -10,29 +10,36 @@
 . **# 1 - inspect final CSA analysis dataset
 . ************************************************************************
 . 
-. use "$root/eth_csa_analysis", clear
+. * load final analysis data
+.         use             "$root/eth_csa_analysis", clear
 (Ethiopia CSA adoption analysis data, waves 1-5)
 
 . 
-. isid wave holder_id parcel_id field_id
+. * confirm analysis unit
+.         isid    wave holder_id parcel_id field_id
 
 . 
-. display as result "=============================================="
+. * identify dataset being inspected
+.         display as result       "=============================================="
 ==============================================
 
-. display as result "CURRENT ETH_CSA_ANALYSIS DATASET"
+.         display as result       "CURRENT ETH_CSA_ANALYSIS DATASET"
 CURRENT ETH_CSA_ANALYSIS DATASET
 
-. display as result "=============================================="
+.         display as result       "=============================================="
 ==============================================
 
 . 
-. * household and labor variables
-. lookfor household
+. 
+. ************************************************************************
+. **# 1.1 - household and labor candidates
+. ************************************************************************
+. 
+.         lookfor         household
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 household_id    str18   %-18s                 Household ID unique
 household_id2   str18   %-18s                 Unique HH ID in wave 2
 household_num   int     %16.0g                Household ID
@@ -40,11 +47,11 @@ collat          byte    %16.0g     yesno      Does anyone in the household have 
 mgmt3           byte    %16.0g                Who are the other household mebers consulted by the primary decision maker on th
 mgmt4           byte    %16.0g                Who are the other household mebers consulted by the primary decision maker on th
 
-. lookfor member
+.         lookfor         member
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 indiv_num       int     %16.0g                HH Member ID Code
 mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
 dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
@@ -57,370 +64,313 @@ mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
 deju3           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 3
 deju4           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 4
 
-. lookfor size
+.         lookfor         size
 
-. lookfor adult
+.         lookfor         adult
 
-. lookfor child
+.         lookfor         child
 
-. lookfor dependency
+.         lookfor         dependency
 
-. lookfor labor
+.         lookfor         labor
 
-. lookfor hired
-
-. 
-. * economic variables
-. lookfor credit
-
-. lookfor loan
-
-. lookfor borrow
-
-. lookfor subsidy
-
-. lookfor support
-
-. lookfor program
-
-. lookfor asset
-
-. lookfor livestock
-
-. lookfor equipment
-
-. lookfor enterprise
-
-. lookfor business
-
-. lookfor nonfarm
+.         lookfor         hired
 
 . 
-. * institutional variables
-. lookfor extension
+. 
+. ************************************************************************
+. **# 1.2 - economic candidates
+. ************************************************************************
+. 
+.         lookfor         credit
 
-. lookfor agent
+.         lookfor         loan
 
-. lookfor advice
+.         lookfor         borrow
 
-. lookfor training
+.         lookfor         subsidy
 
-. lookfor weather
+.         lookfor         support
 
-. lookfor forecast
+.         lookfor         program
 
-. lookfor information
+.         lookfor         asset
 
-. lookfor phone
+.         lookfor         livestock
 
-. lookfor mobile
+.         lookfor         equipment
 
-. lookfor radio
+.         lookfor         enterprise
 
-. lookfor internet
+.         lookfor         business
 
-. lookfor communication
-
-. lookfor cooperative
+.         lookfor         nonfarm
 
 . 
-. * climate and risk variables
-. lookfor shock
+. 
+. ************************************************************************
+. **# 1.3 - institutional candidates
+. ************************************************************************
+. 
+.         lookfor         extension
 
-. lookfor drought
+.         lookfor         agent
 
-. lookfor flood
+.         lookfor         advice
 
-. lookfor rainfall
+.         lookfor         training
 
-. lookfor rain
+.         lookfor         weather
 
-. lookfor pest
+.         lookfor         forecast
 
-. lookfor disease
+.         lookfor         information
 
-. lookfor crop loss
+.         lookfor         phone
 
-. lookfor conflict
+.         lookfor         mobile
 
-. lookfor insecurity
+.         lookfor         radio
+
+.         lookfor         internet
+
+.         lookfor         communication
+
+.         lookfor         cooperative
 
 . 
-. * land and tenure variables
-. lookfor tenure
+. 
+. ************************************************************************
+. **# 1.4 - climate and risk candidates
+. ************************************************************************
+. 
+.         lookfor         shock
+
+.         lookfor         drought
+
+.         lookfor         flood
+
+.         lookfor         rainfall
+
+.         lookfor         rain
+
+.         lookfor         pest
+
+.         lookfor         disease
+
+.         lookfor         crop loss
+
+.         lookfor         conflict
+
+.         lookfor         insecurity
+
+. 
+. 
+. ************************************************************************
+. **# 1.5 - land and tenure candidates
+. ************************************************************************
+. 
+.         lookfor         tenure
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 tenure          byte    %16.0g     pp_s2q03   How did your HH acquire the [Parcel]?
 
-. lookfor certificate
+.         lookfor         certificate
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 title           byte    %16.0g     yesno      Does your HH have a certificate for this [Parcel]?
 deju2           byte    %16.0g                Under whose name(s) is the certificate issued for this [Parcel]?
 
-. lookfor title
+.         lookfor         title
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 title           byte    %16.0g     yesno      Does your HH have a certificate for this [Parcel]?
 
-. lookfor collateral
+.         lookfor         collateral
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 defa1           byte    %16.0g                Who in HH can decide whether to sell parcel or use as collateral [ID #1]
 defa2           byte    %16.0g                Who in HH can decide whether to sell parcel or use as collateral [ID #2]
 
-. lookfor transfer
+.         lookfor         transfer
 
-. lookfor sell
+.         lookfor         sell
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 collat          byte    %16.0g     yesno      Does anyone in the household have the right to sell this [PARCEL] or use it as c
 defa1           byte    %16.0g                Who in HH can decide whether to sell parcel or use as collateral [ID #1]
 defa2           byte    %16.0g                Who in HH can decide whether to sell parcel or use as collateral [ID #2]
 
-. lookfor inherit
+.         lookfor         inherit
 
-. lookfor owner
+.         lookfor         owner
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 deju3           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 3
 deju4           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 4
 
-. lookfor manager
-
-. 
-. * search variable names as well as labels
-. foreach pattern in ///
->         hhsize hh_size hhmem credit loan subsidy program asset ///
->         nfe enterprise extension weather phone mobile radio ///
->         shock drought flood rain pest hired labor {
-  2. 
-.         display as text "Variable-name pattern: *`pattern'*"
-  3.         capture noisily ds *`pattern'*
-  4. }
-Variable-name pattern: *hhsize*
-variable *hhsize* not found
-Variable-name pattern: *hh_size*
-variable *hh_size* not found
-Variable-name pattern: *hhmem*
-variable *hhmem* not found
-Variable-name pattern: *credit*
-variable *credit* not found
-Variable-name pattern: *loan*
-variable *loan* not found
-Variable-name pattern: *subsidy*
-variable *subsidy* not found
-Variable-name pattern: *program*
-variable *program* not found
-Variable-name pattern: *asset*
-variable *asset* not found
-Variable-name pattern: *nfe*
-mg1_nfe    dj1_nfe    dj2_nfe    deju1_nfe  deju2_nfe  mgmt2_nfe  mgmt3_nfe  mgmt4_nfe
-Variable-name pattern: *enterprise*
-variable *enterprise* not found
-Variable-name pattern: *extension*
-variable *extension* not found
-Variable-name pattern: *weather*
-variable *weather* not found
-Variable-name pattern: *phone*
-variable *phone* not found
-Variable-name pattern: *mobile*
-variable *mobile* not found
-Variable-name pattern: *radio*
-variable *radio* not found
-Variable-name pattern: *shock*
-variable *shock* not found
-Variable-name pattern: *drought*
-variable *drought* not found
-Variable-name pattern: *flood*
-variable *flood* not found
-Variable-name pattern: *rain*
-variable *rain* not found
-Variable-name pattern: *pest*
-variable *pest* not found
-Variable-name pattern: *hired*
-variable *hired* not found
-Variable-name pattern: *labor*
-variable *labor* not found
+.         lookfor         manager
 
 . 
 . 
 . ************************************************************************
-. **# 2 - inspect original harmonized Ethiopia source
+. **# 1.6 - search candidate variable names
 . ************************************************************************
-. 
-. preserve
-
-. 
-.         use "$eth_allrounds", clear
-
-. 
-.         display as result "=============================================="
-==============================================
-
-.         display as result "ORIGINAL ETH_ALLROUNDS DATASET"
-ORIGINAL ETH_ALLROUNDS DATASET
-
-.         display as result "=============================================="
-==============================================
-
-. 
-.         lookfor household
-
-Variable      Storage   Display    Value
-    name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-household_id    str18   %-18s                 Household ID unique
-household_id2   str18   %-18s                 Unique HH ID in wave 2
-household_num   int     %16.0g                Household ID
-collat          byte    %16.0g     yesno      Does anyone in the household have the right to sell this [PARCEL] or use it as c
-mgmt3           byte    %16.0g                Who are the other household mebers consulted by the primary decision maker on th
-mgmt4           byte    %16.0g                Who are the other household mebers consulted by the primary decision maker on th
-
-.         lookfor member
-
-Variable      Storage   Display    Value
-    name         type    format    label      Variable label
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-indiv_num       int     %16.0g                HH Member ID Code
-mg1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj1_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-dj2_relat       byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju1_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt2_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt3_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-mgmt4_relat     byte    %16.0g     hh_s1q02   HH Member Relationship to HH Head
-deju3           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 3
-deju4           byte    %1.0g                 4b. Which HH members are listed as owners or use rights holders: HH ID 4
-
-.         lookfor size
-
-.         lookfor labor
-
-.         lookfor hired
-
-. 
-.         lookfor credit
-
-.         lookfor loan
-
-.         lookfor subsidy
-
-.         lookfor program
-
-.         lookfor asset
-
-.         lookfor enterprise
-
-.         lookfor nonfarm
-
-. 
-.         lookfor extension
-
-.         lookfor training
-
-.         lookfor weather
-
-.         lookfor information
-
-.         lookfor phone
-
-.         lookfor mobile
-
-.         lookfor radio
-
-. 
-.         lookfor shock
-
-.         lookfor drought
-
-.         lookfor flood
-
-.         lookfor rainfall
-
-.         lookfor pest
-
-.         lookfor disease
-
 . 
 .         foreach pattern in ///
->                 hhsize hh_size hhmem credit loan subsidy program asset ///
->                 nfe enterprise extension weather phone mobile radio ///
->                 shock drought flood rain pest hired labor {
-  2. 
-.                 display as text "Variable-name pattern: *`pattern'*"
-  3.                 capture noisily ds *`pattern'*
-  4.         }
-Variable-name pattern: *hhsize*
-variable *hhsize* not found
-Variable-name pattern: *hh_size*
-variable *hh_size* not found
-Variable-name pattern: *hhmem*
-variable *hhmem* not found
-Variable-name pattern: *credit*
-variable *credit* not found
-Variable-name pattern: *loan*
-variable *loan* not found
-Variable-name pattern: *subsidy*
-variable *subsidy* not found
-Variable-name pattern: *program*
-variable *program* not found
-Variable-name pattern: *asset*
-variable *asset* not found
-Variable-name pattern: *nfe*
-mg1_nfe    dj1_nfe    dj2_nfe    deju1_nfe  deju2_nfe  mgmt2_nfe  mgmt3_nfe  mgmt4_nfe
-Variable-name pattern: *enterprise*
-variable *enterprise* not found
-Variable-name pattern: *extension*
-variable *extension* not found
-Variable-name pattern: *weather*
-variable *weather* not found
-Variable-name pattern: *phone*
-variable *phone* not found
-Variable-name pattern: *mobile*
-variable *mobile* not found
-Variable-name pattern: *radio*
-variable *radio* not found
-Variable-name pattern: *shock*
-variable *shock* not found
-Variable-name pattern: *drought*
-variable *drought* not found
-Variable-name pattern: *flood*
-variable *flood* not found
-Variable-name pattern: *rain*
-variable *rain* not found
-Variable-name pattern: *pest*
-variable *pest* not found
-Variable-name pattern: *hired*
-variable *hired* not found
-Variable-name pattern: *labor*
-variable *labor* not found
+>                 hhsize hh_size hhmem ///
+>                 credit loan borrow subsidy program ///
+>                 asset livestock equipment ///
+>                 nfe enterprise business ///
+>         
+{ required
+r(100);
+
+end of do-file
+
+r(100);
+
+. do "C:\Users\tijer\git\UROC\climate-smart-ag-adoption\05-climate-smart\code\00_setup.do"
+
+. ************************************************************************
+. * 00_setup.do
+. * Project: Climate-Smart Agricultural Adoption
+. * Purpose: Set up project paths and prepare coding workflow
+. * Author: Joss Tijerina
+. * Created: July 2026
+. ************************************************************************
+. 
+. clear all
+
+. set more off
 
 . 
-. restore
+. ************************************************************************
+. * 1. Project folder
+. ************************************************************************
+. 
+. global project "C:/Users/tijer/git/UROC/climate-smart-ag-adoption"
+
+. 
+. ************************************************************************
+. * 2. Project subfolders
+. ************************************************************************
+. 
+. global cs_code   "$project/05-climate-smart/code"
+
+. global cs_docs   "$project/05-climate-smart/docs"
+
+. global cs_logs   "$project/05-climate-smart/logs"
+
+. global cs_output "$project/05-climate-smart/output"
+
+. 
+. ************************************************************************
+. * 3. Data folders
+. * Note: raw LSMS-ISA data should stay outside GitHub
+. ************************************************************************
+. 
+. * AIDE Lab data location
+.         global  aide_data       "C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
+
+. 
+. * raw LSMS data
+.         global  raw_data        "$aide_data/raw_lsms_data"
+
+. global clean_data "$project/05-climate-smart/clean-data"
 
 . 
 . 
 . ************************************************************************
-. **# 3 - close audit
+. * 3.1 Existing AIDE Lab Ethiopia data
 . ************************************************************************
 . 
-. log close
-      name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/candidate_variable_audit.log
-  log type:  text
- closed on:  27 Jul 2026, 18:24:22
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+. * Read-only source location for existing AIDE Lab data
+. global aide_data ///
+>     "C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture"
+
+. 
+. * Final appended Ethiopia dataset
+. global eth_allrounds ///
+>     "$aide_data/lsms_gender_data/03-regression_data/eth_allrounds.dta"
+
+.         
+.         
+. ************************************************************************
+. * 4. Quick check
+. ************************************************************************
+. 
+. display "Climate-smart project setup loaded."
+Climate-smart project setup loaded.
+
+. display "Project folder: $project"
+Project folder: C:/Users/tijer/git/UROC/climate-smart-ag-adoption
+
+. display "Ethiopia source file: $eth_allrounds"
+Ethiopia source file: C:/Users/tijer/OneDrive - University of Arizona/AIDE LAB/Michler, Jeffrey David - (jdmichler)'s files - weather_and_agriculture/lsms_gender_data/03-regression_data/eth_allrounds.dta
+
+. 
+. capture confirm file "$eth_allrounds"
+
+. 
+. if _rc {
+.     display as error "The appended Ethiopia dataset was not found."
+.     display as error "Check this path: $eth_allrounds"
+.     exit 601
+. }
+
+. 
+. display as result "The appended Ethiopia dataset was found."
+The appended Ethiopia dataset was found.
+
+. 
+end of do-file
+
+. do "C:\Users\tijer\git\UROC\climate-smart-ag-adoption\05-climate-smart\code\final_results.do"
+
+. * Project: lsms csa
+. * Created on: july 2026
+. * Created by: jt
+. * Edited on: july 2026
+. * Edited by: jt
+. * Stata v.19.5
+. 
+. * does
+.         * loads the final Ethiopia CSA analysis dataset
+.         * reconstructs theoretically central explanatory variables
+.         * audits candidate controls for cross-wave comparability
+.         * prepares candidate controls for LASSO and elastic net
+.         * estimates post-selection CSA adoption models
+.         
+. * assumes
+.         * eth_csa_analysis.dta has been created
+.         * CSA outcomes have been harmonized across five Ethiopia survey waves
+.         * Manager 1 is used consistently as the primary field manager
+.         * theory variables remain in all relevant specifications
+.         
+. * TO DO:
+.         * inspect coding and missingness
+.         * define candidate control pool
+.         * prune noncomparable variables
+.         * run LASSO and elastic net
+.         * estimate post-selection regressions
+.         * export final tables and figures
+. 
+. 
+. clear all
+
+. set more off
+
+. cap log close _all

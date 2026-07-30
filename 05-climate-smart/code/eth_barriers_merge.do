@@ -201,13 +201,6 @@
 * inspect tenure barrier by wave
 	tab					wave insecure_tenure, missing
 	
-* confirm cleaned institutional barrier files exist
-	forvalues w = 1/5 {
-
-		confirm file		"$aide_data/lsms_gender_data/01-refined_data/ethiopia/wave_`w'/sect7_pp_w`w'.dta"
-
-	}
-	
 	
 ************************************************************************
 **# 4 - prepare economic and institutional barriers
@@ -269,6 +262,249 @@
 	
 * inspect credit-access barrier by wave
 	tab					wave no_credit, missing
+	
+* inspect extension-program barrier by wave
+	tab					wave no_extension, missing
+	
+* inspect advisory-services barrier by wave
+	tab					wave no_advisory, missing
+	
+
+************************************************************************
+**# 5 - merge household economic barriers
+************************************************************************
+
+* construct household merge identifier in analysis data
+	gen str18			hh_merge_id = household_id
+
+	replace				hh_merge_id = household_id2 ///
+							if wave == 2
+
+* confirm household merge identifier is available
+	assert				!missing(hh_merge_id)
+
+
+* append household nonfarm-enterprise barriers across waves
+	preserve
+
+	tempfile			sect4_all
+
+	forvalues w = 1/5 {
+
+		use				"$aide_data/lsms_gender_data/01-refined_data/ethiopia/wave_`w'/sect4_hh_w`w'.dta", clear
+
+		gen				wave = `w'
+
+* construct wave-specific household merge identifier
+		if `w' == 2 {
+
+			gen str18		hh_merge_id = household_id2
+
+		}
+
+		else {
+
+			gen str18		hh_merge_id = household_id
+
+		}
+
+	* confirm barrier is constant within household
+		bysort			hh_merge_id: ///
+							assert no_nfe == no_nfe[1]
+
+	* retain one observation per household
+		bysort			hh_merge_id: ///
+							keep if _n == 1
+
+		keep			wave hh_merge_id no_nfe
+
+		isid			wave hh_merge_id
+
+		if `w' == 1 {
+
+			save			`sect4_all', replace
+
+		}
+
+		else {
+
+			append			using `sect4_all'
+
+			save			`sect4_all', replace
+
+		}
+
+	}
+
+	restore
+
+
+* merge household economic barrier into field-level data
+	merge m:1			wave hh_merge_id ///
+							using `sect4_all', ///
+							keepusing(no_nfe) ///
+							generate(merge_sect4)
+
+* inspect merge results
+	tab					wave merge_sect4, missing
+
+* remove households outside the CSA analysis sample
+	drop				if merge_sect4 == 2
+
+* confirm original field-level sample is preserved
+	assert				_N == 75033
+
+	isid				wave holder_id parcel_id field_id
+
+* inspect nonfarm-enterprise barrier by wave
+	tab					wave no_nfe, missing
+	
+* remove merge indicator
+	drop				merge_sect4
+	
+
+************************************************************************
+**# 6 - prepare communication barrier
+************************************************************************
+
+* construct communication merge identifier
+	gen str18			comm_merge_id = household_id
+
+	replace				comm_merge_id = household_id2 ///
+							if inlist(wave, 2, 3)
+							
+* append household communication barriers across available waves
+	preserve
+
+	tempfile			communication_all
+
+	forvalues w = 1/3 {
+
+		use				"$aide_data/lsms_gender_data/01-refined_data/ethiopia/wave_`w'/sect10_hh_w`w'.dta", clear
+
+		gen				wave = `w'
+
+		gen str18		comm_merge_id = household_id
+
+		keep			wave comm_merge_id no_communication
+
+		isid			wave comm_merge_id
+
+		if `w' == 1 {
+
+			save			`communication_all', replace
+
+		}
+
+		else {
+
+			append			using `communication_all'
+
+			save			`communication_all', replace
+
+		}
+
+	}
+
+* add Wave 4 communication barrier
+	use				"$aide_data/lsms_gender_data/01-refined_data/ethiopia/wave_4/sect11_hh_w4.dta", clear
+
+	gen				wave = 4
+
+	gen str18		comm_merge_id = household_id
+
+	keep				wave comm_merge_id no_communication
+
+	isid				wave comm_merge_id
+
+	append				using `communication_all'
+
+	save				`communication_all', replace
+
+	restore
+	
+* merge household communication barrier into field-level data
+	merge m:1			wave comm_merge_id ///
+							using `communication_all', ///
+							keepusing(no_communication) ///
+							generate(merge_communication)
+
+* inspect communication-barrier merge results
+	tab					wave merge_communication, missing
+	
+* inspect Wave 3 household identifiers from analysis data
+	preserve
+
+	keep				if wave == 3 & merge_communication == 1
+
+	list				comm_merge_id household_id ///
+							in 1/10, clean noobs
+
+	restore
+
+
+* inspect Wave 3 household identifiers from communication data
+	preserve
+
+	keep				if wave == 3 & merge_communication == 2
+
+	list				comm_merge_id ///
+							in 1/10, clean noobs
+
+	restore
+	
+* inspect extra characters in Wave 3 communication identifiers
+	preserve
+
+	keep				if wave == 3 & ///
+							merge_communication == 2
+
+	gen str4			id_extra = ///
+							substr(hh_merge_id, 7, 4)
+
+	tab					id_extra, missing
+
+	restore
+	
+* inspect Wave 3 communication-file identifiers
+	preserve
+
+	use				"$aide_data/lsms_gender_data/01-refined_data/ethiopia/wave_3/sect10_hh_w3.dta", clear
+
+	describe			*id*
+
+	restore
+	
+* inspect communication-barrier merge results
+	tab					wave merge_communication, missing
+
+* remove households outside the CSA analysis sample
+	drop				if merge_communication == 2
+
+* confirm original field-level sample is preserved
+	assert				_N == 75033
+
+	isid				wave holder_id parcel_id field_id
+
+* inspect communication-access barrier by wave
+	tab					wave no_communication, missing
+
+* remove merge indicator and temporary merge identifiers
+	drop				merge_communication ///
+						hh_merge_id comm_merge_id
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
