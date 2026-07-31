@@ -66,6 +66,29 @@
 						manager_age ///
 						manager_age_sq ///
 						manager_lowedu
+						
+* construct additional manager controls
+	gen					manager_not_head = ///
+						mg1_relat != 1 ///
+						if !missing(mg1_relat)
+
+	gen					manager_married = ///
+						inlist(mg1_mrry, 2, 3) ///
+						if inrange(mg1_mrry, 1, 6)
+
+	label variable		manager_not_head ///
+						"Primary manager is not household head"
+
+	label variable		manager_married ///
+						"Primary manager is married"
+
+* define candidate controls for variable selection
+	local candidates	manager_not_head ///
+						manager_married ///
+						mg1_farm ///
+						mg1_wage
+						
+	misstable 			summarize `candidates'
 
 * inspect missingness in outcomes and explanatory variables
 	misstable summarize ///
@@ -141,6 +164,30 @@
 	gen					sample_cons = ///
 						sample_rhs == 1 & ///
 						!missing(csa_cons)
+						
+* count missing candidate controls
+	egen				candidate_missing = rowmiss( ///
+						`candidates')
+
+* define variable-selection samples
+	gen					sample_select_pca = ///
+						sample_pca == 1 & ///
+						candidate_missing == 0
+
+	gen					sample_select_any = ///
+						sample_any == 1 & ///
+						candidate_missing == 0
+
+	gen					sample_select_count = ///
+						sample_count == 1 & ///
+						candidate_missing == 0
+
+* inspect variable-selection sample sizes
+	tabstat				sample_select_pca ///
+						sample_select_any ///
+						sample_select_count, ///
+						by(wave) ///
+						statistics(sum)
 
 * inspect regression sample sizes by wave
 	tabstat				sample_pca ///
@@ -613,4 +660,349 @@
 * export table-only LaTeX code
 	collect export		"$export/table_domain_models.tex", ///
 							tableonly replace
+							
+							
+************************************************************************
+**# 17 - create practice-specific coefficient figure
+************************************************************************
+
+* create temporary file for practice-specific coefficients
+	tempname			coefpost
+	tempfile			practice_coefs
+
+	postfile			`coefpost' ///
+						str20 outcome ///
+						byte outcome_order ///
+						str30 barrier ///
+						byte barrier_order ///
+						double b se ///
+						using `practice_coefs', replace
+
+* collect irrigation coefficients
+	estimates restore	irr_domains
+
+	post				`coefpost' ///
+						("Irrigation") (1) ///
+						("Economic barriers") (1) ///
+						(_b[econ_barrier_index]) ///
+						(_se[econ_barrier_index])
+
+	post				`coefpost' ///
+						("Irrigation") (1) ///
+						("Institutional barriers") (2) ///
+						(_b[inst_barrier_index]) ///
+						(_se[inst_barrier_index])
+
+	post				`coefpost' ///
+						("Irrigation") (1) ///
+						("Land and tenure barriers") (3) ///
+						(_b[land_barrier_index]) ///
+						(_se[land_barrier_index])
+
+* collect improved-seed coefficients
+	estimates restore	seed_domains
+
+	post				`coefpost' ///
+						("Improved seed") (2) ///
+						("Economic barriers") (1) ///
+						(_b[econ_barrier_index]) ///
+						(_se[econ_barrier_index])
+
+	post				`coefpost' ///
+						("Improved seed") (2) ///
+						("Institutional barriers") (2) ///
+						(_b[inst_barrier_index]) ///
+						(_se[inst_barrier_index])
+
+	post				`coefpost' ///
+						("Improved seed") (2) ///
+						("Land and tenure barriers") (3) ///
+						(_b[land_barrier_index]) ///
+						(_se[land_barrier_index])
+
+* collect soil-management coefficients
+	estimates restore	soil_domains
+
+	post				`coefpost' ///
+						("Soil management") (3) ///
+						("Economic barriers") (1) ///
+						(_b[econ_barrier_index]) ///
+						(_se[econ_barrier_index])
+
+	post				`coefpost' ///
+						("Soil management") (3) ///
+						("Institutional barriers") (2) ///
+						(_b[inst_barrier_index]) ///
+						(_se[inst_barrier_index])
+
+	post				`coefpost' ///
+						("Soil management") (3) ///
+						("Land and tenure barriers") (3) ///
+						(_b[land_barrier_index]) ///
+						(_se[land_barrier_index])
+
+* collect conservation coefficients
+	estimates restore	cons_domains
+
+	post				`coefpost' ///
+						("Conservation") (4) ///
+						("Economic barriers") (1) ///
+						(_b[econ_barrier_index]) ///
+						(_se[econ_barrier_index])
+
+	post				`coefpost' ///
+						("Conservation") (4) ///
+						("Institutional barriers") (2) ///
+						(_b[inst_barrier_index]) ///
+						(_se[inst_barrier_index])
+
+	post				`coefpost' ///
+						("Conservation") (4) ///
+						("Land and tenure barriers") (3) ///
+						(_b[land_barrier_index]) ///
+						(_se[land_barrier_index])
+
+	postclose			`coefpost'
+
+* construct confidence intervals and plotting positions
+	preserve
+
+		use				`practice_coefs', clear
+
+		gen					ci_low = b - 1.96 * se
+		gen					ci_high = b + 1.96 * se
+
+		gen					y_position = outcome_order
+		replace				y_position = y_position - .18 ///
+								if barrier_order == 1
+		replace				y_position = y_position + .18 ///
+								if barrier_order == 3
+
+* plot practice-specific barrier coefficients
+		twoway				///
+			(rcap ci_low ci_high y_position ///
+				if barrier_order == 1, ///
+				horizontal ///
+				lcolor(navy) ///
+				lwidth(medthin)) ///
+			(scatter y_position b ///
+				if barrier_order == 1, ///
+				msymbol(O) ///
+				mcolor(navy) ///
+				msize(medsmall)) ///
+			(rcap ci_low ci_high y_position ///
+				if barrier_order == 2, ///
+				horizontal ///
+				lcolor(cranberry) ///
+				lwidth(medthin)) ///
+			(scatter y_position b ///
+				if barrier_order == 2, ///
+				msymbol(D) ///
+				mcolor(cranberry) ///
+				msize(medsmall)) ///
+			(rcap ci_low ci_high y_position ///
+				if barrier_order == 3, ///
+				horizontal ///
+				lcolor(forest_green) ///
+				lwidth(medthin)) ///
+			(scatter y_position b ///
+				if barrier_order == 3, ///
+				msymbol(T) ///
+				mcolor(forest_green) ///
+				msize(medsmall)), ///
+			xline(0, ///
+				lpattern(dash) ///
+				lcolor(gs8)) ///
+			xlabel(-.30(.10).20, ///
+				format(%4.1f) ///
+				labsize(small)) ///
+			ylabel( ///
+				1 "Irrigation" ///
+				2 "Improved seed" ///
+				3 "Soil management" ///
+				4 "Conservation", ///
+				angle(horizontal) ///
+				labsize(small) ///
+				noticks) ///
+			yscale(reverse) ///
+			xtitle( ///
+				"Change in adoption probability", ///
+				size(medsmall)) ///
+			ytitle("") ///
+			title( ///
+				"Barrier domains and CSA practice adoption", ///
+				size(medium)) ///
+			subtitle( ///
+				"Linear probability estimates with 95% confidence intervals", ///
+				size(small)) ///
+			legend( ///
+				order( ///
+					2 "Economic" ///
+					4 "Institutional" ///
+					6 "Land/tenure") ///
+				cols(3) ///
+				position(6) ///
+				ring(1) ///
+				size(small) ///
+				region(lcolor(none))) ///
+			graphregion(color(white)) ///
+			plotregion(color(white)) ///
+			xsize(8.5) ///
+			ysize(5.5) ///
+			scheme(stcolor_alt) ///
+			name(practice_coef_figure, replace)
+
+* export practice-specific coefficient figure
+		graph export		"$export/figure_practice_barrier_coefficients.png", ///
+								replace ///
+								width(3000)
+
+		graph export		"$export/figure_practice_barrier_coefficients.pdf", ///
+								replace
+
+	restore
+	
+	
+************************************************************************
+**# 18 - export overall-barrier latex table
+************************************************************************
+
+* clear previous collection
+	collect clear
+
+* create compact overall-barrier table
+	etable,				estimates( ///
+							pca_overall ///
+							any_overall ///
+							count_overall) ///
+						keep( ///
+							overall_barrier_index) ///
+						column(index) ///
+						mstat(N) ///
+						mstat(r2) ///
+						showstars ///
+						showstarsnote ///
+						title( ///
+							"Overall barriers and CSA adoption outcomes") ///
+						note( ///
+							"Manager characteristics, wave fixed effects, and region fixed effects are included but not displayed. Standard errors are clustered by holder.")
+
+* label model columns
+	collect label levels	cmdset ///
+							1 "PCA index" ///
+							2 "Any CSA" ///
+							3 "CSA count", ///
+							modify
+
+* label displayed coefficient
+	collect label levels	colname ///
+							overall_barrier_index ///
+							"Overall barrier index", ///
+							modify
+
+* export table-only LaTeX code
+	collect export		"$export/table_overall_models.tex", ///
+							tableonly replace
+							
+							
+************************************************************************
+**# 19 - identify dominant barrier by region
+************************************************************************
+
+* calculate average barrier-domain indices by region
+	preserve
+
+		keep				if !missing(admin_1)
+
+		collapse			(mean) ///
+								econ_barrier_index ///
+								inst_barrier_index ///
+								land_barrier_index, ///
+								by(admin_1)
+
+* identify the largest average barrier domain
+		egen				max_barrier = rowmax( ///
+								econ_barrier_index ///
+								inst_barrier_index ///
+								land_barrier_index)
+
+		gen					dominant_barrier = 1 ///
+								if econ_barrier_index == max_barrier
+
+		replace				dominant_barrier = 2 ///
+								if inst_barrier_index == max_barrier
+
+		replace				dominant_barrier = 3 ///
+								if land_barrier_index == max_barrier
+
+* label dominant barrier domains
+		label define		dominant_barrier_lbl ///
+								1 "Economic barriers" ///
+								2 "Institutional barriers" ///
+								3 "Land and tenure barriers"
+
+		label values		dominant_barrier ///
+								dominant_barrier_lbl
+
+* inspect regional results
+		sort				admin_1
+
+		list				admin_1 ///
+								econ_barrier_index ///
+								inst_barrier_index ///
+								land_barrier_index ///
+								dominant_barrier, ///
+								noobs abbreviate(24)
+
+* save regional data for mapping
+		save				"$export/region_dominant_barrier.dta", ///
+								replace
+
+	restore
+	
+	
+************************************************************************
+**# 20 - estimate pca lasso model
+************************************************************************
+
+* select additional controls for PCA outcome
+	lasso linear		csa_pca_index ///
+						(`barriers' ///
+						`manager' ///
+						i.wave i.admin_1) ///
+						`candidates' ///
+						if sample_select_pca == 1, ///
+						selection(cv) ///
+						cluster(holder_cluster) ///
+						rseed(20260730)
+
+* store PCA lasso model
+	estimates store		pca_lasso
+
+* display selected variables and postselection coefficients
+	lassocoef,			display(coef, postselection)
+	
+	
+************************************************************************
+**# 21 - estimate pca elastic-net model
+************************************************************************
+
+* select additional controls for PCA outcome
+	elasticnet linear	csa_pca_index ///
+						(`barriers' ///
+						`manager' ///
+						i.wave i.admin_1) ///
+						`candidates' ///
+						if sample_select_pca == 1, ///
+						alpha(.25 .5 .75) ///
+						selection(cv) ///
+						cluster(holder_cluster) ///
+						rseed(20260730)
+
+* store PCA elastic-net model
+	estimates store		pca_elastic
+
+* display selected variables and postselection coefficients
+	lassocoef,			display(coef, postselection)
+	
 	

@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/final_results.log
   log type:  text
- opened on:  30 Jul 2026, 16:04:35
+ opened on:  30 Jul 2026, 17:02:09
 
 . 
 . 
@@ -53,6 +53,47 @@
 >                                                 manager_age ///
 >                                                 manager_age_sq ///
 >                                                 manager_lowedu
+
+.                                                 
+. * construct additional manager controls
+.         gen                                     manager_not_head = ///
+>                                                 mg1_relat != 1 ///
+>                                                 if !missing(mg1_relat)
+(359 missing values generated)
+
+. 
+.         gen                                     manager_married = ///
+>                                                 inlist(mg1_mrry, 2, 3) ///
+>                                                 if inrange(mg1_mrry, 1, 6)
+(1,103 missing values generated)
+
+. 
+.         label variable          manager_not_head ///
+>                                                 "Primary manager is not household head"
+
+. 
+.         label variable          manager_married ///
+>                                                 "Primary manager is married"
+
+. 
+. * define candidate controls for variable selection
+.         local candidates        manager_not_head ///
+>                                                 manager_married ///
+>                                                 mg1_farm ///
+>                                                 mg1_wage
+
+.                                                 
+.         misstable                       summarize `candidates'
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+  manager_no~d |       359              74,674  |      2          0           1
+  manager_ma~d |     1,103              73,930  |      2          0           1
+      mg1_farm |     3,709              71,324  |      2          0           1
+      mg1_wage |     1,153              73,880  |      2          0           1
+  -----------------------------------------------------------------------------
 
 . 
 . * inspect missingness in outcomes and explanatory variables
@@ -220,6 +261,49 @@ admin_6         int     %16.0g                Kebele/FA Code
 >                                                 sample_rhs == 1 & ///
 >                                                 !missing(csa_cons)
 
+.                                                 
+. * count missing candidate controls
+.         egen                            candidate_missing = rowmiss( ///
+>                                                 `candidates')
+
+. 
+. * define variable-selection samples
+.         gen                                     sample_select_pca = ///
+>                                                 sample_pca == 1 & ///
+>                                                 candidate_missing == 0
+
+. 
+.         gen                                     sample_select_any = ///
+>                                                 sample_any == 1 & ///
+>                                                 candidate_missing == 0
+
+. 
+.         gen                                     sample_select_count = ///
+>                                                 sample_count == 1 & ///
+>                                                 candidate_missing == 0
+
+. 
+. * inspect variable-selection sample sizes
+.         tabstat                         sample_select_pca ///
+>                                                 sample_select_any ///
+>                                                 sample_select_count, ///
+>                                                 by(wave) ///
+>                                                 statistics(sum)
+
+Summary statistics: Sum
+Group variable: wave 
+
+    wave |  sa~t_pca  sa~t_any  ~t_count
+---------+------------------------------
+       1 |       179      5211       179
+       2 |      7692     19592      7692
+       3 |      9451     19845      9451
+       4 |      9202      9202      9202
+       5 |      9749      9751      9749
+---------+------------------------------
+   Total |     36273     63601     36273
+----------------------------------------
+
 . 
 . * inspect regression sample sizes by wave
 .         tabstat                         sample_pca ///
@@ -235,7 +319,7 @@ admin_6         int     %16.0g                Kebele/FA Code
 Summary statistics: Sum
 Group variable: wave 
 
-    wave |  sample~a  sample~y  sample~t  sample~r  sample~d  sample~l  sampl~ns
+    wave |  sa~e_pca  sa~e_any  ~e_count  sample~r  sample~d  sample~l  sampl~ns
 ---------+----------------------------------------------------------------------
        1 |       179      5315       179      5226      4612      2204       435
        2 |      7699     19626      7699     19566     14288     10060     19541
@@ -1283,6 +1367,1326 @@ errors are clustered by holder.
 >                                                         tableonly replace
 (collection ETable exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table_domain_models.tex)
 
+.                                                         
+.                                                         
+. ************************************************************************
+. **# 17 - create practice-specific coefficient figure
+. ************************************************************************
+. 
+. * create temporary file for practice-specific coefficients
+.         tempname                        coefpost
+
+.         tempfile                        practice_coefs
+
+. 
+.         postfile                        `coefpost' ///
+>                                                 str20 outcome ///
+>                                                 byte outcome_order ///
+>                                                 str30 barrier ///
+>                                                 byte barrier_order ///
+>                                                 double b se ///
+>                                                 using `practice_coefs', replace
+(file C:\Users\tijer\AppData\Local\Temp\ST_c4c_000005.tmp not found)
+
+. 
+. * collect irrigation coefficients
+.         estimates restore       irr_domains
+(results irr_domains are active now)
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Irrigation") (1) ///
+>                                                 ("Economic barriers") (1) ///
+>                                                 (_b[econ_barrier_index]) ///
+>                                                 (_se[econ_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Irrigation") (1) ///
+>                                                 ("Institutional barriers") (2) ///
+>                                                 (_b[inst_barrier_index]) ///
+>                                                 (_se[inst_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Irrigation") (1) ///
+>                                                 ("Land and tenure barriers") (3) ///
+>                                                 (_b[land_barrier_index]) ///
+>                                                 (_se[land_barrier_index])
+
+. 
+. * collect improved-seed coefficients
+.         estimates restore       seed_domains
+(results seed_domains are active now)
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Improved seed") (2) ///
+>                                                 ("Economic barriers") (1) ///
+>                                                 (_b[econ_barrier_index]) ///
+>                                                 (_se[econ_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Improved seed") (2) ///
+>                                                 ("Institutional barriers") (2) ///
+>                                                 (_b[inst_barrier_index]) ///
+>                                                 (_se[inst_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Improved seed") (2) ///
+>                                                 ("Land and tenure barriers") (3) ///
+>                                                 (_b[land_barrier_index]) ///
+>                                                 (_se[land_barrier_index])
+
+. 
+. * collect soil-management coefficients
+.         estimates restore       soil_domains
+(results soil_domains are active now)
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Soil management") (3) ///
+>                                                 ("Economic barriers") (1) ///
+>                                                 (_b[econ_barrier_index]) ///
+>                                                 (_se[econ_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Soil management") (3) ///
+>                                                 ("Institutional barriers") (2) ///
+>                                                 (_b[inst_barrier_index]) ///
+>                                                 (_se[inst_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Soil management") (3) ///
+>                                                 ("Land and tenure barriers") (3) ///
+>                                                 (_b[land_barrier_index]) ///
+>                                                 (_se[land_barrier_index])
+
+. 
+. * collect conservation coefficients
+.         estimates restore       cons_domains
+(results cons_domains are active now)
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Conservation") (4) ///
+>                                                 ("Economic barriers") (1) ///
+>                                                 (_b[econ_barrier_index]) ///
+>                                                 (_se[econ_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Conservation") (4) ///
+>                                                 ("Institutional barriers") (2) ///
+>                                                 (_b[inst_barrier_index]) ///
+>                                                 (_se[inst_barrier_index])
+
+. 
+.         post                            `coefpost' ///
+>                                                 ("Conservation") (4) ///
+>                                                 ("Land and tenure barriers") (3) ///
+>                                                 (_b[land_barrier_index]) ///
+>                                                 (_se[land_barrier_index])
+
+. 
+.         postclose                       `coefpost'
+
+. 
+. * construct confidence intervals and plotting positions
+.         preserve
+
+. 
+.                 use                             `practice_coefs', clear
+
+. 
+.                 gen                                     ci_low = b - 1.96 * se
+
+.                 gen                                     ci_high = b + 1.96 * se
+
+. 
+.                 gen                                     y_position = outcome_order
+
+.                 replace                         y_position = y_position - .18 ///
+>                                                                 if barrier_order == 1
+(4 real changes made)
+
+.                 replace                         y_position = y_position + .18 ///
+>                                                                 if barrier_order == 3
+(4 real changes made)
+
+. 
+. * plot practice-specific barrier coefficients
+.                 twoway                          ///
+>                         (rcap ci_low ci_high y_position ///
+>                                 if barrier_order == 1, ///
+>                                 horizontal ///
+>                                 lcolor(navy) ///
+>                                 lwidth(medthin)) ///
+>                         (scatter y_position b ///
+>                                 if barrier_order == 1, ///
+>                                 msymbol(O) ///
+>                                 mcolor(navy) ///
+>                                 msize(medsmall)) ///
+>                         (rcap ci_low ci_high y_position ///
+>                                 if barrier_order == 2, ///
+>                                 horizontal ///
+>                                 lcolor(cranberry) ///
+>                                 lwidth(medthin)) ///
+>                         (scatter y_position b ///
+>                                 if barrier_order == 2, ///
+>                                 msymbol(D) ///
+>                                 mcolor(cranberry) ///
+>                                 msize(medsmall)) ///
+>                         (rcap ci_low ci_high y_position ///
+>                                 if barrier_order == 3, ///
+>                                 horizontal ///
+>                                 lcolor(forest_green) ///
+>                                 lwidth(medthin)) ///
+>                         (scatter y_position b ///
+>                                 if barrier_order == 3, ///
+>                                 msymbol(T) ///
+>                                 mcolor(forest_green) ///
+>                                 msize(medsmall)), ///
+>                         xline(0, ///
+>                                 lpattern(dash) ///
+>                                 lcolor(gs8)) ///
+>                         xlabel(-.30(.10).20, ///
+>                                 format(%4.1f) ///
+>                                 labsize(small)) ///
+>                         ylabel( ///
+>                                 1 "Irrigation" ///
+>                                 2 "Improved seed" ///
+>                                 3 "Soil management" ///
+>                                 4 "Conservation", ///
+>                                 angle(horizontal) ///
+>                                 labsize(small) ///
+>                                 noticks) ///
+>                         yscale(reverse) ///
+>                         xtitle( ///
+>                                 "Change in adoption probability", ///
+>                                 size(medsmall)) ///
+>                         ytitle("") ///
+>                         title( ///
+>                                 "Barrier domains and CSA practice adoption", ///
+>                                 size(medium)) ///
+>                         subtitle( ///
+>                                 "Linear probability estimates with 95% confidence intervals", ///
+>                                 size(small)) ///
+>                         legend( ///
+>                                 order( ///
+>                                         2 "Economic" ///
+>                                         4 "Institutional" ///
+>                                         6 "Land/tenure") ///
+>                                 cols(3) ///
+>                                 position(6) ///
+>                                 ring(1) ///
+>                                 size(small) ///
+>                                 region(lcolor(none))) ///
+>                         graphregion(color(white)) ///
+>                         plotregion(color(white)) ///
+>                         xsize(8.5) ///
+>                         ysize(5.5) ///
+>                         scheme(stcolor_alt) ///
+>                         name(practice_coef_figure, replace)
+
+. 
+. * export practice-specific coefficient figure
+.                 graph export            "$export/figure_practice_barrier_coefficients.png", ///
+>                                                                 replace ///
+>                                                                 width(3000)
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure_practice_barrier_coefficients.png saved as PNG format
+
+. 
+.                 graph export            "$export/figure_practice_barrier_coefficients.pdf", ///
+>                                                                 replace
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure_practice_barrier_coefficients.pdf saved as PDF format
+
+. 
+.         restore
+
+.         
+.         
+. ************************************************************************
+. **# 18 - export overall-barrier latex table
+. ************************************************************************
+. 
+. * clear previous collection
+.         collect clear
+
+. 
+. * create compact overall-barrier table
+.         etable,                         estimates( ///
+>                                                         pca_overall ///
+>                                                         any_overall ///
+>                                                         count_overall) ///
+>                                                 keep( ///
+>                                                         overall_barrier_index) ///
+>                                                 column(index) ///
+>                                                 mstat(N) ///
+>                                                 mstat(r2) ///
+>                                                 showstars ///
+>                                                 showstarsnote ///
+>                                                 title( ///
+>                                                         "Overall barriers and CSA adoption outcomes") ///
+>                                                 note( ///
+>                                                         "Manager characteristics, wave fixed effects, and region fixed effects are included but not displayed. Standa
+> rd errors are clustered by holder.")
+
+Overall barriers and CSA adoption outcomes
+------------------------------------------------------------------------------
+                                                   1          2          3    
+------------------------------------------------------------------------------
+Average barrier share across observed domains  -0.216 **                      
+                                              (0.057)                         
+Average barrier share across observed domains             -0.142 **           
+                                                         (0.021)              
+Average barrier share across observed domains                        -0.217 **
+                                                                    (0.042)   
+Number of observations                          38689      66151      38689   
+R-squared                                        0.13       0.19       0.15   
+------------------------------------------------------------------------------
+** p<.01, * p<.05
+Manager characteristics, wave fixed effects, and region fixed effects are
+included but not displayed. Standard errors are clustered by holder.
+
+. 
+. * label model columns
+.         collect label levels    cmdset ///
+>                                                         1 "PCA index" ///
+>                                                         2 "Any CSA" ///
+>                                                         3 "CSA count", ///
+>                                                         modify
+
+. 
+. * label displayed coefficient
+.         collect label levels    colname ///
+>                                                         overall_barrier_index ///
+>                                                         "Overall barrier index", ///
+>                                                         modify
+
+. 
+. * export table-only LaTeX code
+.         collect export          "$export/table_overall_models.tex", ///
+>                                                         tableonly replace
+(collection ETable exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table_overall_models.tex)
+
+.                                                         
+.                                                         
+. ************************************************************************
+. **# 19 - identify dominant barrier by region
+. ************************************************************************
+. 
+. * calculate average barrier-domain indices by region
+.         preserve
+
+. 
+.                 keep                            if !missing(admin_1)
+(647 observations deleted)
+
+. 
+.                 collapse                        (mean) ///
+>                                                                 econ_barrier_index ///
+>                                                                 inst_barrier_index ///
+>                                                                 land_barrier_index, ///
+>                                                                 by(admin_1)
+
+. 
+. * identify the largest average barrier domain
+.                 egen                            max_barrier = rowmax( ///
+>                                                                 econ_barrier_index ///
+>                                                                 inst_barrier_index ///
+>                                                                 land_barrier_index)
+
+. 
+.                 gen                                     dominant_barrier = 1 ///
+>                                                                 if econ_barrier_index == max_barrier
+
+. 
+.                 replace                         dominant_barrier = 2 ///
+>                                                                 if inst_barrier_index == max_barrier
+(0 real changes made)
+
+. 
+.                 replace                         dominant_barrier = 3 ///
+>                                                                 if land_barrier_index == max_barrier
+(0 real changes made)
+
+. 
+. * label dominant barrier domains
+.                 label define            dominant_barrier_lbl ///
+>                                                                 1 "Economic barriers" ///
+>                                                                 2 "Institutional barriers" ///
+>                                                                 3 "Land and tenure barriers"
+
+. 
+.                 label values            dominant_barrier ///
+>                                                                 dominant_barrier_lbl
+
+. 
+. * inspect regional results
+.                 sort                            admin_1
+
+. 
+.                 list                            admin_1 ///
+>                                                                 econ_barrier_index ///
+>                                                                 inst_barrier_index ///
+>                                                                 land_barrier_index ///
+>                                                                 dominant_barrier, ///
+>                                                                 noobs abbreviate(24)
+
+  +----------------------------------------------------------------------------------------------------+
+  |         admin_1   econ_barrier_index   inst_barrier_index   land_barrier_index    dominant_barrier |
+  |----------------------------------------------------------------------------------------------------|
+  |          Tigray             .7161175             .3422334             .2051345   Economic barriers |
+  |            Afar             .9483696             .5543478             .2668488   Economic barriers |
+  |          Amhara             .7936364             .4391818             .1972295   Economic barriers |
+  |          Oromia              .817045             .3949785             .1380714   Economic barriers |
+  |         Somalie             .8956159             .7453027             .1090147   Economic barriers |
+  |----------------------------------------------------------------------------------------------------|
+  | Benshagul Gumuz               .83714             .4711602             .2006905   Economic barriers |
+  |            SNNP             .8224297             .4808123             .0951939   Economic barriers |
+  |        Gambelia             .9210159             .5923424             .2031963   Economic barriers |
+  |          Harari             .8782702             .4202832              .114054   Economic barriers |
+  |         Diredwa              .861024             .6357541             .1609977   Economic barriers |
+  +----------------------------------------------------------------------------------------------------+
+
+. 
+. * save regional data for mapping
+.                 save                            "$export/region_dominant_barrier.dta", ///
+>                                                                 replace
+file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/region_dominant_barrier.dta saved
+
+. 
+.         restore
+
+.         
+.         
+. ************************************************************************
+. **# 20 - estimate pca lasso model
+. ************************************************************************
+. 
+. * select additional controls for PCA outcome
+.         lasso linear            csa_pca_index ///
+>                                                 (`barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1) ///
+>                                                 `candidates' ///
+>                                                 if sample_select_pca == 1, ///
+>                                                 selection(cv) ///
+>                                                 cluster(holder_cluster) ///
+>                                                 rseed(20260730)
+
+10-fold cross-validation with 100 lambdas ...
+Grid value 1:     lambda = .0014773   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9510074
+Grid value 2:     lambda = .0013461   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510286
+Grid value 3:     lambda = .0012265   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF =  .951047
+Grid value 4:     lambda = .0011176   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510644
+Grid value 5:     lambda = .0010183   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510776
+Grid value 6:     lambda = .0009278   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510931
+Grid value 7:     lambda = .0008454   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511067
+Grid value 8:     lambda = .0007703   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511151
+Grid value 9:     lambda = .0007019   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511171
+Grid value 10:    lambda = .0006395   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511266
+Grid value 11:    lambda = .0005827   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511494
+Grid value 12:    lambda = .0005309   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511715
+Grid value 13:    lambda = .0004838   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF =  .951196
+Grid value 14:    lambda = .0004408   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512263
+Grid value 15:    lambda = .0004016   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512564
+Grid value 16:    lambda = .0003659   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9512881
+Grid value 17:    lambda = .0003334   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513144
+Grid value 18:    lambda = .0003038   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513359
+Grid value 19:    lambda = .0002768   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513555
+Grid value 20:    lambda = .0002522   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513736
+Grid value 21:    lambda = .0002298   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF =  .951391
+Grid value 22:    lambda = .0002094   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513964
+Grid value 23:    lambda = .0001908   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513962
+Grid value 24:    lambda = .0001739   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513966
+Grid value 25:    lambda = .0001584   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513974
+Grid value 26:    lambda = .0001443   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513985
+Grid value 27:    lambda = .0001315   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513999
+Grid value 28:    lambda = .0001198   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514014
+Grid value 29:    lambda = .0001092   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF =  .951403
+Grid value 30:    lambda = .0000995   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514048
+Grid value 31:    lambda = .0000906   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514066
+... change in deviance stopping tolerance reached ... last lambda selected
+
+Lasso linear model                          No. of obs        =     36,273
+                                            No. of covariates =         26
+Cluster  : holder_cluster                   No. of clusters   =      4,466
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-      CV mean
+         |                               nonzero       sample   prediction
+      ID |     Description      lambda     coef.    R-squared        error
+---------+----------------------------------------------------------------
+     * 1 | selected lambda    .0014773        20       0.1453     .9510074
+       2 |    lambda after    .0013461        21       0.1453     .9510286
+      31 |     last lambda    .0000906        23       0.1449     .9514066
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+
+. 
+. * store PCA lasso model
+.         estimates store         pca_lasso
+
+. 
+. * display selected variables and postselection coefficients
+.         lassocoef,                      display(coef, postselection)
+
+------------------------------
+                   | pca_lasso
+-------------------+----------
+econ_barrier_index | -.0309895
+inst_barrier_index | -.6640735
+land_barrier_index |  .2486103
+    female_manager | -.0419611
+       manager_age |   .002433
+    manager_age_sq | -.0000334
+    manager_lowedu |  .0260515
+                   |
+              wave |
+                1  |         e
+                2  | -.3063212
+                3  | -.4282071
+                4  |   -.11431
+                5  | -.1641854
+                   |
+           admin_1 |
+           Tigray  |         e
+             Afar  |  .3407671
+           Amhara  |  .0066735
+           Oromia  | -.3363645
+          Somalie  | -.2488726
+  Benshagul Gumuz  | -.4419644
+             SNNP  | -.6624521
+         Gambelia  |  -.946496
+           Harari  |   .051541
+          Diredwa  |  .1935074
+                   |
+             _cons |    .79226
+------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+
+.         
+.         
+. ************************************************************************
+. **# 21 - estimate pca elastic-net model
+. ************************************************************************
+. 
+. * select additional controls for PCA outcome
+.         elasticnet linear       csa_pca_index ///
+>                                                 (`barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1) ///
+>                                                 `candidates' ///
+>                                                 if sample_select_pca == 1, ///
+>                                                 alpha(.25 .5 .75) ///
+>                                                 selection(cv) ///
+>                                                 cluster(holder_cluster) ///
+>                                                 rseed(20260730)
+
+alpha 1 of 3: alpha = .75
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0059094   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 2:     lambda = .0053844   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 3:     lambda = .0049061   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 4:     lambda = .0044702   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 5:     lambda = .0040731   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 6:     lambda = .0037112   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 7:     lambda = .0033816   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508769
+Grid value 8:     lambda = .0030811   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508964
+Grid value 9:     lambda = .0029547   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509048
+Grid value 10:    lambda = .0026922   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509225
+Grid value 11:    lambda =  .002453   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509446
+Grid value 12:    lambda = .0022351   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509719
+Grid value 13:    lambda = .0020365   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  .950998
+Grid value 14:    lambda = .0019698   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9510068
+Grid value 15:    lambda = .0017948   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF =  .951028
+Grid value 16:    lambda = .0016354   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510464
+Grid value 17:    lambda = .0014901   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510638
+Grid value 18:    lambda = .0013577   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF =  .951077
+Grid value 19:    lambda = .0012371   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510924
+Grid value 20:    lambda = .0011272   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511061
+Grid value 21:    lambda =  .001027   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511145
+Grid value 22:    lambda = .0009358   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511166
+Grid value 23:    lambda = .0008527   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF =  .951126
+Grid value 24:    lambda = .0007769   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511484
+Grid value 25:    lambda = .0007079   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511702
+Grid value 26:    lambda =  .000645   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511944
+Grid value 27:    lambda = .0005877   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512243
+Grid value 28:    lambda = .0005355   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512542
+Grid value 29:    lambda = .0004879   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9512857
+Grid value 30:    lambda = .0004446   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513118
+Grid value 31:    lambda = .0004051   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513333
+Grid value 32:    lambda = .0003691   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513529
+Grid value 33:    lambda = .0003363   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513711
+Grid value 34:    lambda = .0003064   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513884
+Grid value 35:    lambda = .0002792   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF =  .951394
+Grid value 36:    lambda = .0002544   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF =  .951394
+Grid value 37:    lambda = .0002318   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513945
+Grid value 38:    lambda = .0002112   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513955
+Grid value 39:    lambda = .0001925   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513967
+Grid value 40:    lambda = .0001754   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513982
+Grid value 41:    lambda = .0001598   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513998
+Grid value 42:    lambda = .0001456   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514016
+Grid value 43:    lambda = .0001326   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514035
+Grid value 44:    lambda = .0001209   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514054
+Grid value 45:    lambda = .0001101   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514073
+Grid value 46:    lambda = .0001003   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514091
+Grid value 47:    lambda = .0000914   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514109
+Grid value 48:    lambda = .0000833   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514125
+Grid value 49:    lambda = .0000759   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514141
+Grid value 50:    lambda = .0000692   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514156
+Grid value 51:    lambda =  .000063   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951417
+Grid value 52:    lambda = .0000574   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514183
+Grid value 53:    lambda = .0000523   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514196
+Grid value 54:    lambda = .0000477   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514208
+Grid value 55:    lambda = .0000434   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514219
+Grid value 56:    lambda = .0000396   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514229
+Grid value 57:    lambda = .0000361   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514238
+Grid value 58:    lambda = .0000329   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514247
+Grid value 59:    lambda = .0000299   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514254
+Grid value 60:    lambda = .0000273   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514262
+Grid value 61:    lambda = .0000249   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514268
+Grid value 62:    lambda = .0000226   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514274
+Grid value 63:    lambda = .0000206   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951428
+Grid value 64:    lambda = .0000188   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514285
+Grid value 65:    lambda = .0000171   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951429
+Grid value 66:    lambda = .0000156   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514294
+Grid value 67:    lambda = .0000142   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514298
+Grid value 68:    lambda =  .000013   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514302
+Grid value 69:    lambda = .0000118   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514305
+Grid value 70:    lambda = .0000108   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514308
+Grid value 71:    lambda = 9.80e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514311
+Grid value 72:    lambda = 8.93e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514313
+Grid value 73:    lambda = 8.14e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514316
+Grid value 74:    lambda = 7.42e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514318
+Grid value 75:    lambda = 6.76e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951432
+Grid value 76:    lambda = 6.16e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514321
+Grid value 77:    lambda = 5.61e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514323
+Grid value 78:    lambda = 5.11e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514324
+Grid value 79:    lambda = 4.66e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514326
+Grid value 80:    lambda = 4.24e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514327
+Grid value 81:    lambda = 3.87e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514328
+Grid value 82:    lambda = 3.52e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514329
+Grid value 83:    lambda = 3.21e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951433
+Grid value 84:    lambda = 2.93e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514331
+Grid value 85:    lambda = 2.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514332
+Grid value 86:    lambda = 2.43e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514332
+Grid value 87:    lambda = 2.21e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514333
+Grid value 88:    lambda = 2.02e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514334
+Grid value 89:    lambda = 1.84e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514334
+Grid value 90:    lambda = 1.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 91:    lambda = 1.53e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 92:    lambda = 1.39e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 93:    lambda = 1.27e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 94:    lambda = 1.15e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 95:    lambda = 1.05e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 96:    lambda = 9.58e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 97:    lambda = 8.73e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 98:    lambda = 7.95e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 99:    lambda = 7.25e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 100:   lambda = 6.60e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 101:   lambda = 6.02e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 102:   lambda = 5.48e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 103:   lambda = 4.99e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 104:   lambda = 4.55e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 105:   lambda = 4.15e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 106:   lambda = 3.78e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 107:   lambda = 3.44e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 108:   lambda = 3.14e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 109:   lambda = 2.86e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 110:   lambda = 2.60e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 111:   lambda = 2.37e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 112:   lambda = 2.16e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 113:   lambda = 1.97e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+
+alpha 2 of 3: alpha = .5
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0059094   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 2:     lambda = .0053844   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508735
+Grid value 3:     lambda = .0049061   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9508839
+Grid value 4:     lambda = .0044702   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509028
+Grid value 5:     lambda = .0040731   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509204
+Grid value 6:     lambda = .0037112   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509415
+Grid value 7:     lambda = .0033816   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509685
+Grid value 8:     lambda = .0030811   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9509947
+Grid value 9:     lambda = .0029547   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9510057
+Grid value 10:    lambda = .0026922   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510268
+Grid value 11:    lambda =  .002453   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510452
+Grid value 12:    lambda = .0022351   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510626
+Grid value 13:    lambda = .0020365   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510758
+Grid value 14:    lambda = .0019698   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510813
+Grid value 15:    lambda = .0017948   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510971
+Grid value 16:    lambda = .0016354   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511091
+Grid value 17:    lambda = .0014901   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511147
+Grid value 18:    lambda = .0013577   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511177
+Grid value 19:    lambda = .0012371   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511326
+Grid value 20:    lambda = .0011272   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511541
+Grid value 21:    lambda =  .001027   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511753
+Grid value 22:    lambda = .0009358   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512016
+Grid value 23:    lambda = .0008527   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512312
+Grid value 24:    lambda = .0007769   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9512612
+Grid value 25:    lambda = .0007079   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9512915
+Grid value 26:    lambda =  .000645   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513147
+Grid value 27:    lambda = .0005877   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513358
+Grid value 28:    lambda = .0005355   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513545
+Grid value 29:    lambda = .0004879   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513724
+Grid value 30:    lambda = .0004446   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513877
+Grid value 31:    lambda = .0004051   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513894
+Grid value 32:    lambda = .0003691   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513899
+Grid value 33:    lambda = .0003363   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513909
+Grid value 34:    lambda = .0003064   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513923
+Grid value 35:    lambda = .0002792   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513939
+Grid value 36:    lambda = .0002544   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513957
+Grid value 37:    lambda = .0002318   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513976
+Grid value 38:    lambda = .0002112   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513996
+Grid value 39:    lambda = .0001925   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514017
+Grid value 40:    lambda = .0001754   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514038
+Grid value 41:    lambda = .0001598   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514058
+Grid value 42:    lambda = .0001456   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514078
+Grid value 43:    lambda = .0001326   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514096
+Grid value 44:    lambda = .0001209   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514114
+Grid value 45:    lambda = .0001101   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514131
+Grid value 46:    lambda = .0001003   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514147
+Grid value 47:    lambda = .0000914   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514162
+Grid value 48:    lambda = .0000833   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514176
+Grid value 49:    lambda = .0000759   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514189
+Grid value 50:    lambda = .0000692   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514202
+Grid value 51:    lambda =  .000063   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514213
+Grid value 52:    lambda = .0000574   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514224
+Grid value 53:    lambda = .0000523   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514234
+Grid value 54:    lambda = .0000477   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514242
+Grid value 55:    lambda = .0000434   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514251
+Grid value 56:    lambda = .0000396   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514258
+Grid value 57:    lambda = .0000361   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514265
+Grid value 58:    lambda = .0000329   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514271
+Grid value 59:    lambda = .0000299   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514277
+Grid value 60:    lambda = .0000273   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514283
+Grid value 61:    lambda = .0000249   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514287
+Grid value 62:    lambda = .0000226   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514292
+Grid value 63:    lambda = .0000206   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514296
+Grid value 64:    lambda = .0000188   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =   .95143
+Grid value 65:    lambda = .0000171   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514303
+Grid value 66:    lambda = .0000156   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514306
+Grid value 67:    lambda = .0000142   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514309
+Grid value 68:    lambda =  .000013   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514312
+Grid value 69:    lambda = .0000118   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514314
+Grid value 70:    lambda = .0000108   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514317
+Grid value 71:    lambda = 9.80e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514319
+Grid value 72:    lambda = 8.93e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514321
+Grid value 73:    lambda = 8.14e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514322
+Grid value 74:    lambda = 7.42e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514324
+Grid value 75:    lambda = 6.76e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514325
+Grid value 76:    lambda = 6.16e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514326
+Grid value 77:    lambda = 5.61e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514328
+Grid value 78:    lambda = 5.11e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514329
+Grid value 79:    lambda = 4.66e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951433
+Grid value 80:    lambda = 4.24e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514331
+Grid value 81:    lambda = 3.87e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514331
+Grid value 82:    lambda = 3.52e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514332
+Grid value 83:    lambda = 3.21e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514333
+Grid value 84:    lambda = 2.93e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514333
+Grid value 85:    lambda = 2.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514334
+Grid value 86:    lambda = 2.43e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514334
+Grid value 87:    lambda = 2.21e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 88:    lambda = 2.02e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 89:    lambda = 1.84e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 90:    lambda = 1.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 91:    lambda = 1.53e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 92:    lambda = 1.39e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 93:    lambda = 1.27e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 94:    lambda = 1.15e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 95:    lambda = 1.05e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 96:    lambda = 9.58e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 97:    lambda = 8.73e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 98:    lambda = 7.95e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 99:    lambda = 7.25e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 100:   lambda = 6.60e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 101:   lambda = 6.02e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 102:   lambda = 5.48e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 103:   lambda = 4.99e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 104:   lambda = 4.55e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 105:   lambda = 4.15e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 106:   lambda = 3.78e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 107:   lambda = 3.44e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 108:   lambda = 3.14e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 109:   lambda = 2.86e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 110:   lambda = 2.60e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 111:   lambda = 2.37e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 112:   lambda = 2.16e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 113:   lambda = 1.97e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+
+alpha 3 of 3: alpha = .25
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0059094   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .9510026
+Grid value 2:     lambda = .0053844   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510234
+Grid value 3:     lambda = .0049061   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510417
+Grid value 4:     lambda = .0044702   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF =  .951059
+Grid value 5:     lambda = .0040731   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510723
+Grid value 6:     lambda = .0037112   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9510877
+Grid value 7:     lambda = .0033816   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511014
+Grid value 8:     lambda = .0030811   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511099
+Grid value 9:     lambda = .0029547   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = .9511115
+Grid value 10:    lambda = .0026922   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511151
+Grid value 11:    lambda =  .002453   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511302
+Grid value 12:    lambda = .0022351   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF =   .95115
+Grid value 13:    lambda = .0020365   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511699
+Grid value 14:    lambda = .0019698   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9511782
+Grid value 15:    lambda = .0017948   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512051
+Grid value 16:    lambda = .0016354   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = .9512331
+Grid value 17:    lambda = .0014901   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9512626
+Grid value 18:    lambda = .0013577   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9512895
+Grid value 19:    lambda = .0012371   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513106
+Grid value 20:    lambda = .0011272   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513305
+Grid value 21:    lambda =  .001027   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513487
+Grid value 22:    lambda = .0009358   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513664
+Grid value 23:    lambda = .0008527   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513762
+Grid value 24:    lambda = .0007769   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513773
+Grid value 25:    lambda = .0007079   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513789
+Grid value 26:    lambda =  .000645   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513808
+Grid value 27:    lambda = .0005877   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF =  .951383
+Grid value 28:    lambda = .0005355   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513854
+Grid value 29:    lambda = .0004879   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513878
+Grid value 30:    lambda = .0004446   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513904
+Grid value 31:    lambda = .0004051   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF =  .951393
+Grid value 32:    lambda = .0003691   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513956
+Grid value 33:    lambda = .0003363   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9513982
+Grid value 34:    lambda = .0003064   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = .9514006
+Grid value 35:    lambda = .0002792   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951403
+Grid value 36:    lambda = .0002544   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514053
+Grid value 37:    lambda = .0002318   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514074
+Grid value 38:    lambda = .0002112   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514094
+Grid value 39:    lambda = .0001925   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514113
+Grid value 40:    lambda = .0001754   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514131
+Grid value 41:    lambda = .0001598   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514148
+Grid value 42:    lambda = .0001456   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514163
+Grid value 43:    lambda = .0001326   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514178
+Grid value 44:    lambda = .0001209   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514191
+Grid value 45:    lambda = .0001101   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514204
+Grid value 46:    lambda = .0001003   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514215
+Grid value 47:    lambda = .0000914   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514226
+Grid value 48:    lambda = .0000833   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514235
+Grid value 49:    lambda = .0000759   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514244
+Grid value 50:    lambda = .0000692   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514252
+Grid value 51:    lambda =  .000063   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951426
+Grid value 52:    lambda = .0000574   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514266
+Grid value 53:    lambda = .0000523   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514273
+Grid value 54:    lambda = .0000477   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514279
+Grid value 55:    lambda = .0000434   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514284
+Grid value 56:    lambda = .0000396   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514289
+Grid value 57:    lambda = .0000361   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514293
+Grid value 58:    lambda = .0000329   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514297
+Grid value 59:    lambda = .0000299   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514301
+Grid value 60:    lambda = .0000273   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514304
+Grid value 61:    lambda = .0000249   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514307
+Grid value 62:    lambda = .0000226   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951431
+Grid value 63:    lambda = .0000206   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514313
+Grid value 64:    lambda = .0000188   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514315
+Grid value 65:    lambda = .0000171   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514317
+Grid value 66:    lambda = .0000156   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514319
+Grid value 67:    lambda = .0000142   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514321
+Grid value 68:    lambda =  .000013   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514323
+Grid value 69:    lambda = .0000118   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514324
+Grid value 70:    lambda = .0000108   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514326
+Grid value 71:    lambda = 9.80e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514327
+Grid value 72:    lambda = 8.93e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514328
+Grid value 73:    lambda = 8.14e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514329
+Grid value 74:    lambda = 7.42e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  .951433
+Grid value 75:    lambda = 6.76e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514331
+Grid value 76:    lambda = 6.16e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514332
+Grid value 77:    lambda = 5.61e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514332
+Grid value 78:    lambda = 5.11e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514333
+Grid value 79:    lambda = 4.66e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514334
+Grid value 80:    lambda = 4.24e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514334
+Grid value 81:    lambda = 3.87e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 82:    lambda = 3.52e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 83:    lambda = 3.21e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514335
+Grid value 84:    lambda = 2.93e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 85:    lambda = 2.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 86:    lambda = 2.43e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514336
+Grid value 87:    lambda = 2.21e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 88:    lambda = 2.02e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 89:    lambda = 1.84e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 90:    lambda = 1.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514337
+Grid value 91:    lambda = 1.53e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 92:    lambda = 1.39e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 93:    lambda = 1.27e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 94:    lambda = 1.15e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 95:    lambda = 1.05e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 96:    lambda = 9.58e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514338
+Grid value 97:    lambda = 8.73e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 98:    lambda = 7.95e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 99:    lambda = 7.25e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 100:   lambda = 6.60e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 101:   lambda = 6.02e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 102:   lambda = 5.48e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 103:   lambda = 4.99e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 104:   lambda = 4.55e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 105:   lambda = 4.15e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 106:   lambda = 3.78e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 107:   lambda = 3.44e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 108:   lambda = 3.14e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 109:   lambda = 2.86e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 110:   lambda = 2.60e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 111:   lambda = 2.37e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 112:   lambda = 2.16e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+Grid value 113:   lambda = 1.97e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = .9514339
+
+Elastic net linear model                         No. of obs        =     36,273
+                                                 No. of covariates =         26
+Cluster  : holder_cluster                        No. of clusters   =      4,466
+Selection: Cross-validation                      No. of CV folds   =         10
+
+-------------------------------------------------------------------------------
+               |                               No. of      Out-of-      CV mean
+               |                              nonzero       sample   prediction
+alpha       ID |     Description      lambda    coef.    R-squared        error
+---------------+---------------------------------------------------------------
+0.750          |
+             1 |    first lambda    .0059094       20       0.1454     .9508735
+             5 |   lambda before    .0040731       20       0.1454     .9508735
+           * 6 | selected lambda    .0037112       20       0.1454     .9508735
+             7 |    lambda after    .0033816       20       0.1454     .9508769
+           113 |     last lambda    1.97e-07       24       0.1449     .9514339
+---------------+---------------------------------------------------------------
+0.500          |
+           114 |    first lambda    .0059094       20       0.1454     .9508735
+           226 |     last lambda    1.97e-07       24       0.1449     .9514339
+---------------+---------------------------------------------------------------
+0.250          |
+           227 |    first lambda    .0059094       20       0.1453     .9510026
+           339 |     last lambda    1.97e-07       24       0.1449     .9514339
+-------------------------------------------------------------------------------
+* alpha and lambda selected by cross-validation.
+
+. 
+. * store PCA elastic-net model
+.         estimates store         pca_elastic
+
+. 
+. * display selected variables and postselection coefficients
+.         lassocoef,                      display(coef, postselection)
+
+--------------------------------
+                   | pca_elastic
+-------------------+------------
+econ_barrier_index |   -.0309895
+inst_barrier_index |   -.6640735
+land_barrier_index |    .2486103
+    female_manager |   -.0419611
+       manager_age |     .002433
+    manager_age_sq |   -.0000334
+    manager_lowedu |    .0260515
+                   |
+              wave |
+                1  |           e
+                2  |   -.3063212
+                3  |   -.4282071
+                4  |     -.11431
+                5  |   -.1641854
+                   |
+           admin_1 |
+           Tigray  |           e
+             Afar  |    .3407671
+           Amhara  |    .0066735
+           Oromia  |   -.3363645
+          Somalie  |   -.2488726
+  Benshagul Gumuz  |   -.4419644
+             SNNP  |   -.6624521
+         Gambelia  |    -.946496
+           Harari  |     .051541
+          Diredwa  |    .1935074
+                   |
+             _cons |      .79226
+--------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+
+.         
 .         
 . 
 end of do-file
