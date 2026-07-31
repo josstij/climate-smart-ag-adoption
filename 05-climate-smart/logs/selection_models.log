@@ -1,0 +1,524 @@
+----------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/sel
+> ection_models.log
+  log type:  text
+ opened on:  30 Jul 2026, 19:43:28
+
+. 
+. 
+. ************************************************************************
+. **# 1 - open final regression data
+. ************************************************************************
+. 
+. * open final regression data
+.         use                                     "$root/eth_csa_regression.dta", clear
+(Ethiopia CSA adoption analysis data, waves 1-5)
+
+. 
+. * confirm field-wave identifiers are unique
+.         isid                            wave holder_id parcel_id field_id
+
+. 
+. * confirm final sample size
+.         assert                          _N == 75033
+
+. 
+. * inspect observations by wave
+.         tab                                     wave, missing
+
+       wave |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      6,576        8.76        8.76
+          2 |     22,433       29.90       38.66
+          3 |     22,658       30.20       68.86
+          4 |     12,907       17.20       86.06
+          5 |     10,459       13.94      100.00
+------------+-----------------------------------
+      Total |     75,033      100.00
+
+.         
+.         
+. ************************************************************************
+. **# 2 - define regression variables
+. ************************************************************************
+. 
+. * define barrier-domain indices
+.         local barriers          econ_barrier_index ///
+>                                                 inst_barrier_index ///
+>                                                 land_barrier_index
+
+. 
+. * define manager characteristics
+.         local manager           female_manager ///
+>                                                 manager_age ///
+>                                                 manager_age_sq ///
+>                                                 manager_lowedu
+
+.                                                 
+. * construct additional manager controls
+.         gen                                     manager_not_head = ///
+>                                                 mg1_relat != 1 ///
+>                                                 if !missing(mg1_relat)
+(359 missing values generated)
+
+. 
+.         gen                                     manager_married = ///
+>                                                 inlist(mg1_mrry, 2, 3) ///
+>                                                 if inrange(mg1_mrry, 1, 6)
+(1,103 missing values generated)
+
+. 
+.         label variable          manager_not_head ///
+>                                                 "Primary manager is not household head
+> "
+
+. 
+.         label variable          manager_married ///
+>                                                 "Primary manager is married"
+
+. 
+. * define candidate controls for variable selection
+.         local candidates        manager_not_head ///
+>                                                 manager_married ///
+>                                                 mg1_farm ///
+>                                                 mg1_wage
+
+.                                                 
+.         misstable                       summarize `candidates'
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+  manager_no~d |       359              74,674  |      2          0           1
+  manager_ma~d |     1,103              73,930  |      2          0           1
+      mg1_farm |     3,709              71,324  |      2          0           1
+      mg1_wage |     1,153              73,880  |      2          0           1
+  -----------------------------------------------------------------------------
+
+. 
+. * inspect missingness in outcomes and explanatory variables
+.         misstable summarize ///
+>                                                 csa_pca_index ///
+>                                                 any_csa ///
+>                                                 csa_count ///
+>                                                 csa_irr csa_seed csa_soil csa_cons ///
+>                                                 `barriers' ///
+>                                                 `manager'
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+  csa_pca_in~x |    31,422              43,611  |     16  -1.558572    3.827248
+       any_csa |       126              74,907  |      2          0           1
+     csa_count |    31,422              43,611  |      5          0           4
+       csa_irr |       331              74,702  |      2          0           1
+      csa_seed |     7,975              67,058  |      2          0           1
+      csa_soil |    25,780              49,253  |      2          0           1
+      csa_cons |     6,167              68,866  |      2          0           1
+  land_barri~x |       783              74,250  |      5          0           1
+  female_man~r |       255              74,778  |      2          0           1
+   manager_age |       553              74,480  |     84         15          99
+  manager_ag~q |       553              74,480  |     84        225        9801
+  manager_lo~u |     7,972              67,061  |      2          0           1
+  -----------------------------------------------------------------------------
+
+.         
+. * inspect region fixed-effect availability
+.         misstable summarize     admin_1
+                                                               Obs<.
+                                                +------------------------------
+               |                                | Unique
+      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
+  -------------+--------------------------------+------------------------------
+       admin_1 |       647              74,386  |     10          1          15
+  -----------------------------------------------------------------------------
+
+. 
+.         tab                                     wave admin_1, missing
+
+           |                      Region Code
+      wave |    Tigray       Afar     Amhara     Oromia    Somalie |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       693         10      2,090      1,579        155 |     6,576 
+         2 |     1,980         44      4,753      5,368        357 |    22,433 
+         3 |     2,021         44      4,723      5,525        385 |    22,658 
+         4 |     1,467         57      3,101      2,088          7 |    12,907 
+         5 |         0         29      1,833      2,354         54 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     6,161        184     16,500     16,914        958 |    75,033 
+
+
+           |                      Region Code
+      wave | Benshagul       SNNP   Gambelia     Harari    Diredwa |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       279      1,122         99        322        227 |     6,576 
+         2 |       734      7,369        353        600        561 |    22,433 
+         3 |       846      7,158        399        685        539 |    22,658 
+         4 |     1,198      3,187        684        761        357 |    12,907 
+         5 |       971      3,496        611        881        230 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     4,028     22,332      2,146      3,249      1,914 |    75,033 
+
+
+           |   Region
+           |    Code
+      wave |         . |     Total
+-----------+-----------+----------
+         1 |         0 |     6,576 
+         2 |       314 |    22,433 
+         3 |       333 |    22,658 
+         4 |         0 |    12,907 
+         5 |         0 |    10,459 
+-----------+-----------+----------
+     Total |       647 |    75,033 
+
+.         
+. * search for alternative region variables
+.         lookfor                         region
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+----------------------------------------------------------------------------------------
+admin_1         byte    %16.0g     saq01      Region Code
+
+. 
+.         describe                        admin_*
+
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+----------------------------------------------------------------------------------------
+admin_1         byte    %16.0g     saq01      Region Code
+admin_2         byte    %16.0g                Zone Code
+admin_3         byte    %16.0g                Woreda Code
+admin_4         byte    %16.0g                Town Code
+admin_5         byte    %16.0g                Subcity Code
+admin_6         int     %16.0g                Kebele/FA Code
+
+.         
+. * inspect Wave 5 region variable
+.         tab                                     wave admin_1, missing
+
+           |                      Region Code
+      wave |    Tigray       Afar     Amhara     Oromia    Somalie |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       693         10      2,090      1,579        155 |     6,576 
+         2 |     1,980         44      4,753      5,368        357 |    22,433 
+         3 |     2,021         44      4,723      5,525        385 |    22,658 
+         4 |     1,467         57      3,101      2,088          7 |    12,907 
+         5 |         0         29      1,833      2,354         54 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     6,161        184     16,500     16,914        958 |    75,033 
+
+
+           |                      Region Code
+      wave | Benshagul       SNNP   Gambelia     Harari    Diredwa |     Total
+-----------+-------------------------------------------------------+----------
+         1 |       279      1,122         99        322        227 |     6,576 
+         2 |       734      7,369        353        600        561 |    22,433 
+         3 |       846      7,158        399        685        539 |    22,658 
+         4 |     1,198      3,187        684        761        357 |    12,907 
+         5 |       971      3,496        611        881        230 |    10,459 
+-----------+-------------------------------------------------------+----------
+     Total |     4,028     22,332      2,146      3,249      1,914 |    75,033 
+
+
+           |   Region
+           |    Code
+      wave |         . |     Total
+-----------+-----------+----------
+         1 |         0 |     6,576 
+         2 |       314 |    22,433 
+         3 |       333 |    22,658 
+         4 |         0 |    12,907 
+         5 |         0 |    10,459 
+-----------+-----------+----------
+     Total |       647 |    75,033 
+
+. 
+. ************************************************************************
+. **# 3 - define common regression sample
+. ************************************************************************
+. 
+. * count missing explanatory variables and region fixed effects
+.         egen                            rhs_missing = rowmiss( ///
+>                                                 `barriers' ///
+>                                                 `manager' ///
+>                                                 admin_1)
+
+. 
+. * identify observations with complete explanatory variables
+.         gen                                     sample_rhs = rhs_missing == 0
+
+. 
+.         label variable          sample_rhs ///
+>                                                 "Complete RHS and region-FE sample"
+
+. 
+. * create numeric holder identifier for clustered cross-validation
+.         egen                            holder_cluster = group(holder_id)
+
+. 
+.         label variable          holder_cluster ///
+>                                                 "Holder-level cluster identifier"
+
+.                                                 
+. * inspect common regression sample by wave
+.         tab                                     wave sample_rhs, missing
+
+           |   Complete RHS and
+           |   region-FE sample
+      wave |         0          1 |     Total
+-----------+----------------------+----------
+         1 |     1,168      5,408 |     6,576 
+         2 |     2,800     19,633 |    22,433 
+         3 |     2,807     19,851 |    22,658 
+         4 |     1,298     11,609 |    12,907 
+         5 |       708      9,751 |    10,459 
+-----------+----------------------+----------
+     Total |     8,781     66,252 |    75,033 
+
+.         
+.         
+. ************************************************************************
+. **# 4 - define outcome-specific samples
+. ************************************************************************
+. 
+. * define outcome-specific regression samples
+.         gen                                     sample_pca = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(csa_pca_index)
+
+. 
+.         gen                                     sample_any = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(any_csa)
+
+. 
+.         gen                                     sample_count = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(csa_count)
+
+. 
+.         gen                                     sample_irr = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(csa_irr)
+
+. 
+.         gen                                     sample_seed = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(csa_seed)
+
+. 
+.         gen                                     sample_soil = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(csa_soil)
+
+. 
+.         gen                                     sample_cons = ///
+>                                                 sample_rhs == 1 & ///
+>                                                 !missing(csa_cons)
+
+.                                                 
+. * count missing candidate controls
+.         egen                            candidate_missing = rowmiss( ///
+>                                                 `candidates')
+
+. 
+. * define variable-selection samples
+.         gen                                     sample_select_pca = ///
+>                                                 sample_pca == 1 & ///
+>                                                 candidate_missing == 0
+
+. 
+.         gen                                     sample_select_any = ///
+>                                                 sample_any == 1 & ///
+>                                                 candidate_missing == 0
+
+. 
+.         gen                                     sample_select_count = ///
+>                                                 sample_count == 1 & ///
+>                                                 candidate_missing == 0
+
+. 
+. * inspect variable-selection sample sizes
+.         tabstat                         sample_select_pca ///
+>                                                 sample_select_any ///
+>                                                 sample_select_count, ///
+>                                                 by(wave) ///
+>                                                 statistics(sum)
+
+Summary statistics: Sum
+Group variable: wave 
+
+    wave |  sa~t_pca  sa~t_any  ~t_count
+---------+------------------------------
+       1 |       179      5211       179
+       2 |      7692     19592      7692
+       3 |      9451     19845      9451
+       4 |      9202      9202      9202
+       5 |      9749      9751      9749
+---------+------------------------------
+   Total |     36273     63601     36273
+----------------------------------------
+
+. 
+. * inspect regression sample sizes by wave
+.         tabstat                         sample_pca ///
+>                                                 sample_any ///
+>                                                 sample_count ///
+>                                                 sample_irr ///
+>                                                 sample_seed ///
+>                                                 sample_soil ///
+>                                                 sample_cons, ///
+>                                                 by(wave) ///
+>                                                 statistics(sum)
+
+Summary statistics: Sum
+Group variable: wave 
+
+    wave |  sa~e_pca  sa~e_any  ~e_count  sample~r  sample~d  sample~l  sampl~ns
+---------+----------------------------------------------------------------------
+       1 |       179      5315       179      5226      4612      2204       435
+       2 |      7699     19626      7699     19566     14288     10060     19541
+       3 |      9453     19850      9453     19821     18881      9920     19838
+       4 |     11609     11609     11609     11609     11609     11609     11609
+       5 |      9749      9751      9749      9750      9751      9750      9751
+---------+----------------------------------------------------------------------
+   Total |     38689     66151     38689     65972     59141     43543     61174
+--------------------------------------------------------------------------------
+
+.         
+.         
+. ************************************************************************
+. **# 5 - estimate csa-count lasso model
+. ************************************************************************
+. 
+. * select additional controls for CSA practice count
+.         lasso poisson           csa_count ///
+>                                                 (`barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1) ///
+>                                                 `candidates' ///
+>                                                 if sample_select_count == 1, ///
+>                                                 selection(cv) ///
+>                                                 cluster(holder_cluster) ///
+>                                                 rseed(20260730)
+
+10-fold cross-validation with 100 lambdas ...
+Grid value 1:     lambda = .0034531   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 2:     lambda = .0031464   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622515
+... change in deviance stopping tolerance reached ... last lambda selected
+
+Lasso Poisson model                         No. of obs        =     36,273
+                                            No. of covariates =         26
+Cluster  : holder_cluster                   No. of clusters   =      4,466
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-
+         |                               nonzero       sample      CV mean
+      ID |     Description      lambda     coef.   dev. ratio     deviance
+---------+----------------------------------------------------------------
+     * 1 | selected lambda    .0034531        20       0.1688     .5622511
+       2 |     last lambda    .0031464        20       0.1688     .5622515
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+
+. 
+. * store CSA-count lasso model
+.         estimates store         count_lasso
+
+. 
+. * display selected variables and postselection coefficients
+.         lassocoef,                      display(coef, postselection)
+
+--------------------------------
+                   | count_lasso
+-------------------+------------
+econ_barrier_index |    .0500325
+inst_barrier_index |   -.0056989
+land_barrier_index |   -.2020838
+    female_manager |    .0054616
+       manager_age |    .0079132
+    manager_age_sq |   -.0000734
+    manager_lowedu |   -.0176865
+                   |
+              wave |
+                1  |           e
+                2  |    .0071812
+                3  |    .0395133
+                4  |   -.1416515
+                5  |   -.1911898
+                   |
+           admin_1 |
+           Tigray  |           e
+             Afar  |    .2467215
+           Amhara  |    .0179617
+           Oromia  |   -.1613589
+          Somalie  |   -.3039542
+  Benshagul Gumuz  |    -.335134
+             SNNP  |   -.2838025
+         Gambelia  |   -2.055634
+           Harari  |    .2864139
+          Diredwa  |    .3232942
+                   |
+             _cons |    .1747729
+--------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+
+.         
+.         
+. ************************************************************************
+. **# 6 - estimate csa-count elastic-net model
+. ************************************************************************
+. 
+. * select additional controls for CSA practice count
+.         elasticnet poisson      csa_count ///
+>                                                 (`barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1) ///
+>                                                 `candidates' ///
+>                                                 if sample_select_count == 1, ///
+>                                                 alpha(.25 .5 .75) ///
+>                                                 selection(cv) ///
+>                                                 cluster(holder_cluster) ///
+>                                                 rseed(20260730)
+
+alpha 1 of 3: alpha = .75
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0138125   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 2:     lambda = .0125855   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 3:     lambda = .0114674   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 4:     lambda = .0104487   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 5:     lambda = .0095204   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 6:     lambda = .0086747   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 7:     lambda =  .007904   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 8:     lambda = .0072019   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 9:     lambda = .0069063   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 10:    lambda = .0062927   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 11:    lambda = .0057337   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 12:    lambda = .0052243   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 13:    lambda = .0047602   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = .5622511
+Grid value 14:    lambda = .0046042   no. of nonzero coef. = 20
