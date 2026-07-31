@@ -1051,7 +1051,117 @@
 	lassocoef,			display(coef, postselection)
 	
 	
+************************************************************************
+**# 24 - create and inspect regional barrier means
+************************************************************************
+
+* load project setup
+	do					"C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/code/00_setup.do"
+
+* define paths needed for this section
+	global root			"$clean_data/ethiopia"
+	global export		"$cs_output"
+
+* open final regression data
+	use					"$root/eth_csa_regression.dta", clear
+
+* calculate regional barrier-domain means
+	keep				if !missing(admin_1)
+
+	collapse			(mean) ///
+						econ_barrier_index ///
+						inst_barrier_index ///
+						land_barrier_index, ///
+						by(admin_1)
+
+* save regional dataset
+	save				"$export/region_dominant_barrier.dta", ///
+						replace
+
+* display regional barrier-domain means
+	list				admin_1 ///
+						econ_barrier_index ///
+						inst_barrier_index ///
+						land_barrier_index, ///
+						noobs clean
+					
 	
+************************************************************************
+**# 25 - create regional barrier comparison figure
+************************************************************************
+
+* create region-name variable for graph labels
+	capture drop		region_name
+
+	decode				admin_1, ///
+						gen(region_name)
+
+* correct region names for display
+	replace				region_name = "Somali" ///
+						if region_name == "Somalie"
+
+	replace				region_name = "Gambela" ///
+						if region_name == "Gambelia"
+
+	replace				region_name = "Dire Dawa" ///
+						if region_name == "Diredwa"
+						
+	replace				region_name = "Benishangul-Gumuz" ///
+						if region_name == "Begnshagul Gumuz"
+						
+* plot average barrier indices by region
+	graph hbar			(mean) ///
+						econ_barrier_index ///
+						inst_barrier_index ///
+						land_barrier_index, ///
+						over(region_name, ///
+							sort(1) ///
+							descending ///
+							label(labsize(small))) ///
+						asyvars ///
+						bar(1, color(navy)) ///
+						bar(2, color(cranberry)) ///
+						bar(3, color(forest_green)) ///
+						ylabel(0(.20)1, ///
+							format(%3.1f) ///
+							angle(horizontal)) ///
+						ytitle( ///
+							"Mean barrier index (0–1)", ///
+							size(medsmall)) ///
+						title( ///
+							"Regional barrier profiles in Ethiopia", ///
+							size(medium)) ///
+						subtitle( ///
+							"Pooled means across five ESS waves", ///
+							size(small)) ///
+						legend( ///
+							order( ///
+								1 "Economic" ///
+								2 "Institutional" ///
+								3 "Land/tenure") ///
+							rows(1) ///
+							position(6) ///
+							ring(1) ///
+							size(small) ///
+							region(lcolor(none))) ///
+						graphregion(color(white)) ///
+						plotregion(color(white)) ///
+						xsize(8.5) ///
+						ysize(6.5) ///
+						name(region_barrier_figure, replace)
+
+* export regional comparison figure
+	graph export		"$export/figure_regional_barrier_profiles.png", ///
+						replace ///
+						width(3000)
+
+	graph export		"$export/figure_regional_barrier_profiles.pdf", ///
+						replace
+						
+						
+						
+						
+	log			close
 	
 	
 	
