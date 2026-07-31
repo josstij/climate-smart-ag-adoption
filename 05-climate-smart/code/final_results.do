@@ -1006,3 +1006,59 @@
 	lassocoef,			display(coef, postselection)
 	
 	
+************************************************************************
+**# 22 - estimate any-csa lasso model
+************************************************************************
+
+* select additional controls for any CSA adoption
+	lasso logit		any_csa ///
+						(`barriers' ///
+						`manager' ///
+						i.wave i.admin_1) ///
+						`candidates' ///
+						if sample_select_any == 1, ///
+						selection(cv) ///
+						cluster(holder_cluster) ///
+						rseed(20260730)
+
+* store any-CSA lasso model
+	estimates store		any_lasso
+
+* display selected variables and postselection coefficients
+	lassocoef,			display(coef, postselection)
+	
+	
+************************************************************************
+**# 23 - estimate any-csa elastic-net model
+************************************************************************
+
+* select additional controls for any CSA adoption
+	elasticnet logit	any_csa ///
+						(`barriers' ///
+						`manager' ///
+						i.wave i.admin_1) ///
+						`candidates' ///
+						if sample_select_any == 1, ///
+						alpha(.25 .5 .75) ///
+						selection(cv) ///
+						cluster(holder_cluster) ///
+						rseed(20260730)
+
+* store any-CSA elastic-net model
+	estimates store		any_elastic
+
+* display selected variables and postselection coefficients
+	lassocoef,			display(coef, postselection)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

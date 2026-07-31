@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/final_results.log
   log type:  text
- opened on:  30 Jul 2026, 17:02:09
+ opened on:  30 Jul 2026, 17:10:37
 
 . 
 . 
@@ -2688,6 +2688,195 @@ Legend:
 
 .         
 .         
+. ************************************************************************
+. **# 22 - estimate any-csa lasso model
+. ************************************************************************
 . 
-end of do-file
+. * select additional controls for any CSA adoption
+.         lasso logit             any_csa ///
+>                                                 (`barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1) ///
+>                                                 `candidates' ///
+>                                                 if sample_select_any == 1, ///
+>                                                 selection(cv) ///
+>                                                 cluster(holder_cluster) ///
+>                                                 rseed(20260730)
 
+10-fold cross-validation with 100 lambdas ...
+Grid value 1:     lambda = .0014578   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 2:     lambda = .0013283   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+... change in deviance stopping tolerance reached ... last lambda selected
+
+Lasso logit model                           No. of obs        =     63,601
+                                            No. of covariates =         26
+Cluster  : holder_cluster                   No. of clusters   =      5,486
+Selection: Cross-validation                 No. of CV folds   =         10
+
+--------------------------------------------------------------------------
+         |                                No. of      Out-of-
+         |                               nonzero       sample      CV mean
+      ID |     Description      lambda     coef.   dev. ratio     deviance
+---------+----------------------------------------------------------------
+     * 1 | selected lambda    .0014578        20       0.2019      1.02301
+       2 |     last lambda    .0013283        20       0.2019      1.02301
+--------------------------------------------------------------------------
+* lambda selected by cross-validation.
+
+. 
+. * store any-CSA lasso model
+.         estimates store         any_lasso
+
+. 
+. * display selected variables and postselection coefficients
+.         lassocoef,                      display(coef, postselection)
+
+------------------------------
+                   | any_lasso
+-------------------+----------
+econ_barrier_index | -.1414842
+inst_barrier_index | -.5420773
+land_barrier_index | -.2525954
+    female_manager | -.0460798
+       manager_age |   .035337
+    manager_age_sq | -.0002968
+    manager_lowedu | -.0408501
+                   |
+              wave |
+                1  |         e
+                2  |  2.277179
+                3  |  2.492046
+                4  |  2.898445
+                5  |  2.594985
+                   |
+           admin_1 |
+           Tigray  |         e
+             Afar  |  .4838696
+           Amhara  | -.1457419
+           Oromia  | -1.007022
+          Somalie  | -1.344841
+  Benshagul Gumuz  | -1.652138
+             SNNP  |  -1.29654
+         Gambelia  | -4.267964
+           Harari  |  .7831794
+          Diredwa  |  .8156721
+                   |
+             _cons | -1.114618
+------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+
+.         
+.         
+. ************************************************************************
+. **# 23 - estimate any-csa elastic-net model
+. ************************************************************************
+. 
+. * select additional controls for any CSA adoption
+.         elasticnet logit        any_csa ///
+>                                                 (`barriers' ///
+>                                                 `manager' ///
+>                                                 i.wave i.admin_1) ///
+>                                                 `candidates' ///
+>                                                 if sample_select_any == 1, ///
+>                                                 alpha(.25 .5 .75) ///
+>                                                 selection(cv) ///
+>                                                 cluster(holder_cluster) ///
+>                                                 rseed(20260730)
+
+alpha 1 of 3: alpha = .75
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0058312   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 2:     lambda = .0053131   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 3:     lambda = .0048411   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 4:     lambda = .0044111   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 5:     lambda = .0040192   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 6:     lambda = .0036621   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 7:     lambda = .0033368   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 8:     lambda = .0030404   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 9:     lambda = .0029156   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 10:    lambda = .0026566   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 11:    lambda = .0024206   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 12:    lambda = .0022055   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 13:    lambda = .0020096   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 14:    lambda = .0019437   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 15:    lambda =  .001771   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 16:    lambda = .0016137   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 17:    lambda = .0014704   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023027
+Grid value 18:    lambda = .0013397   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023066
+Grid value 19:    lambda = .0012207   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023108
+Grid value 20:    lambda = .0011123   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = 1.023141
+Grid value 21:    lambda = .0010135   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023166
+Grid value 22:    lambda = .0009234   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023196
+Grid value 23:    lambda = .0008414   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023234
+Grid value 24:    lambda = .0007666   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023282
+Grid value 25:    lambda = .0006985   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023321
+Grid value 26:    lambda = .0006365   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023345
+Grid value 27:    lambda = .0005799   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023328
+Grid value 28:    lambda = .0005284   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023263
+Grid value 29:    lambda = .0004815   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023207
+Grid value 30:    lambda = .0004387   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023163
+Grid value 31:    lambda = .0003997   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023129
+Grid value 32:    lambda = .0003642   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023101
+Grid value 33:    lambda = .0003319   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023081
+Grid value 34:    lambda = .0003024   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023065
+Grid value 35:    lambda = .0002755   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023053
+Grid value 36:    lambda =  .000251   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023045
+Grid value 37:    lambda = .0002287   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 38:    lambda = .0002084   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023034
+Grid value 39:    lambda = .0001899   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023031
+Grid value 40:    lambda =  .000173   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02303
+Grid value 41:    lambda = .0001577   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023029
+Grid value 42:    lambda = .0001437   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023028
+Grid value 43:    lambda = .0001309   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023027
+Grid value 44:    lambda = .0001193   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023026
+Grid value 45:    lambda = .0001087   no. of nonzero coef. = 24
