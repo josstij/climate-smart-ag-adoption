@@ -1096,6 +1096,9 @@
 	decode				admin_1, ///
 						gen(region_name)
 
+* allow room for corrected region names
+	recast str30		region_name
+
 * correct region names for display
 	replace				region_name = "Somali" ///
 						if region_name == "Somalie"
@@ -1105,9 +1108,9 @@
 
 	replace				region_name = "Dire Dawa" ///
 						if region_name == "Diredwa"
-						
+
 	replace				region_name = "Benishangul-Gumuz" ///
-						if region_name == "Begnshagul Gumuz"
+						if region_name == "Benshagul Gumuz"
 						
 * plot average barrier indices by region
 	graph hbar			(mean) ///

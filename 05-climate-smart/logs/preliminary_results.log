@@ -1,8 +1,8 @@
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/preliminary_results.log
   log type:  text
- opened on:  30 Jul 2026, 12:58:18
+ opened on:  31 Jul 2026, 12:45:55
 
 . 
 . 
@@ -42,7 +42,7 @@
 
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 any_csa         float   %9.0g      csa_yesno
                                               Adopted any observed CSA practice
 csa_count_obs   float   %9.0g                 Number of adopted practices among observed indicators
@@ -263,140 +263,10 @@ What is the |
 >                                 "Right to sell or use parcel as collateral"
 
 . 
-. 
-. ************************************************************************
-. **# 3 - descriptive statistics by wave
-. ************************************************************************
-. 
-. * display descriptive statistics
-.         tabstat female_manager manager_age manager_lowedu ///
->                                 mg1_farm mg1_nfe mg1_wage ///
->                                 has_certificate collateral_right, ///
->                                 by(wave) ///
->                                 statistics(n mean sd) ///
->                                 columns(statistics)
+end of do-file
 
-Summary for variables: female_manager manager_age manager_lowedu mg1_farm mg1_nfe mg1_wage has_certificate collateral_right
-Group variable: wave 
+. do "C:\Users\tijer\AppData\Local\Temp\STD5984_00000d.tmp"
 
-    wave |         N      Mean        SD
----------+------------------------------
-       1 |      6557   .122312  .3276708
-         |      6540  43.89358  14.60062
-         |      5713  .6441449  .4788135
-         |      6502  .7832974  .4120299
-         |      6427  .2388362  .4264056
-         |      6446  .0249767  .1560662
-         |      2206         1         0
-         |         0         .         .
----------+------------------------------
-       2 |     22367  .1657799  .3718913
-         |     22338  46.73982  14.46901
-         |     19933  .6366327  .4809814
-         |     22094  .7223681   .447841
-         |     22104  .0733351  .2606917
-         |     22117  .0261337  .1595366
-         |     11388  .9991219  .0296213
-         |     20256  .9008689  .2988454
----------+------------------------------
-       3 |     22496  .1674964  .3734268
-         |     22378  48.21302  14.14873
-         |     19994  .6195859  .4855008
-         |     22322  .6886928  .4630385
-         |     22322   .076606  .2659713
-         |     22322  .0206523  .1422205
-         |     12855         1         0
-         |     20684  .9234674  .2658548
----------+------------------------------
-       4 |     12907  .2032231  .4024127
-         |     12907  45.18238  15.10344
-         |     11668  .6318992  .4823096
-         |     10035         1         0
-         |     12624         1         0
-         |     12624         1         0
-         |     12907  .7554815   .429818
-         |     11643  .8918664  .3105625
----------+------------------------------
-       5 |     10451  .2100277  .4073475
-         |     10451  46.27873  14.60082
-         |      9753  .5736696  .4945684
-         |     10371         1         0
-         |     10371         1         0
-         |     10371         1         0
-         |     10459  .7776078  .4158731
-         |      9667  .9171408  .2756836
----------+------------------------------
-   Total |     74778  .1751317  .3800823
-         |     74614  46.59819  14.57737
-         |     67061  .6222096  .4848384
-         |     71324  .7968145  .4023722
-         |     73848  .3772749  .4847079
-         |     73880  .3274905   .469301
-         |     49815  .8897521  .3132017
-         |     62250  .9092209   .287297
-----------------------------------------
-
-. 
-. * clear previous collection
-.         collect clear
-
-. 
-. * create preliminary characteristics table
-.         table   wave, ///
->                                 statistic(frequency) ///
->                                 statistic(mean female_manager) ///
->                                 statistic(mean manager_age) ///
->                                 statistic(mean manager_lowedu) ///
->                                 statistic(mean mg1_farm) ///
->                                 statistic(mean mg1_nfe) ///
->                                 statistic(mean mg1_wage) ///
->                                 statistic(mean has_certificate) ///
->                                 statistic(mean collateral_right) ///
->                                 nformat(%12.0fc frequency) ///
->                                 nformat(%9.3f mean)
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-> ----------------------------------------
-        |  Frequency                                                                                                              Mean                                                                  
->                                         
-        |              Female primary manager   Primary manager age   Manager has little or no formal education   works on farm   works for nfe   works for wages   Household has parcel certificate   R
-> ight to sell or use parcel as collateral
---------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-> ----------------------------------------
-wave    |                                                                                                                                                                                               
->                                         
-  1     |      6,576                    0.122                43.894                                       0.644           0.783           0.239             0.025                              1.000    
->                                        .
-  2     |     22,433                    0.166                46.740                                       0.637           0.722           0.073             0.026                              0.999    
->                                    0.901
-  3     |     22,658                    0.167                48.213                                       0.620           0.689           0.077             0.021                              1.000    
->                                    0.923
-  4     |     12,907                    0.203                45.182                                       0.632           1.000           1.000             1.000                              0.755    
->                                    0.892
-  5     |     10,459                    0.210                46.279                                       0.574           1.000           1.000             1.000                              0.778    
->                                    0.917
-  Total |     75,033                    0.175                46.598                                       0.622           0.797           0.377             0.327                              0.890    
->                                    0.909
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-> ----------------------------------------
-
-. 
-. * add table title
-.         collect title ///
->                                 "Table 1. Preliminary Characteristics of Plot Managers and Land Rights by Survey Wave"
-
-. 
-. * export table
-.         collect export ///
->                                 "$export/table1_preliminary_characteristics.docx", ///
->                                 replace
-(collection Table exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table1_preliminary_characteristics.docx)
-
-. 
-. 
-. ************************************************************************
-. **# 4 - female-managed observations by wave
-. ************************************************************************
 . 
 .         preserve
 
@@ -422,7 +292,7 @@ wave    |
 >                                 ytitle("Female-managed observations (%)") ///
 >                                 title("Share of Female-Managed Observations by Survey Wave") ///
 >                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
->                                 note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
+>                                 note("Source: Ethiopia Socioeconomic Survey.") ///
 >                                 legend(off)
 
 . 
@@ -436,11 +306,10 @@ file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/f
 .         restore
 
 . 
-. 
-. ************************************************************************
-. **# 5 - land certification by wave
-. ************************************************************************
-. 
+end of do-file
+
+. do "C:\Users\tijer\AppData\Local\Temp\STD5984_00000e.tmp"
+
 .         preserve
 
 . 
@@ -470,7 +339,7 @@ file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/f
 >                                 ytitle("Land observations with a certificate (%)") ///
 >                                 title("Share of Land Observations with a Certificate") ///
 >                                 subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
->                                 note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
+>                                 note("Source: Ethiopia Socioeconomic Survey.") ///
 >                                 legend(off)
 
 . 
@@ -484,378 +353,5 @@ file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/f
 .         restore
 
 . 
-. 
-. ************************************************************************
-. **# 6 - check coding of preliminary explanatory variables
-. ************************************************************************
-. 
-. * inspect employment variables across waves
-.         tab             wave mg1_farm, missing
+end of do-file
 
-           |          works on farm
-      wave |         0          1          . |     Total
------------+---------------------------------+----------
-         1 |     1,409      5,093         74 |     6,576 
-         2 |     6,134     15,960        339 |    22,433 
-         3 |     6,949     15,373        336 |    22,658 
-         4 |         0     10,035      2,872 |    12,907 
-         5 |         0     10,371         88 |    10,459 
------------+---------------------------------+----------
-     Total |    14,492     56,832      3,709 |    75,033 
-
-.         tab             wave mg1_nfe, missing
-
-           |          works for nfe
-      wave |         0          1          . |     Total
------------+---------------------------------+----------
-         1 |     4,892      1,535        149 |     6,576 
-         2 |    20,483      1,621        329 |    22,433 
-         3 |    20,612      1,710        336 |    22,658 
-         4 |         0     12,624        283 |    12,907 
-         5 |         0     10,371         88 |    10,459 
------------+---------------------------------+----------
-     Total |    45,987     27,861      1,185 |    75,033 
-
-.         tab             wave mg1_wage, missing
-
-           |         works for wages
-      wave |         0          1          . |     Total
------------+---------------------------------+----------
-         1 |     6,285        161        130 |     6,576 
-         2 |    21,539        578        316 |    22,433 
-         3 |    21,861        461        336 |    22,658 
-         4 |         0     12,624        283 |    12,907 
-         5 |         0     10,371         88 |    10,459 
------------+---------------------------------+----------
-     Total |    49,685     24,195      1,153 |    75,033 
-
-. 
-. * inspect variable coding
-.         codebook        mg1_farm mg1_nfe mg1_wage
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-mg1_farm                                                                                                                                                                                                          works on farm
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  Type: Numeric (byte)
-
-                 Range: [0,1]                         Units: 1
-         Unique values: 2                         Missing .: 3,709/75,033
-
-            Tabulation: Freq.  Value
-                       14,492  0
-                       56,832  1
-                        3,709  .
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-mg1_nfe                                                                                                                                                                                                           works for nfe
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  Type: Numeric (byte)
-
-                 Range: [0,1]                         Units: 1
-         Unique values: 2                         Missing .: 1,185/75,033
-
-            Tabulation: Freq.  Value
-                       45,987  0
-                       27,861  1
-                        1,185  .
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-mg1_wage                                                                                                                                                                                                        works for wages
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  Type: Numeric (byte)
-
-                 Range: [0,1]                         Units: 1
-         Unique values: 2                         Missing .: 1,153/75,033
-
-            Tabulation: Freq.  Value
-                       49,685  0
-                       24,195  1
-                        1,153  .
-
-. 
-. 
-. ************************************************************************
-. **# 7 - preliminary adoption regressions
-. ************************************************************************
-. 
-. * check regression-variable availability
-.         misstable       summarize any_csa csa_count_obs ///
->                                 female_manager manager_age manager_lowedu ///
->                                 collateral_right
-                                                               Obs<.
-                                                +------------------------------
-               |                                | Unique
-      Variable |     Obs=.     Obs>.     Obs<.  | values        Min         Max
-  -------------+--------------------------------+------------------------------
-       any_csa |       126              74,907  |      2          0           1
-  csa_count_~s |       126              74,907  |      5          0           4
-  female_man~r |       255              74,778  |      2          0           1
-   manager_age |       419              74,614  |     97          0          99
-  manager_lo~u |     7,972              67,061  |      2          0           1
-  collateral~t |    12,783              62,250  |      2          0           1
-  -----------------------------------------------------------------------------
-
-. 
-. * Model 1: any CSA adoption, all waves
-.         regress         any_csa female_manager manager_age ///
->                                 manager_lowedu i.wave, ///
->                                 vce(cluster holder_id)
-
-Linear regression                               Number of obs     =     66,948
-                                                F(7, 5772)        =     424.36
-                                                Prob > F          =     0.0000
-                                                R-squared         =     0.0832
-                                                Root MSE          =     .44788
-
-                            (Std. err. adjusted for 5,773 clusters in holder_id)
---------------------------------------------------------------------------------
-               |               Robust
-       any_csa | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
----------------+----------------------------------------------------------------
-female_manager |  -.0397657   .0119168    -3.34   0.001    -.0631271   -.0164044
-   manager_age |   .0013171   .0003429     3.84   0.000     .0006449    .0019894
-manager_lowedu |    .029194   .0104229     2.80   0.005     .0087613    .0496268
-               |
-          wave |
-            2  |   .4514387   .0104137    43.35   0.000     .4310239    .4718536
-            3  |    .464331   .0107797    43.07   0.000     .4431988    .4854632
-            4  |   .5151255    .011408    45.15   0.000     .4927616    .5374895
-            5  |   .4561921   .0133054    34.29   0.000     .4301086    .4822756
-               |
-         _cons |   .1761437    .016029    10.99   0.000     .1447208    .2075667
---------------------------------------------------------------------------------
-
-. 
-.         estimates       store any_all
-
-. 
-. * Model 2: any CSA adoption with collateral rights, Waves 2-5
-.         regress         any_csa female_manager manager_age ///
->                                 manager_lowedu collateral_right i.wave ///
->                                 if wave >= 2, ///
->                                 vce(cluster holder_id)
-
-Linear regression                               Number of obs     =     55,927
-                                                F(7, 5408)        =      13.73
-                                                Prob > F          =     0.0000
-                                                R-squared         =     0.0094
-                                                Root MSE          =     .45092
-
-                              (Std. err. adjusted for 5,409 clusters in holder_id)
-----------------------------------------------------------------------------------
-                 |               Robust
-         any_csa | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
------------------+----------------------------------------------------------------
-  female_manager |  -.0326616   .0126951    -2.57   0.010    -.0575491   -.0077742
-     manager_age |   .0015408    .000387     3.98   0.000     .0007821    .0022996
-  manager_lowedu |   .0308542   .0117826     2.62   0.009     .0077557    .0539528
-collateral_right |   .0665042    .016294     4.08   0.000     .0345615     .098447
-                 |
-            wave |
-              3  |   .0016012   .0084869     0.19   0.850    -.0150364    .0182389
-              4  |   .0571677   .0116136     4.92   0.000     .0344004    .0799351
-              5  |  -.0042975   .0135616    -0.32   0.751    -.0308836    .0222887
-                 |
-           _cons |    .555722   .0225417    24.65   0.000     .5115313    .5999128
-----------------------------------------------------------------------------------
-
-. 
-.         estimates       store any_land
-
-. 
-. * Model 3: number of CSA practices, all waves
-.         regress         csa_count_obs female_manager manager_age ///
->                                 manager_lowedu i.wave, ///
->                                 vce(cluster holder_id)
-
-Linear regression                               Number of obs     =     66,948
-                                                F(7, 5772)        =     531.40
-                                                Prob > F          =     0.0000
-                                                R-squared         =     0.0689
-                                                Root MSE          =     .75506
-
-                            (Std. err. adjusted for 5,773 clusters in holder_id)
---------------------------------------------------------------------------------
-               |               Robust
- csa_count_obs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
----------------+----------------------------------------------------------------
-female_manager |  -.0447678   .0202565    -2.21   0.027    -.0844781   -.0050574
-   manager_age |    .002119   .0005815     3.64   0.000      .000979    .0032589
-manager_lowedu |   .0440808   .0176181     2.50   0.012     .0095428    .0786188
-               |
-          wave |
-            2  |   .6535445   .0143531    45.53   0.000     .6254071    .6816818
-            3  |   .6523789   .0147004    44.38   0.000     .6235606    .6811973
-            4  |   .8068252   .0184854    43.65   0.000      .770587    .8430635
-            5  |   .7258583   .0215636    33.66   0.000     .6835856    .7681311
-               |
-         _cons |   .1629359   .0256271     6.36   0.000     .1126971    .2131747
---------------------------------------------------------------------------------
-
-. 
-.         estimates       store count_all
-
-. 
-. * Model 4: number of CSA practices with collateral rights, Waves 2-5
-.         regress         csa_count_obs female_manager manager_age ///
->                                 manager_lowedu collateral_right i.wave ///
->                                 if wave >= 2, ///
->                                 vce(cluster holder_id)
-
-Linear regression                               Number of obs     =     55,927
-                                                F(7, 5408)        =      15.70
-                                                Prob > F          =     0.0000
-                                                R-squared         =     0.0112
-                                                Root MSE          =     .78522
-
-                              (Std. err. adjusted for 5,409 clusters in holder_id)
-----------------------------------------------------------------------------------
-                 |               Robust
-   csa_count_obs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
------------------+----------------------------------------------------------------
-  female_manager |  -.0422522   .0218714    -1.93   0.053     -.085129    .0006246
-     manager_age |   .0020951   .0006662     3.14   0.002     .0007891    .0034011
-  manager_lowedu |   .0520606   .0202366     2.57   0.010     .0123888    .0917325
-collateral_right |   .1140104   .0255707     4.46   0.000     .0638815    .1641393
-                 |
-            wave |
-              3  |  -.0169677   .0138223    -1.23   0.220    -.0440649    .0101295
-              4  |   .1503905   .0215224     6.99   0.000     .1081978    .1925831
-              5  |   .0573866   .0241626     2.38   0.018      .010018    .1047551
-                 |
-           _cons |   .7223978   .0367334    19.67   0.000     .6503855      .79441
-----------------------------------------------------------------------------------
-
-. 
-.         estimates       store count_land
-
-.         
-.         
-. ************************************************************************
-. **# 8 - export preliminary regression results
-. ************************************************************************
-. 
-. * create and export preliminary regression table
-.         etable, estimates(any_all any_land count_all count_land) ///
->                                 cstat(_r_b, nformat(%9.3f)) ///
->                                 cstat(_r_se, nformat(%9.3f) sformat("(%s)")) ///
->                                 mstat(N) ///
->                                 mstat(r2) ///
->                                 column(index) ///
->                                 showstars ///
->                                 showstarsnote ///
->                                 title("Table 2. Preliminary Associations with CSA Adoption") ///
->                                 export("$export/table2_preliminary_regressions.docx", ///
->                                         replace)
-
-Table 2. Preliminary Associations with CSA Adoption
--------------------------------------------------------------------------------------
-                                               1          2          3          4    
--------------------------------------------------------------------------------------
-Female primary manager                     -0.040 **  -0.033 *                       
-                                          (0.012)    (0.013)                         
-Primary manager age                         0.001 **   0.002 **                      
-                                          (0.000)    (0.000)                         
-Manager has little or no formal education   0.029 **   0.031 **                      
-                                          (0.010)    (0.012)                         
-wave                                                                                 
-  2                                         0.451 **                                 
-                                          (0.010)                                    
-  3                                         0.464 **   0.002                         
-                                          (0.011)    (0.008)                         
-  4                                         0.515 **   0.057 **                      
-                                          (0.011)    (0.012)                         
-  5                                         0.456 **  -0.004                         
-                                          (0.013)    (0.014)                         
-Right to sell or use parcel as collateral              0.067 **                      
-                                                     (0.016)                         
-Intercept                                   0.176 **   0.556 **                      
-                                          (0.016)    (0.023)                         
-Female primary manager                                           -0.045 *   -0.042   
-                                                                (0.020)    (0.022)   
-Primary manager age                                               0.002 **   0.002 **
-                                                                (0.001)    (0.001)   
-Manager has little or no formal education                         0.044 *    0.052 * 
-                                                                (0.018)    (0.020)   
-wave                                                                                 
-  2                                                               0.654 **           
-                                                                (0.014)              
-  3                                                               0.652 **  -0.017   
-                                                                (0.015)    (0.014)   
-  4                                                               0.807 **   0.150 **
-                                                                (0.018)    (0.022)   
-  5                                                               0.726 **   0.057 * 
-                                                                (0.022)    (0.024)   
-Right to sell or use parcel as collateral                                    0.114 **
-                                                                           (0.026)   
-Intercept                                                         0.163 **   0.722 **
-                                                                (0.026)    (0.037)   
-Number of observations                      66948      55927      66948      55927   
-R-squared                                    0.08       0.01       0.07       0.01   
--------------------------------------------------------------------------------------
-** p<.01, * p<.05
-(collection ETable exported to file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/table2_preliminary_regressions.docx)
-
-.                                         
-.                                         
-. ************************************************************************
-. **# 9 - CSA adoption by survey wave
-. ************************************************************************
-. 
-.         preserve
-
-. 
-. * retain observations with a defined adoption outcome
-.         keep    if !missing(any_csa)
-(126 observations deleted)
-
-. 
-. * calculate adoption share by wave
-.         collapse        (mean) any_csa, by(wave)
-
-. 
-.         replace any_csa = any_csa * 100
-(5 real changes made)
-
-. 
-. * create CSA adoption figure
-.         graph   bar any_csa, ///
->                                 over(wave, relabel( ///
->                                         1 "Wave 1" ///
->                                         2 "Wave 2" ///
->                                         3 "Wave 3" ///
->                                         4 "Wave 4" ///
->                                         5 "Wave 5")) ///
->                                 bar(1, color(teal) lcolor(black)) ///
->                                 blabel(bar, format(%4.1f) color(black)) ///
->                                 ytitle("Fields adopting any observed CSA practice (%)") ///
->                                 title("Climate-Smart Agriculture Adoption by Survey Wave") ///
->                                 subtitle("Ethiopia Socioeconomic Survey, Waves 1–5") ///
->                                 legend(off)
-
-. 
-. * export CSA adoption figure
-.         graph   export ///
->                                 "$export/figure3_csa_adoption_by_wave.png", ///
->                                 width(2000) replace
-file C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/output/figure3_csa_adoption_by_wave.png saved as PNG format
-
-. 
-.         restore
-
-.         
-.         
-. ************************************************************************
-. **# 7 - end matter
-. ************************************************************************
-. 
-. * close log
-.         log             close
-      name:  <unnamed>
-       log:  C:/Users/tijer/git/UROC/climate-smart-ag-adoption/05-climate-smart/logs/preliminary_results.log
-  log type:  text
- closed on:  30 Jul 2026, 12:58:42
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

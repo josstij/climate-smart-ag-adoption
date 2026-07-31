@@ -192,7 +192,7 @@
 				ytitle("Female-managed observations (%)") ///
 				title("Share of Female-Managed Observations by Survey Wave") ///
 				subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
-				note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
+				note("Source: Ethiopia Socioeconomic Survey.") ///
 				legend(off)
 
 * export female-manager figure
@@ -230,7 +230,7 @@
 				ytitle("Land observations with a certificate (%)") ///
 				title("Share of Land Observations with a Certificate") ///
 				subtitle("Wave years: 2011/12, 2013/14, 2015/16, 2018/19, 2021/22") ///
-				note("Source: Ethiopia Socioeconomic Survey. Preliminary results.") ///
+				note("Source: Ethiopia Socioeconomic Survey.") ///
 				legend(off)
 
 * export land-certificate figure
