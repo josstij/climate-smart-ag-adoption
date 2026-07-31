@@ -2880,3 +2880,474 @@ Folds: 1...5....10   CVF = 1.023027
 Grid value 44:    lambda = .0001193   no. of nonzero coef. = 24
 Folds: 1...5....10   CVF = 1.023026
 Grid value 45:    lambda = .0001087   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023025
+Grid value 46:    lambda =  .000099   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023025
+Grid value 47:    lambda = .0000902   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023025
+Grid value 48:    lambda = .0000822   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023026
+Grid value 49:    lambda = .0000749   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023026
+Grid value 50:    lambda = .0000682   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023027
+Grid value 51:    lambda = .0000622   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023028
+Grid value 52:    lambda = .0000567   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023029
+Grid value 53:    lambda = .0000516   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02303
+Grid value 54:    lambda =  .000047   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023031
+Grid value 55:    lambda = .0000429   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023031
+Grid value 56:    lambda = .0000391   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023032
+Grid value 57:    lambda = .0000356   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023033
+Grid value 58:    lambda = .0000324   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023034
+Grid value 59:    lambda = .0000295   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023035
+Grid value 60:    lambda = .0000269   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023036
+Grid value 61:    lambda = .0000245   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023036
+Grid value 62:    lambda = .0000223   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023037
+Grid value 63:    lambda = .0000204   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023037
+Grid value 64:    lambda = .0000186   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023038
+Grid value 65:    lambda = .0000169   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023038
+Grid value 66:    lambda = .0000154   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023038
+Grid value 67:    lambda =  .000014   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 68:    lambda = .0000128   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 69:    lambda = .0000117   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 70:    lambda = .0000106   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02304
+Grid value 71:    lambda = 9.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02304
+Grid value 72:    lambda = 8.81e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 73:    lambda = 8.03e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 74:    lambda = 7.32e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 75:    lambda = 6.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 76:    lambda = 6.08e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 77:    lambda = 5.54e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 78:    lambda = 5.04e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 79:    lambda = 4.60e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 80:    lambda = 4.19e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 81:    lambda = 3.82e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 82:    lambda = 3.48e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 83:    lambda = 3.17e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 84:    lambda = 2.89e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 85:    lambda = 2.63e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 86:    lambda = 2.40e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 87:    lambda = 2.18e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 88:    lambda = 1.99e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 89:    lambda = 1.81e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 90:    lambda = 1.65e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 91:    lambda = 1.50e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 92:    lambda = 1.37e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 93:    lambda = 1.25e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 94:    lambda = 1.14e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 95:    lambda = 1.04e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 96:    lambda = 9.45e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 97:    lambda = 8.61e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 98:    lambda = 7.85e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 99:    lambda = 7.15e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 100:   lambda = 6.51e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 101:   lambda = 5.94e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 102:   lambda = 5.41e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 103:   lambda = 4.93e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 104:   lambda = 4.49e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 105:   lambda = 4.09e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 106:   lambda = 3.73e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 107:   lambda = 3.40e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 108:   lambda = 3.09e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 109:   lambda = 2.82e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 110:   lambda = 2.57e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 111:   lambda = 2.34e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 112:   lambda = 2.13e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 113:   lambda = 1.94e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+
+alpha 2 of 3: alpha = .5
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0058312   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 2:     lambda = .0053131   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 3:     lambda = .0048411   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 4:     lambda = .0044111   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 5:     lambda = .0040192   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 6:     lambda = .0036621   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 7:     lambda = .0033368   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 8:     lambda = .0030404   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 9:     lambda = .0029156   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 10:    lambda = .0026566   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 11:    lambda = .0024206   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 12:    lambda = .0022055   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023026
+Grid value 13:    lambda = .0020096   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023064
+Grid value 14:    lambda = .0019437   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023079
+Grid value 15:    lambda =  .001771   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = 1.023119
+Grid value 16:    lambda = .0016137   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023147
+Grid value 17:    lambda = .0014704   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF =  1.02317
+Grid value 18:    lambda = .0013397   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023204
+Grid value 19:    lambda = .0012207   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023245
+Grid value 20:    lambda = .0011123   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023286
+Grid value 21:    lambda = .0010135   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023318
+Grid value 22:    lambda = .0009234   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023324
+Grid value 23:    lambda = .0008414   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023294
+Grid value 24:    lambda = .0007666   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023235
+Grid value 25:    lambda = .0006985   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023187
+Grid value 26:    lambda = .0006365   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023148
+Grid value 27:    lambda = .0005799   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023117
+Grid value 28:    lambda = .0005284   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023092
+Grid value 29:    lambda = .0004815   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023073
+Grid value 30:    lambda = .0004387   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023058
+Grid value 31:    lambda = .0003997   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023047
+Grid value 32:    lambda = .0003642   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 33:    lambda = .0003319   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023033
+Grid value 34:    lambda = .0003024   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023029
+Grid value 35:    lambda = .0002755   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023026
+Grid value 36:    lambda =  .000251   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023025
+Grid value 37:    lambda = .0002287   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023024
+Grid value 38:    lambda = .0002084   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023023
+Grid value 39:    lambda = .0001899   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023021
+Grid value 40:    lambda =  .000173   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02302
+Grid value 41:    lambda = .0001577   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02302
+Grid value 42:    lambda = .0001437   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02302
+Grid value 43:    lambda = .0001309   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023021
+Grid value 44:    lambda = .0001193   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023021
+Grid value 45:    lambda = .0001087   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023022
+Grid value 46:    lambda =  .000099   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023023
+Grid value 47:    lambda = .0000902   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023024
+Grid value 48:    lambda = .0000822   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023026
+Grid value 49:    lambda = .0000749   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023027
+Grid value 50:    lambda = .0000682   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023028
+Grid value 51:    lambda = .0000622   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023029
+Grid value 52:    lambda = .0000567   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02303
+Grid value 53:    lambda = .0000516   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023031
+Grid value 54:    lambda =  .000047   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023032
+Grid value 55:    lambda = .0000429   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023033
+Grid value 56:    lambda = .0000391   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023034
+Grid value 57:    lambda = .0000356   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023035
+Grid value 58:    lambda = .0000324   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023035
+Grid value 59:    lambda = .0000295   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023036
+Grid value 60:    lambda = .0000269   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023036
+Grid value 61:    lambda = .0000245   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023037
+Grid value 62:    lambda = .0000223   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023037
+Grid value 63:    lambda = .0000204   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023038
+Grid value 64:    lambda = .0000186   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023038
+Grid value 65:    lambda = .0000169   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 66:    lambda = .0000154   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 67:    lambda =  .000014   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02304
+Grid value 68:    lambda = .0000128   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02304
+Grid value 69:    lambda = .0000117   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02304
+Grid value 70:    lambda = .0000106   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 71:    lambda = 9.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 72:    lambda = 8.81e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023041
+Grid value 73:    lambda = 8.03e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 74:    lambda = 7.32e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 75:    lambda = 6.67e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 76:    lambda = 6.08e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 77:    lambda = 5.54e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023042
+Grid value 78:    lambda = 5.04e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 79:    lambda = 4.60e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 80:    lambda = 4.19e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 81:    lambda = 3.82e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 82:    lambda = 3.48e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 83:    lambda = 3.17e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 84:    lambda = 2.89e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 85:    lambda = 2.63e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 86:    lambda = 2.40e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 87:    lambda = 2.18e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023043
+Grid value 88:    lambda = 1.99e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 89:    lambda = 1.81e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 90:    lambda = 1.65e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 91:    lambda = 1.50e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 92:    lambda = 1.37e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 93:    lambda = 1.25e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 94:    lambda = 1.14e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 95:    lambda = 1.04e-06   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 96:    lambda = 9.45e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 97:    lambda = 8.61e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 98:    lambda = 7.85e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 99:    lambda = 7.15e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 100:   lambda = 6.51e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 101:   lambda = 5.94e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 102:   lambda = 5.41e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 103:   lambda = 4.93e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 104:   lambda = 4.49e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 105:   lambda = 4.09e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 106:   lambda = 3.73e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 107:   lambda = 3.40e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 108:   lambda = 3.09e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 109:   lambda = 2.82e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 110:   lambda = 2.57e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 111:   lambda = 2.34e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 112:   lambda = 2.13e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+Grid value 113:   lambda = 1.94e-07   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023044
+
+alpha 3 of 3: alpha = .25
+
+10-fold cross-validation with 113 lambdas ...
+Grid value 1:     lambda = .0058312   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 2:     lambda = .0053131   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 3:     lambda = .0048411   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02301
+Grid value 4:     lambda = .0044111   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023025
+Grid value 5:     lambda = .0040192   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF =  1.02306
+Grid value 6:     lambda = .0036621   no. of nonzero coef. = 20
+Folds: 1...5....10   CVF = 1.023098
+Grid value 7:     lambda = .0033368   no. of nonzero coef. = 21
+Folds: 1...5....10   CVF = 1.023128
+Grid value 8:     lambda = .0030404   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023151
+Grid value 9:     lambda = .0029156   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023162
+Grid value 10:    lambda = .0026566   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023194
+Grid value 11:    lambda = .0024206   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF =  1.02323
+Grid value 12:    lambda = .0022055   no. of nonzero coef. = 22
+Folds: 1...5....10   CVF = 1.023262
+Grid value 13:    lambda = .0020096   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023286
+Grid value 14:    lambda = .0019437   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023292
+Grid value 15:    lambda =  .001771   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023288
+Grid value 16:    lambda = .0016137   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023245
+Grid value 17:    lambda = .0014704   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023201
+Grid value 18:    lambda = .0013397   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023163
+Grid value 19:    lambda = .0012207   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023131
+Grid value 20:    lambda = .0011123   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023104
+Grid value 21:    lambda = .0010135   no. of nonzero coef. = 23
+Folds: 1...5....10   CVF = 1.023082
+Grid value 22:    lambda = .0009234   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023065
+Grid value 23:    lambda = .0008414   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023051
+Grid value 24:    lambda = .0007666   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023039
+Grid value 25:    lambda = .0006985   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023031
+Grid value 26:    lambda = .0006365   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023025
+Grid value 27:    lambda = .0005799   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02302
+Grid value 28:    lambda = .0005284   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023016
+Grid value 29:    lambda = .0004815   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023015
+Grid value 30:    lambda = .0004387   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023013
+Grid value 31:    lambda = .0003997   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023011
+Grid value 32:    lambda = .0003642   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023009
+Grid value 33:    lambda = .0003319   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023009
+Grid value 34:    lambda = .0003024   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023008
+Grid value 35:    lambda = .0002755   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023009
+Grid value 36:    lambda =  .000251   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02301
+Grid value 37:    lambda = .0002287   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023011
+Grid value 38:    lambda = .0002084   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023012
+Grid value 39:    lambda = .0001899   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023014
+Grid value 40:    lambda =  .000173   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023015
+Grid value 41:    lambda = .0001577   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023017
+Grid value 42:    lambda = .0001437   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023018
+Grid value 43:    lambda = .0001309   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF =  1.02302
+Grid value 44:    lambda = .0001193   no. of nonzero coef. = 24
+Folds: 1...5....10   CVF = 1.023022
+Grid value 45:    lambda = .0001087   no. of nonzero coef. = 24
+Folds: 1--Break--
+r(1);
+
+end of do-file
+
+--Break--
+r(1);
+
+. do "C:\Users\tijer\AppData\Local\Temp\STDc4c_00002e.tmp"
+
+.         cap                                     log close
