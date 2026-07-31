@@ -251,6 +251,37 @@
 * display selected variables and postselection coefficients
 	lassocoef,			display(coef, postselection)
 
+************************************************************************
+**# 7 - estimate any-csa elastic-net model
+************************************************************************
+
+* select additional controls for any CSA adoption
+elasticnet logit	any_csa ///
+					(econ_barrier_index ///
+					inst_barrier_index ///
+					land_barrier_index ///
+					female_manager ///
+					manager_age ///
+					manager_age_sq ///
+					manager_lowedu ///
+					i.wave i.admin_1) ///
+					manager_not_head ///
+					manager_married ///
+					mg1_farm ///
+					mg1_wage ///
+					if sample_select_any == 1, ///
+					alpha(.25 .5 .75) ///
+					selection(cv) ///
+					cluster(holder_cluster) ///
+					rseed(20260730)
+
+* store any-CSA elastic-net model
+estimates store		any_elastic
+
+* display selected variables and postselection coefficients
+lassocoef,			display(coef, postselection)
+
+	
 * close log
 	log close
 
