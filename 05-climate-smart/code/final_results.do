@@ -639,7 +639,8 @@
 						keep( ///
 							econ_barrier_index ///
 							inst_barrier_index ///
-							land_barrier_index) ///
+							land_barrier_index ///
+							female_manager) ///
 						column(index) ///
 						mstat(N) ///
 						mstat(r2) ///
